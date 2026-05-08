@@ -1,0 +1,17 @@
+[Unit]
+Description=Pokevendre Pro API (Gunicorn + Flask)
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+ExecStart=/home/ubuntu/.local/bin/gunicorn --workers 2 --bind 127.0.0.1:5000 --timeout 60 --access-logfile - --error-logfile - api:app
+WorkingDirectory=/home/ubuntu/flipmaster-lp
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONPATH=/home/ubuntu/.local/lib/python3.13/site-packages
+EnvironmentFile=/home/ubuntu/flipmaster-lp/.env
+
+[Install]
+WantedBy=multi-user.target

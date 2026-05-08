@@ -32,12 +32,19 @@ from datetime import timedelta
 
 app = Flask(__name__)
 
-# CORS headers — allow requests from the LP
+# CORS headers — restricted to production domains
+ALLOWED_ORIGINS = [
+    'https://pokevendrepro.com',
+    'https://www.pokevendrepro.com',
+    'http://localhost:4321',  # local dev
+]
 @app.after_request
 def add_cors(response):
-    response.headers['Access-Control-Allow-Origin'] = '*'
+    origin = request.headers.get('Origin', '')
+    if origin in ALLOWED_ORIGINS:
+        response.headers['Access-Control-Allow-Origin'] = origin
     response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
-    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, X-API-Key'
     return response
 
 # === CONFIG ===
@@ -48,7 +55,7 @@ GMAIL_APP_PASSWORD = os.environ.get('GMAIL_APP_PASSWORD', '')
 # Stripe config
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
 STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', '')
-STRIPE_PRICE_ID = os.environ.get('STRIPE_PRICE_ID', 'price_1TRSR1BN29xndj7q6Cddoojl')  # test mode default
+STRIPE_PRICE_ID = os.environ.get('STRIPE_PRICE_ID', 'price_1TTl2RBN29xndj7qi3db6hLa')  # LIVE mode default
 
 if STRIPE_SECRET_KEY:
     stripe.api_key = STRIPE_SECRET_KEY
@@ -60,6 +67,25 @@ META_ACCESS_TOKEN = os.environ.get('META_ACCESS_TOKEN', '')
 # Launch day offset: days between lead capture and access opening (J+N)
 LAUNCH_DAY_OFFSET = int(os.environ.get('LAUNCH_DAY_OFFSET', 22))
 META_CAPI_URL = f'https://graph.facebook.com/v18.0/{META_PIXEL_ID}/events'
+
+# Admin API key for protected endpoints (/leads, /reservations)
+ADMIN_API_KEY = os.environ.get('ADMIN_API_KEY', '')
+
+# Rate limiting (simple in-memory)
+from collections import defaultdict
+_rate_limits = defaultdict(lambda: [])
+RATE_LIMIT_WINDOW = 60  # seconds
+RATE_LIMIT_MAX = 10     # requests per window per IP
+
+def _rate_limit_check(ip):
+    """Simple in-memory rate limiter. Returns True if allowed, False if rate limited."""
+    now = time.time()
+    # Clean old entries
+    _rate_limits[ip] = [t for t in _rate_limits[ip] if now - t < RATE_LIMIT_WINDOW]
+    if len(_rate_limits[ip]) >= RATE_LIMIT_MAX:
+        return False
+    _rate_limits[ip].append(now)
+    return True
 
 PROFILES = {
     'debutant': {
@@ -397,6 +423,10 @@ def health():
 
 @app.route('/capture')
 def capture():
+    # Rate limiting
+    client_ip = request.headers.get('X-Forwarded-For', request.remote_addr or '').split(',')[0].strip()
+    if not _rate_limit_check(client_ip):
+        return jsonify({'status': 'error', 'message': 'Trop de requêtes. Réessaie dans 1 minute.'}), 429
     prenom = request.args.get('prenom', '')
     email = request.args.get('email', '')
     profil = request.args.get('profil', 'debutant').lower()
@@ -441,6 +471,11 @@ def reserve():
     """
     if request.method == 'OPTIONS':
         return '', 204
+
+    # Rate limiting
+    client_ip = request.headers.get('X-Forwarded-For', request.remote_addr or '').split(',')[0].strip()
+    if not _rate_limit_check(client_ip):
+        return jsonify({'status': 'error', 'message': 'Trop de requêtes. Réessaie dans 1 minute.'}), 429
 
     data = request.get_json(force=True, silent=True) or {}
     # Also support GET for redirect-based flow
@@ -522,12 +557,19 @@ def reserve():
 
 @app.route('/reservations')
 def list_reservations():
-    """Redirect to /leads (reservations are now a flag on leads)."""
+    """Redirect to /leads (reservations are now a flag on leads). Auth required."""
+    provided_key = request.headers.get('X-API-Key', '') or request.args.get('key', '')
+    if ADMIN_API_KEY and provided_key != ADMIN_API_KEY:
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
     return list_leads()
 
 
 @app.route('/leads')
 def list_leads():
+    # Auth required
+    provided_key = request.headers.get('X-API-Key', '') or request.args.get('key', '')
+    if ADMIN_API_KEY and provided_key != ADMIN_API_KEY:
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute('SELECT id, date, prenom, email, profil, q1, q2, q3, q4, q5, q6, q7, reserved, reserved_at FROM leads ORDER BY id DESC')
@@ -543,6 +585,11 @@ def create_checkout():
     """Create a Stripe Checkout session and return the URL."""
     if request.method == 'OPTIONS':
         return '', 204
+
+    # Rate limiting
+    client_ip = request.headers.get('X-Forwarded-For', request.remote_addr or '').split(',')[0].strip()
+    if not _rate_limit_check(client_ip):
+        return jsonify({'status': 'error', 'message': 'Trop de requêtes. Réessaie dans 1 minute.'}), 429
 
     try:
         data = request.get_json(force=True) or {}
@@ -675,7 +722,7 @@ def stripe_webhook():
                 'currency': 'EUR',
                 'content_name': 'pokevendre_pro_precommande',
                 'content_type': 'product',
-                'content_ids': ['price_1TRSR1BN29xndj7q6Cddoojl'],
+                'content_ids': [STRIPE_PRICE_ID],
                 'num_items': 1,
                 'transaction_id': session_id,
             }, user_data=capi_user_data, event_id=f'stripe_{session_id}')
