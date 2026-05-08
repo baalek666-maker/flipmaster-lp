@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+*.db
+*.bak
+*.pyc
+__pycache__/
+.astro/
+.netlify/
+apppasswords*.png

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0f0f1a; display: flex; align-items: center; justify-content: center; height: 100vh; }
+  canvas { border-radius: 50%; }
+</style>
+</head>
+<body>
+<canvas id="c" width="800" height="800"></canvas>
+<script>
+const c = document.getElementById('c');
+const ctx = c.getContext('2d');
+const W = 800, H = 800, cx = W/2, cy = H/2;
+
+// Clip to circle
+ctx.beginPath();
+ctx.arc(cx, cy, 400, 0, Math.PI*2);
+ctx.clip();
+
+// Background gradient
+const bg = ctx.createRadialGradient(cx, cy-80, 50, cx, cy, 420);
+bg.addColorStop(0, '#1a1a3e');
+bg.addColorStop(0.6, '#0f0f1a');
+bg.addColorStop(1, '#080812');
+ctx.fillStyle = bg;
+ctx.fillRect(0, 0, W, H);
+
+// Subtle glow behind
+const glow = ctx.createRadialGradient(cx, cy-40, 20, cx, cy, 300);
+glow.addColorStop(0, 'rgba(139,92,246,0.15)');
+glow.addColorStop(0.5, 'rgba(139,92,246,0.05)');
+glow.addColorStop(1, 'rgba(139,92,246,0)');
+ctx.fillStyle = glow;
+ctx.fillRect(0, 0, W, H);
+
+// Outer ring
+ctx.beginPath();
+ctx.arc(cx, cy, 340, 0, Math.PI*2);
+ctx.strokeStyle = 'rgba(139,92,246,0.3)';
+ctx.lineWidth = 2;
+ctx.stroke();
+
+// Inner ring
+ctx.beginPath();
+ctx.arc(cx, cy, 320, 0, Math.PI*2);
+ctx.strokeStyle = 'rgba(139,92,246,0.12)';
+ctx.lineWidth = 1;
+ctx.stroke();
+
+// Decorative dots around ring
+for (let i = 0; i < 36; i++) {
+  const angle = (i / 36) * Math.PI * 2 - Math.PI/2;
+  const r = 340;
+  const x = cx + Math.cos(angle) * r;
+  const y = cy + Math.sin(angle) * r;
+  ctx.beginPath();
+  ctx.arc(x, y, i % 6 === 0 ? 4 : 2, 0, Math.PI*2);
+  ctx.fillStyle = i % 6 === 0 ? 'rgba(139,92,246,0.6)' : 'rgba(139,92,246,0.2)';
+  ctx.fill();
+}
+
+// Top accent arc (partial ring glow)
+ctx.beginPath();
+ctx.arc(cx, cy, 340, -Math.PI*0.75, -Math.PI*0.25);
+const arcGrad = ctx.createLinearGradient(cx-250, cy-250, cx+250, cy-250);
+arcGrad.addColorStop(0, 'rgba(139,92,246,0)');
+arcGrad.addColorStop(0.5, 'rgba(139,92,246,0.8)');
+arcGrad.addColorStop(1, 'rgba(139,92,246,0)');
+ctx.strokeStyle = arcGrad;
+ctx.lineWidth = 4;
+ctx.stroke();
+
+// "PV" Monogram
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+
+// Shadow for depth
+ctx.shadowColor = 'rgba(139,92,246,0.4)';
+ctx.shadowBlur = 40;
+ctx.shadowOffsetX = 0;
+ctx.shadowOffsetY = 0;
+
+// P letter
+ctx.font = '900 200px system-ui, -apple-system, sans-serif';
+const metrics = ctx.measureText('PV');
+const totalW = metrics.width;
+
+// Draw P
+ctx.fillStyle = '#ffffff';
+ctx.fillText('P', cx - totalW/2 + ctx.measureText('P').width/2, cy + 10);
+
+// Draw V in purple accent
+ctx.fillStyle = '#8b5cf6';
+ctx.fillText('V', cx + totalW/2 - ctx.measureText('V').width/2, cy + 10);
+
+// Reset shadow
+ctx.shadowColor = 'transparent';
+ctx.shadowBlur = 0;
+
+// Small tagline under monogram
+ctx.font = '500 22px system-ui, -apple-system, sans-serif';
+ctx.fillStyle = 'rgba(209,213,219,0.7)';
+ctx.letterSpacing = '4px';
+ctx.fillText('POKÉVENDRE PRO', cx, cy + 110);
+
+// Subtle bottom line
+ctx.beginPath();
+ctx.moveTo(cx - 80, cy + 140);
+ctx.lineTo(cx + 80, cy + 140);
+const lineGrad = ctx.createLinearGradient(cx-80, 0, cx+80, 0);
+lineGrad.addColorStop(0, 'rgba(139,92,246,0)');
+lineGrad.addColorStop(0.5, 'rgba(139,92,246,0.5)');
+lineGrad.addColorStop(1, 'rgba(139,92,246,0)');
+ctx.strokeStyle = lineGrad;
+ctx.lineWidth = 1;
+ctx.stroke();
+
+</script>
+</body>
+</html>

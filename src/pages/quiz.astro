@@ -1,0 +1,634 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Quiz — Découvre ton profil de revendeur Pokémon | Pokévendre Pro" description="7 questions. 30 secondes. Découvre ton profil de revendeur Pokémon et reçois un diagnostic personnalisé gratuit." ogImage="/images/og-quiz.jpg">
+
+  <!-- QUIZ CONTAINER -->
+  <section class="relative min-h-screen flex items-center justify-center py-12 px-4 overflow-hidden">
+    <div class="max-w-2xl w-full relative z-10">
+
+      <!-- PROGRESS BAR -->
+      <div id="quiz-progress-wrap" class="mb-8">
+        <div class="flex items-center justify-between mb-2">
+          <span id="quiz-step-label" class="text-purple-400 font-mono text-xs tracking-widest uppercase">Question 1 / 7</span>
+          <span id="quiz-pct" class="text-purple-400 font-mono text-xs">0%</span>
+        </div>
+        <div class="h-1 bg-white/5 rounded-full overflow-hidden">
+          <div id="quiz-progress-bar" class="h-full bg-gradient-to-r from-purple-600 to-purple-400 rounded-full transition-all duration-500 ease-out" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- QUIZ CARD -->
+      <div id="quiz-card" class="glass-card p-8 sm:p-10">
+
+        <!-- Q1 -->
+        <div class="quiz-step" data-step="1">
+          <p class="quiz-reaction text-purple-300/70 italic text-sm mb-3">👇 On va être direct.</p>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mb-2">Tu revends des cartes Pokémon ?</h2>
+          <p class="text-gray-500 text-sm mb-6">Pas de jugement. Juste les faits.</p>
+          <div class="space-y-3">
+            <button class="quiz-btn" data-value="oui-regulier">Oui, régulièrement</button>
+            <button class="quiz-btn" data-value="oui-debut">Oui, mais je viens de commencer</button>
+            <button class="quiz-btn" data-value="pas-encore">Pas encore, mais ça m'intéresse</button>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="quiz-step hidden" data-step="2">
+          <p class="quiz-reaction text-purple-300/70 italic text-sm mb-3">👍 Intéressant. Et concrètement…</p>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mb-2">C'est quoi ton objectif principal ?</h2>
+          <p class="text-gray-500 text-sm mb-6">Sois honnête, y'a pas de mauvaise réponse.</p>
+          <div class="space-y-3">
+            <button class="quiz-btn" data-value="profit">Faire du profit, clairement</button>
+            <button class="quiz-btn" data-value="financer">Financer ma collection perso</button>
+            <button class="quiz-btn" data-value="side-hustle">Me faire un side hustle régulier</button>
+            <button class="quiz-btn" data-value="devenir-pro">Devenir un revendeur pro à temps plein</button>
+          </div>
+        </div>
+
+        <!-- Q3 - Pain Barometer -->
+        <div class="quiz-step hidden" data-step="3">
+          <p class="quiz-reaction text-purple-300/70 italic text-sm mb-3">😎 Je comprends. Maintenant la vraie question…</p>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mb-2">Quand tu hésites sur un achat, ça te stresse à quel point ?</h2>
+          <p class="text-gray-500 text-sm mb-6">1 = Pas du tout — 10 = Ça me pourrit la journée</p>
+          <div class="flex flex-col items-center gap-3 mt-4">
+            <div class="flex items-center gap-1 w-full max-w-md">
+              <span class="text-gray-600 text-xs w-6 text-right">1</span>
+              <input type="range" id="pain-slider" min="1" max="10" value="5" class="quiz-slider flex-1" />
+              <span class="text-gray-600 text-xs w-6">10</span>
+            </div>
+            <div id="pain-value" class="text-4xl font-black neon-text">5</div>
+            <p id="pain-label" class="text-gray-500 text-sm text-center">Ça me trotte un peu dans la tête</p>
+            <button id="pain-confirm" class="btn-neon ripple mt-4 text-base">Valider →</button>
+          </div>
+        </div>
+
+        <!-- Q4 - Biggest frustration -->
+        <div class="quiz-step hidden" data-step="4">
+          <p class="quiz-reaction text-purple-300/70 italic text-sm mb-3">😤 On touche le vif du sujet.</p>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mb-2">Ta plus grosse frustration, c'est quoi ?</h2>
+          <p class="text-gray-500 text-sm mb-6">Choisis celle qui te fait le plus mal.</p>
+          <div class="space-y-3">
+            <button class="quiz-btn" data-value="achat-trop-cher">J'achète trop cher et je revends pas assez</button>
+            <button class="quiz-btn" data-value="pas-de-methode">J'ai pas de méthode, je galère à trouver les bonnes cartes</button>
+            <button class="quiz-btn" data-value="temps-perdu">Ça me prend trop de temps pour pas grand-chose</button>
+            <button class="quiz-btn" data-value="peur-se-faire-avoir">J'ai peur de me faire arnaquer ou de mal investir</button>
+          </div>
+        </div>
+
+        <!-- Q5 - Experience level -->
+        <div class="quiz-step hidden" data-step="5">
+          <p class="quiz-reaction text-purple-300/70 italic text-sm mb-3">📊 C'est bon, on avance.</p>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mb-2">Combien de cartes as-tu déjà revendues ?</h2>
+          <p class="text-gray-500 text-sm mb-6">Encore une fois, pas de honte.</p>
+          <div class="space-y-3">
+            <button class="quiz-btn" data-value="zero">0 — Je n'ai jamais revendu</button>
+            <button class="quiz-btn" data-value="1-10">1 à 10 — Quelques essais</button>
+            <button class="quiz-btn" data-value="10-50">10 à 50 — Je commence à avoir de l'expérience</button>
+            <button class="quiz-btn" data-value="50-plus">50+ — Je suis un habitué</button>
+          </div>
+        </div>
+
+        <!-- Q6 - Fear/Agitation (validation douleur) -->
+        <div class="quiz-step hidden" data-step="6">
+          <p class="quiz-reaction text-purple-300/70 italic text-sm mb-3">😣 Ça parle à tout le monde…</p>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mb-2">Qu'est-ce qui t'empêche de passer au niveau supérieur ?</h2>
+          <p class="text-gray-500 text-sm mb-6">Le truc qui te freine VRAIMENT.</p>
+          <div class="space-y-3">
+            <button class="quiz-btn" data-value="manque-connaissances">Je sais pas quoi acheter ni à quel prix</button>
+            <button class="quiz-btn" data-value="manque-confiance">J'ai pas confiance en mes choix, je doute tout le temps</button>
+            <button class="quiz-btn" data-value="manque-temps">J'ai pas le temps de chercher les bonnes affaires</button>
+            <button class="quiz-btn" data-value="peur-perdre">J'ai déjà perdu de l'argent et j'ai peur que ça recommence</button>
+          </div>
+        </div>
+
+        <!-- Q7 - Commitment signal -->
+        <div class="quiz-step hidden" data-step="7">
+          <p class="quiz-reaction text-purple-300/70 italic text-sm mb-3">🔥 Dernière question. La plus importante.</p>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mb-2">Si tu avais une méthode qui marche, tu serais prêt à investir combien par mois ?</h2>
+          <p class="text-gray-500 text-sm mb-6">Sois réaliste par rapport à ta situation.</p>
+          <div class="space-y-3">
+            <button class="quiz-btn" data-value="0-30">0€ à 30€ — Je veux tester d'abord</button>
+            <button class="quiz-btn" data-value="30-100">30€ à 100€ — Je suis prêt à m'investir un peu</button>
+            <button class="quiz-btn" data-value="100-300">100€ à 300€ — Je veux accélérer sérieusement</button>
+            <button class="quiz-btn" data-value="300-plus">300€+ — Je suis prêt à aller tout-in</button>
+          </div>
+        </div>
+
+        <!-- OPT-IN STEP -->
+        <div class="quiz-step hidden" data-step="optin">
+          <div class="text-center mb-6">
+            <div class="text-5xl mb-4">🔮</div>
+            <h2 class="text-2xl sm:text-3xl font-black text-white mb-2">Ton profil est prêt !</h2>
+            <p class="text-gray-400 text-sm">Entre ton email pour découvrir quel type de revendeur tu es<br/>et comment exploiter tes forces.</p>
+          </div>
+          <form id="quiz-optin-form" class="space-y-4">
+            <div>
+              <input type="text" id="optin-prenom" placeholder="Ton prénom" required
+                class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition" />
+            </div>
+            <div>
+              <input type="email" id="optin-email" placeholder="Ton email" required
+                class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition" />
+            </div>
+            <button type="submit" class="btn-neon ripple w-full text-lg py-4">
+              Découvrir mon profil →
+            </button>
+            <p class="text-gray-600 text-xs text-center">Pas de spam. Juste ton résultat et des conseils actionnables.</p>
+          </form>
+        </div>
+
+        <!-- RESULT STEP -->
+        <div class="quiz-step hidden" data-step="result">
+          <div id="result-content" class="text-center">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+
+      </div><!-- /quiz-card -->
+    </div>
+  </section>
+
+  <!-- QUIZ STYLES -->
+  <style is:global>
+    /* Quiz buttons */
+    .quiz-btn {
+      width: 100%;
+      text-align: left;
+      padding: 1rem 1.25rem;
+      border-radius: 0.75rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.03);
+      color: #d1d5db;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .quiz-btn:hover {
+      border-color: rgba(139,92,246,0.5);
+      background: rgba(139,92,246,0.1);
+      color: #fff;
+      transform: translateX(4px);
+      box-shadow: 0 0 20px rgba(139,92,246,0.15);
+    }
+    .quiz-btn.selected {
+      border-color: #8b5cf6;
+      background: rgba(139,92,246,0.2);
+      color: #fff;
+      box-shadow: 0 0 25px rgba(139,92,246,0.3);
+    }
+
+    /* Quiz slider */
+    .quiz-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+      outline: none;
+    }
+    .quiz-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(139,92,246,0.5);
+    }
+    .quiz-slider::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 0 15px rgba(139,92,246,0.5);
+    }
+
+    /* Quiz step transitions */
+    .quiz-step {
+      animation: quizFadeIn 0.4s ease-out;
+    }
+    .quiz-step.hidden {
+      display: none;
+    }
+    @keyframes quizFadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Result profile card */
+    .profile-badge {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      border-radius: 9999px;
+      font-weight: 800;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .profile-badge.debutant { background: rgba(34,197,94,0.2); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+    .profile-badge.epuise { background: rgba(234,179,8,0.2); color: #facc15; border: 1px solid rgba(234,179,8,0.3); }
+    .profile-badge.cauterise { background: rgba(239,68,68,0.2); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+    .profile-badge.ambitieux { background: rgba(139,92,246,0.2); color: #a78bfa; border: 1px solid rgba(139,92,246,0.3); }
+
+    .profile-trait {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+      color: #9ca3af;
+      font-size: 0.875rem;
+    }
+    .profile-trait .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+  </style>
+
+  <!-- QUIZ LOGIC -->
+  <script>
+    // ===== TRACKING (Quiz) =====
+    // Uses window.trackEvent from Layout.astro (GA4 + Meta Pixel switch)
+    const trackEvent = (window as any).trackEvent;
+
+    // Track quiz start on first interaction
+    let quizStarted = false;
+    function trackQuizStart() {
+      if (!quizStarted) {
+        quizStarted = true;
+        trackEvent('quiz_start', { page: window.location.pathname });
+      }
+    }
+
+    const TOTAL_STEPS = 7;
+
+    // State
+    const answers: Record<string, string | number> = {};
+    let currentStep = 1;
+
+    // DOM refs
+    const steps = document.querySelectorAll('.quiz-step');
+    const progressBar = document.getElementById('quiz-progress-bar') as HTMLDivElement;
+    const stepLabel = document.getElementById('quiz-step-label') as HTMLSpanElement;
+    const pctLabel = document.getElementById('quiz-pct') as HTMLSpanElement;
+    const quizCard = document.getElementById('quiz-card') as HTMLDivElement;
+
+    // Pain slider
+    const painSlider = document.getElementById('pain-slider') as HTMLInputElement;
+    const painValue = document.getElementById('pain-value') as HTMLDivElement;
+    const painLabel = document.getElementById('pain-label') as HTMLParagraphElement;
+    const painConfirm = document.getElementById('pain-confirm') as HTMLButtonElement;
+
+    const painLabels: Record<number, string> = {
+      1: "Totalement zen, pas de stress",
+      2: "À peine une gêne",
+      3: "Un petit pic de stress",
+      4: "Ça m'interpelle un peu",
+      5: "Ça me trotte un peu dans la tête",
+      6: "Je ressens une vraie tension",
+      7: "Je stesse carrément",
+      8: "Ça me gâche la soirée",
+      9: "Je peux plus penser à autre chose",
+      10: "Ça me pourrit la journée complète"
+    };
+
+    painSlider?.addEventListener('input', () => {
+      const v = parseInt(painSlider.value);
+      painValue.textContent = String(v);
+      painLabel.textContent = painLabels[v] || '';
+    });
+
+    painConfirm?.addEventListener('click', () => {
+      answers['q3'] = parseInt(painSlider.value);
+      goToStep(4);
+    });
+
+    // Button clicks
+    document.querySelectorAll('.quiz-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const step = (btn.closest('.quiz-step') as HTMLDivElement)?.dataset.step;
+        if (!step) return;
+        const value = (btn as HTMLButtonElement).dataset.value;
+        if (!value) return;
+
+        // Track quiz interaction
+        trackQuizStart();
+        trackEvent('quiz_step', { step: step, answer: value, page: window.location.pathname });
+
+        answers[`q${step}`] = value;
+
+        // Visual feedback
+        btn.parentElement?.querySelectorAll('.quiz-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+
+        // Auto-advance after brief delay
+        setTimeout(() => {
+          const nextStep = parseInt(step) + 1;
+          goToStep(nextStep);
+        }, 350);
+      });
+    });
+
+    // Pain slider confirm
+    painConfirm?.addEventListener('click', () => {
+      trackQuizStart();
+      trackEvent('quiz_step', { step: '3', answer: painSlider.value, page: window.location.pathname });
+    });
+
+    // Opt-in form
+    const optinForm = document.getElementById('quiz-optin-form') as HTMLFormElement;
+    optinForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const prenom = (document.getElementById('optin-prenom') as HTMLInputElement).value.trim();
+      const email = (document.getElementById('optin-email') as HTMLInputElement).value.trim();
+      if (!prenom || !email) return;
+      answers['prenom'] = prenom;
+      answers['email'] = email;
+
+      // Track optin (KEY CONVERSION EVENT)
+      trackEvent('quiz_optin', {
+        email: email,
+        prenom: prenom,
+        page: window.location.pathname
+      });
+
+      // Lead event is fired on merci.astro with Advanced Matching + CAPI deduplication
+      // Layout.astro trackEvent('quiz_optin') already fires custom QuizOptin event
+
+// Send lead data to self-hosted API (saves lead + sends email) then redirect
+       const API_URL = '/api/capture';
+       const profile = calculateProfile();
+       const params = new URLSearchParams({
+         prenom: prenom,
+         email: email,
+         profil: profile,
+         q1: answers['q1'] || '',
+         q2: answers['q2'] || '',
+         q3: String(answers['q3'] || ''),
+         q4: answers['q4'] || '',
+         q5: answers['q5'] || '',
+         q6: answers['q6'] || '',
+         q7: answers['q7'] || ''
+       });
+       // GET to API (saves lead to SQLite + sends welcome email)
+       // Wait for response before redirect to ensure lead is captured
+       fetch(API_URL + '?' + params.toString())
+         .then(r => r.json())
+         .then(data => {
+           console.log('Lead:', data.status, data.profil);
+window.location.href = '/merci?profil=' + encodeURIComponent(profile) + '&prenom=' + encodeURIComponent(prenom) + '&email=' + encodeURIComponent(email);
+        })
+        .catch(err => {
+          console.warn('Lead capture warning:', err);
+          // Redirect anyway — lead may still have been saved
+          window.location.href = '/merci?profil=' + encodeURIComponent(profile) + '&prenom=' + encodeURIComponent(prenom) + '&email=' + encodeURIComponent(email);
+        });
+    });
+
+    function goToStep(step: number) {
+      // Hide all steps
+      steps.forEach(s => s.classList.add('hidden'));
+
+      if (step > TOTAL_STEPS) {
+        // Show opt-in
+        const optin = document.querySelector('[data-step="optin"]') as HTMLDivElement;
+        optin?.classList.remove('hidden');
+        currentStep = TOTAL_STEPS + 1;
+      } else {
+        const target = document.querySelector(`[data-step="${step}"]`) as HTMLDivElement;
+        target?.classList.remove('hidden');
+        currentStep = step;
+      }
+
+      updateProgress();
+      quizCard?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function updateProgress() {
+      const pct = Math.round((currentStep / (TOTAL_STEPS + 1)) * 100);
+      progressBar.style.width = `${pct}%`;
+      pctLabel.textContent = `${pct}%`;
+      if (currentStep <= TOTAL_STEPS) {
+        stepLabel.textContent = `Question ${currentStep} / ${TOTAL_STEPS}`;
+      } else if (currentStep === TOTAL_STEPS + 1) {
+        stepLabel.textContent = 'Ton profil';
+      } else {
+        stepLabel.textContent = 'Résultat';
+      }
+    }
+
+    // ===== PROFILE SCORING =====
+    interface Profile {
+      id: string;
+      name: string;
+      emoji: string;
+      badgeClass: string;
+      tagline: string;
+      traits: string[];
+      strengths: string[];
+      weaknesses: string[];
+      advice: string;
+      cta: string;
+    }
+
+    const profiles: Record<string, Profile> = {
+      debutant: {
+        id: 'debutant',
+        name: 'Le Débutant Prudent',
+        emoji: '🌱',
+        badgeClass: 'debutant',
+        tagline: 'Tu as tout à construire — et c\'est une chance.',
+        traits: [
+          'Peu ou pas d\'expérience en revente',
+          'Fort potentiel mais manque de méthode',
+          'Prudent, ce qui te protège des grosses pertes'
+        ],
+        strengths: ['Frais et ouvert d\'esprit', 'Pas de mauvaises habitudes', 'Énergie disponible'],
+        weaknesses: ['Manque de repères sur les prix', 'Risque de paralysie par l\'analyse', 'Peur de se lancer'],
+        advice: 'Tu as besoin d\'une méthode simple et éprouvée pour faire tes premiers pas en confiance. Pas de risques inutiles — juste les bons gestes, dans le bon ordre.',
+        cta: 'Rejoins Pokévendre Pro et fais ta première revente rentable en 7 jours.'
+      },
+      epuise: {
+        id: 'epuise',
+        name: 'Le Revendeur Épuisé',
+        emoji: '😫',
+        badgeClass: 'epuise',
+        tagline: 'Tu travailles dur… mais pas malin.',
+        traits: [
+          'Tu revends déjà, mais ça te pompe toute ton énergie',
+          'Trop de temps passé pour pas assez de profit',
+          'Tu t\'éparpilles sans système'
+        ],
+        strengths: ['Expérience terrain réelle', 'Connaissance du marché', 'Résilience prouvée'],
+        weaknesses: ['Processus chaotique', 'Rentabilité faible', 'Épuisement chronique'],
+        advice: 'Tu n\'as pas besoin de travailler PLUS. Tu as besoin de système. Automatise, standardise, et passe de l\'activité à la productivité.',
+        cta: 'Pokévendre Pro va transformer ton chaos en machine à cash prévisible.'
+      },
+      cauterise: {
+        id: 'cauterise',
+        name: 'Le Cautérisé',
+        emoji: '🔥',
+        badgeClass: 'cauterise',
+        tagline: 'Tu as pris des claques. Mais tu es toujours là.',
+        traits: [
+          'Tu as déjà perdu de l\'argent en revente',
+          'La peur du mauvais investissement te paralyse',
+          'Tu sais que c\'est possible, mais tu doutes de toi'
+        ],
+        strengths: ['Connaissance des pièges', 'Prudence acquise par l\'expérience', 'Motivation profonde de réussir'],
+        weaknesses: ['Confiance érodée', 'Hésitation excessive', 'Biais du survivant inversé'],
+        advice: 'Tes pertes sont ta meilleure formation. Ce qui te manque, c\'est un cadre pour transformer cette expérience en jugement. Un système qui élimine les biais émotionnels.',
+        cta: 'Pokévendre Pro te redonne le contrôle. Des règles claires, zéro prise de tête.'
+      },
+      ambitieux: {
+        id: 'ambitieux',
+        name: 'L\'Ambitieux',
+     emoji: '🚀',
+        badgeClass: 'ambitieux',
+        tagline: 'Tu as la flamme. Maintenant il te faut le carburant.',
+        traits: [
+          'Tu veux faire de la revente ton activité principale',
+          'Tu es prêt à investir temps et argent',
+          'Tu cherches la méthode qui passe à l\'échelle'
+        ],
+        strengths: ['Ambition sans limites', 'Prêt à investir', 'Vision claire de l\'objectif'],
+        weaknesses: ['Risque de précipitation', 'Sauter des étapes', 'Négliger les fondamentaux'],
+        advice: 'L\'ambition sans structure, c\'est un moteur sans volant. Tu as besoin d\'un système scalable qui transforme ton énergie en résultats exponentiels.',
+        cta: 'Pokévendre Pro est ton infrastructure. Passe de side hustle à business.'
+      }
+    };
+
+    function calculateProfile(): string {
+      const q1 = answers['q1'] as string || '';
+      const q2 = answers['q2'] as string || '';
+      const q3 = answers['q3'] as number || 5;
+      const q4 = answers['q4'] as string || '';
+      const q5 = answers['q5'] as string || '';
+      const q6 = answers['q6'] as string || '';
+      const q7 = answers['q7'] as string || '';
+
+      const scores: Record<string, number> = { debutant: 0, epuise: 0, cauterise: 0, ambitieux: 0 };
+
+      // Q1 - Experience
+      if (q1 === 'oui-regulier') { scores.epuise += 3; scores.ambitieux += 1; }
+      else if (q1 === 'oui-debut') { scores.debutant += 3; scores.ambitieux += 1; }
+      else if (q1 === 'pas-encore') { scores.debutant += 4; scores.cauterise += 1; }
+
+      // Q2 - Objective
+      if (q2 === 'profit') { scores.ambitieux += 2; scores.cauterise += 1; }
+      else if (q2 === 'financer') { scores.debutant += 2; scores.epuise += 1; }
+      else if (q2 === 'side-hustle') { scores.epuise += 2; scores.ambitieux += 1; }
+      else if (q2 === 'devenir-pro') { scores.ambitieux += 4; }
+
+      // Q3 - Pain level
+      if (q3 <= 3) { scores.debutant += 2; }
+      else if (q3 <= 5) { scores.epuise += 1; scores.ambitieux += 1; }
+      else if (q3 <= 7) { scores.cauterise += 2; scores.epuise += 1; }
+      else { scores.cauterise += 3; }
+
+      // Q4 - Frustration
+      if (q4 === 'achat-trop-cher') { scores.cauterise += 3; scores.epuise += 1; }
+      else if (q4 === 'pas-de-methode') { scores.debutant += 2; scores.epuise += 1; }
+      else if (q4 === 'temps-perdu') { scores.epuise += 3; }
+      else if (q4 === 'peur-se-faire-avoir') { scores.cauterise += 2; scores.debutant += 1; }
+
+      // Q5 - Cards sold
+      if (q5 === 'zero') { scores.debutant += 4; }
+      else if (q5 === '1-10') { scores.debutant += 2; scores.cauterise += 1; }
+      else if (q5 === '10-50') { scores.epuise += 2; scores.ambitieux += 1; }
+      else if (q5 === '50-plus') { scores.epuise += 2; scores.ambitieux += 2; }
+
+      // Q6 - Blocker
+      if (q6 === 'manque-connaissances') { scores.debutant += 3; }
+      else if (q6 === 'manque-confiance') { scores.cauterise += 3; }
+      else if (q6 === 'manque-temps') { scores.epuise += 3; }
+      else if (q6 === 'peur-perdre') { scores.cauterise += 2; scores.debutant += 1; }
+
+      // Q7 - Investment readiness
+      if (q7 === '0-30') { scores.debutant += 2; scores.cauterise += 1; }
+      else if (q7 === '30-100') { scores.debutant += 1; scores.epuise += 1; }
+      else if (q7 === '100-300') { scores.ambitieux += 2; scores.epuise += 1; }
+      else if (q7 === '300-plus') { scores.ambitieux += 4; }
+
+      // Find max
+      let maxProfile = 'debutant';
+      let maxScore = 0;
+      for (const [profile, score] of Object.entries(scores)) {
+        if (score > maxScore) {
+          maxScore = score;
+          maxProfile = profile;
+        }
+      }
+      return maxProfile;
+    }
+
+    function showResult() {
+      const profileKey = calculateProfile();
+      const p = profiles[profileKey];
+      const prenom = answers['prenom'] || '';
+
+      // Track quiz completion with profile result
+      trackEvent('quiz_complete', {
+        profile: profileKey,
+        q1: String(answers['q1'] || ''),
+        q3_pain: String(answers['q3'] || ''),
+        q7_budget: String(answers['q7'] || ''),
+        page: window.location.pathname
+      });
+
+      // CompleteRegistration is already fired by Layout.astro trackEvent switch
+
+      const resultHTML = `
+        <div class="profile-badge ${p.badgeClass}">${p.emoji} ${p.name}</div>
+        <h2 class="text-3xl sm:text-4xl font-black text-white mt-2 mb-3">${prenom || 'Bien joué'}, ton profil est clair.</h2>
+        <p class="text-purple-300 text-lg mb-6">${p.tagline}</p>
+
+        <div class="text-left max-w-md mx-auto mb-6">
+          <h3 class="text-white font-bold text-sm uppercase tracking-wider mb-2">Ce qui te définit</h3>
+          ${p.traits.map((t: string) => `<div class="profile-trait"><span class="dot" style="background:${p.badgeClass === 'debutant' ? '#4ade80' : p.badgeClass === 'epuise' ? '#facc15' : p.badgeClass === 'cauterise' ? '#f87171' : '#a78bfa'}"></span>${t}</div>`).join('')}
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 max-w-md mx-auto mb-6">
+          <div class="text-left">
+            <h3 class="text-green-400 font-bold text-xs uppercase tracking-wider mb-2">💪 Tes forces</h3>
+            ${p.strengths.map((s: string) => `<p class="text-gray-400 text-xs mb-1">✓ ${s}</p>`).join('')}
+          </div>
+          <div class="text-left">
+            <h3 class="text-red-400 font-bold text-xs uppercase tracking-wider mb-2">⚠️ À surveiller</h3>
+            ${p.weaknesses.map((w: string) => `<p class="text-gray-400 text-xs mb-1">✗ ${w}</p>`).join('')}
+          </div>
+        </div>
+
+        <div class="glass-card p-5 text-left max-w-md mx-auto mb-8 border border-purple-500/30">
+          <p class="text-sm text-gray-300 leading-relaxed">${p.advice}</p>
+        </div>
+
+        <a href="/merci/?profil=${p.id}&prenom=${encodeURIComponent(prenom)}&email=${encodeURIComponent(email)}" class="btn-neon ripple inline-block text-lg px-8 py-4">
+          ${p.cta}
+        </a>
+      `;
+
+      // Hide opt-in, show result
+      steps.forEach(s => s.classList.add('hidden'));
+      const resultDiv = document.querySelector('[data-step="result"]') as HTMLDivElement;
+      const resultContent = document.getElementById('result-content') as HTMLDivElement;
+      resultContent.innerHTML = resultHTML;
+      resultDiv.classList.remove('hidden');
+
+      // Update progress to 100%
+      progressBar.style.width = '100%';
+      pctLabel.textContent = '100%';
+      stepLabel.textContent = 'Résultat';
+
+      quizCard?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  </script>
+
+</Layout>

@@ -1,0 +1,282 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Accès — Pokévendre Pro" description="Bienvenue dans Pokévendre Pro ! Ton accès à la formation est prêt." ogImage="/images/og-default.jpg">
+
+<canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;"></canvas>
+
+<section class="relative min-h-screen flex items-center justify-center py-16 px-4 overflow-hidden">
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[120px]" style="background:radial-gradient(circle, rgba(34,197,94,0.15) 0%, transparent 70%)"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full blur-[100px]" style="background:radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%)"></div>
+  </div>
+
+  <div class="max-w-2xl w-full relative z-10 text-center">
+    <!-- Loading state -->
+    <div id="loading-state" class="py-16">
+      <div class="w-16 h-16 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mx-auto mb-6"></div>
+      <p class="text-gray-400">Vérification de ton paiement...</p>
+    </div>
+
+    <!-- Success state (hidden by default) -->
+    <div id="success-state" class="hidden">
+      <div class="mb-8  reveal-scale">
+        <div class="w-24 h-24 rounded-full flex items-center justify-center mx-auto shadow-lg" style="background:linear-gradient(135deg,rgba(34,197,94,0.2),rgba(139,92,246,0.2));border:2px solid rgba(34,197,94,0.4);">
+          <svg class="w-12 h-12 text-green-400 check-anim" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
+      </div>
+
+      <span class="retro-badge mb-4 inline-block">Paiement confirmé ✅</span>
+
+      <h1 class="text-3xl sm:text-5xl font-black text-white mb-4 reveal" style="transition-delay:200ms">
+        Bienvenue dans<br/><span class="neon-text">Pokévendre Pro</span> 🎉
+      </h1>
+      
+      <p id="welcome-name" class="text-gray-300 text-lg mb-8 reveal" style="transition-delay:250ms"></p>
+
+      <!-- Access card -->
+      <div class="glass-card p-6 sm:p-8 text-left mb-8 border reveal" style="border-color:rgba(34,197,94,0.2);transition-delay:300ms">
+        <h3 class="text-white font-bold text-lg mb-4">🚀 Ton accès est prêt</h3>
+        
+        <div id="access-content" class="space-y-4">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+
+      <!-- What's next -->
+      <div class="glass-card p-6 text-left mb-8 border reveal" style="border-color:rgba(139,92,246,0.15);transition-delay:400ms">
+        <h3 class="text-white font-bold text-lg mb-4">📋 Prochaines étapes</h3>
+        <div class="space-y-3">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400 font-bold text-sm flex-shrink-0">1</div>
+            <div>
+              <p class="text-white font-medium text-sm">Vérifie ta boîte mail</p>
+              <p class="text-gray-500 text-xs">Tu vas recevoir un email de confirmation avec tous tes accès dans les 5 prochaines minutes.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold text-sm flex-shrink-0">2</div>
+            <div>
+              <p class="text-white font-medium text-sm">Commence la formation</p>
+              <p class="text-gray-500 text-xs">Suis les modules dans l'ordre. Chaque étape build sur la précédente.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold text-sm flex-shrink-0">3</div>
+            <div>
+              <p class="text-white font-medium text-sm">Rejoins la communauté</p>
+              <p class="text-gray-500 text-xs">Le lien d'accès est dans l'email de bienvenue.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal" style="transition-delay:500ms">
+        <p class="text-gray-600 text-xs">Pokévendre Pro — Accès à vie · Support : pokevendrepro@gmail.com</p>
+      </div>
+    </div>
+
+    <!-- Error state -->
+    <div id="error-state" class="hidden">
+      <div class="mb-6">
+        <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto" style="background:rgba(239,68,68,0.15);border:2px solid rgba(239,68,68,0.3);">
+          <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </div>
+      </div>
+      <h2 class="text-2xl font-bold text-white mb-3">Oups, un souci technique</h2>
+      <p class="text-gray-400 mb-6">On n'a pas pu vérifier ton paiement. Pas de panique — envoie-nous un email et on règle ça en 24h.</p>
+      <a href="mailto:pokevendrepro@gmail.com" class="btn-neon ripple inline-block">Nous contacter</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .check-anim {
+    stroke-dasharray: 30;
+    stroke-dashoffset: 30;
+    animation: checkDraw 0.6s ease-out 0.3s forwards;
+  }
+  @keyframes checkDraw {
+    to { stroke-dashoffset: 0; }
+  }
+</style>
+
+<script define:vars={{}}>
+const STRIPE_PK = 'pk_live_51Hy0gkBN29xndj7qPKW0PvlqJKDvTTkkuj00QIQ4dOmPkWKec3PDTmJPsbXW3MLbV1s1GyKv9QQrWRS6gTc3PXvX00eGzbNrCV';
+</script>
+
+<script>
+// Confetti
+function launchConfetti() {
+  var canvas = document.getElementById('confetti-canvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  var colors = ['#4ade80', '#ffffff', '#a78bfa', '#facc15', '#f87171'];
+  var particles = [];
+  for (var i = 0; i < 120; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      w: Math.random() * 8 + 4,
+      h: Math.random() * 4 + 2,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      vx: (Math.random() - 0.5) * 3,
+      vy: Math.random() * 3 + 2,
+      rotation: Math.random() * 360,
+      rotationSpeed: (Math.random() - 0.5) * 10,
+      opacity: 1
+    });
+  }
+  var startTime = Date.now();
+  var duration = 4000;
+  function animate() {
+    var elapsed = Date.now() - startTime;
+    if (elapsed > duration) { ctx.clearRect(0, 0, canvas.width, canvas.height); return; }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    var fadeFactor = elapsed > duration * 0.7 ? 1 - ((elapsed - duration * 0.7) / (duration * 0.3)) : 1;
+    particles.forEach(function(p) {
+      p.x += p.vx; p.y += p.vy; p.vy += 0.05; p.rotation += p.rotationSpeed;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation * Math.PI / 180);
+      ctx.globalAlpha = p.opacity * Math.max(0, fadeFactor);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+// Verify session
+async function verifySession() {
+  var params = new URLSearchParams(window.location.search);
+  var sessionId = params.get('session_id');
+  if (!sessionId) {
+    document.getElementById('loading-state').classList.add('hidden');
+    document.getElementById('error-state').classList.remove('hidden');
+    return;
+  }
+
+  try {
+    var response = await fetch('/api/verify-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: sessionId })
+    });
+    var data = await response.json();
+
+    if (data.status === 'complete') {
+      document.getElementById('loading-state').classList.add('hidden');
+      document.getElementById('success-state').classList.remove('hidden');
+
+      var nameEl = document.getElementById('welcome-name');
+      if (data.customer_name) {
+        nameEl.textContent = 'Salut ' + data.customer_name + ' — ton accès à vie est activé.';
+      } else {
+        nameEl.textContent = 'Ton accès à vie est activé.';
+      }
+
+      // Fill access content
+      var accessEl = document.getElementById('access-content');
+      accessEl.innerHTML = '<div class="flex items-center gap-3 p-3 rounded-lg" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2)">' +
+        '<span class="text-2xl">📧</span>' +
+        '<div><p class="text-white font-medium text-sm">Email de confirmation envoyé</p>' +
+        '<p class="text-gray-500 text-xs">' + (data.customer_email || '') + '</p></div></div>' +
+        '<div class="flex items-center gap-3 p-3 rounded-lg" style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2)">' +
+        '<span class="text-2xl">✅</span>' +
+        '<div><p class="text-white font-medium text-sm">Paiement confirmé</p>' +
+        '<p class="text-gray-500 text-xs">Accès à vie — Formation Pokévendre Pro</p></div></div>';
+
+      launchConfetti();
+
+      // ===== META PIXEL: Advanced Matching =====
+      if (typeof fbq !== 'undefined' && data.customer_email) {
+        // SHA-256 hash email for Advanced Matching
+        crypto.subtle.digest('SHA-256', new TextEncoder().encode(data.customer_email.trim().toLowerCase())).then(function(buf) {
+          var hash = Array.from(new Uint8Array(buf)).map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+          fbq('init', '1418087700005184', { em: hash });
+          // ===== META PIXEL: Purchase Event (with user data) =====
+          fbq('track', 'Purchase', {
+            value: 47,
+            currency: 'EUR',
+            content_name: 'pokevendre_pro_precommande',
+            content_type: 'product',
+            content_ids: ['price_1TTl2RBN29xndj7qi3db6hLa'],
+            num_items: 1,
+            transaction_id: sessionId || ''
+          }, { eventID: 'stripe_' + (sessionId || '') });
+        });
+      } else if (typeof fbq !== 'undefined') {
+        // ===== META PIXEL: Purchase Event (no email) =====
+        fbq('track', 'Purchase', {
+          value: 47,
+          currency: 'EUR',
+          content_name: 'pokevendre_pro_precommande',
+          content_type: 'product',
+          content_ids: ['price_1TTl2RBN29xndj7qi3db6hLa'],
+          num_items: 1,
+          transaction_id: sessionId || ''
+        }, { eventID: 'stripe_' + (sessionId || '') });
+      }
+      // CAPI: also send Purchase server-side from browser (backup + fbc/fbp for attribution)
+      // Same eventID as pixel + webhook — Meta deduplicates automatically
+      var capiPayload = {
+        event_name: 'Purchase',
+        event_data: {
+          value: 47,
+          currency: 'EUR',
+          content_name: 'pokevendre_pro_precommande',
+          content_type: 'product',
+          content_ids: ['price_1TTl2RBN29xndj7qi3db6hLa'],
+          num_items: 1,
+          transaction_id: sessionId || ''
+        },
+        event_id: 'stripe_' + (sessionId || ''),
+        user_data: {}
+      };
+      if (data.customer_email) { capiPayload.user_data.em = data.customer_email; }
+      var mc = (typeof window.getMetaCookies === 'function') ? window.getMetaCookies() : {};
+      if (mc.fbc) { capiPayload.user_data.fbc = mc.fbc; }
+      if (mc.fbp) { capiPayload.user_data.fbp = mc.fbp; }
+      fetch('/api/capi', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(capiPayload)
+      }).catch(function() {}); // fire-and-forget
+      // GA4: purchase event
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'purchase', {
+          transaction_id: sessionId || '',
+          value: 47,
+          currency: 'EUR',
+          items: [{
+            item_id: 'price_1TTl2RBN29xndj7qi3db6hLa',
+            item_name: 'pokevendre_pro_precommande',
+            item_category: 'digital_course',
+            price: 47,
+            quantity: 1
+          }]
+        });
+      }
+    } else {
+      document.getElementById('loading-state').classList.add('hidden');
+      document.getElementById('error-state').classList.remove('hidden');
+    }
+  } catch (err) {
+    document.getElementById('loading-state').classList.add('hidden');
+    document.getElementById('error-state').classList.remove('hidden');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', verifySession);
+</script>
+</Layout>

@@ -1,0 +1,94 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Place réservée — Pokévendre Pro" description="Ta place est réservée. Tu recevras un email de confirmation." ogImage="/images/og-merci.jpg">
+
+<section class="relative min-h-screen flex items-center justify-center py-16 px-4 overflow-hidden">
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[120px]" style="background:radial-gradient(circle, rgba(74,222,128,0.15) 0%, transparent 70%)"></div>
+    <div class="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] rounded-full blur-[100px]" style="background:radial-gradient(circle, rgba(74,222,128,0.08) 0%, transparent 70%)"></div>
+  </div>
+
+  <div class="max-w-lg w-full relative z-10 text-center">
+    <div class="mb-8">
+      <div class="w-24 h-24 rounded-full flex items-center justify-center mx-auto shadow-lg" style="background:linear-gradient(135deg,rgba(34,197,94,0.2),rgba(139,92,246,0.2));border:2px solid rgba(34,197,94,0.4);">
+        <svg class="w-12 h-12 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+    </div>
+
+    <h1 class="text-3xl sm:text-4xl font-black text-white mb-4">
+      Place réservée ✅
+    </h1>
+
+    <p class="text-gray-300 text-lg mb-2" id="prenom-msg">
+      Tu fais partie des premiers, <strong class="text-white" id="prenom-display">revendeur</strong>.
+    </p>
+
+    <p class="text-gray-400 text-sm mb-8">
+      Tu vas recevoir un email de confirmation dans les prochaines minutes.<br>
+      Vérifie tes spams si besoin.
+    </p>
+
+    <div class="glass-card p-6 text-left mb-8 border" style="border-color:rgba(34,197,94,0.2);">
+      <h3 class="text-white font-bold text-sm mb-4">📧 Ce qui arrive dans ton email :</h3>
+      <div class="space-y-3">
+        <div class="flex items-start gap-3">
+          <span class="text-green-400 mt-0.5">✓</span>
+          <p class="text-gray-300 text-sm">Confirmation de ta réservation</p>
+        </div>
+        <div class="flex items-starr gap-3">
+          <span class="text-green-400 mt-0.5">✓</span>
+          <p class="text-gray-300 text-sm">Date d'ouverture de l'accès</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="text-green-400 mt-0.5">✓</span>
+          <p class="text-gray-300 text-sm">Des actions concrètes pour te préparer dès maintenant</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card p-5 text-center mb-8" style="background:rgba(250,204,21,0.05);border:1px solid rgba(250,204,21,0.2);">
+      <p class="text-amber-400 text-sm font-bold" id="countdown-msg">⏳ Tu seras prévenu en avant-premier quand la formation ouvre.</p>
+      <p class="text-gray-500 text-xs mt-1">Les places sont limitées — ta réservation est prioritaire.</p>
+    </div>
+
+    <div>
+      <a href="/" class="inline-block text-gray-500 hover:text-gray-300 transition text-sm">
+        &larr; Retour à l'accueil
+      </a>
+      <p class="text-gray-600 text-xs mt-6">Pok&eacute;vendre Pro &mdash; Le syst&egrave;me de d&eacute;cision pour revendeurs Pok&eacute;mon</p>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+var params = new URLSearchParams(window.location.search);
+var prenom = params.get('prenom') || 'revendeur';
+var profil = params.get('profil') || 'debutant';
+var jours = parseInt(params.get('jours'), 10);
+document.getElementById('prenom-display').textContent = prenom;
+
+// Update countdown message with real days count
+var countdownEl = document.getElementById('countdown-msg');
+if (jours > 0 && !isNaN(jours)) {
+  countdownEl.innerHTML = '⏳ Ouverture de l\'accès dans <strong class="text-white text-lg">' + jours + ' jour' + (jours > 1 ? 's' : '') + '</strong>';
+} else if (jours === 0) {
+  countdownEl.innerHTML = '🔥 <strong class="text-white">L\'accès ouvre aujourd\'hui !</strong> Surveille ta boîte mail.';
+} else if (!isNaN(jours) && jours < 0) {
+  countdownEl.innerHTML = '🔥 <strong class="text-white">L\'accès est ouvert !</strong> Vérifie ta boîte mail.';
+}
+// else: jours absent/NaN → on garde le message par défaut du HTML
+
+// Meta Pixel: AddToWishlist confirmation (deduplicated with server-side CAPI sent by /api/reserve)
+if (typeof fbq !== 'undefined') {
+  var reserveEventId = 'reserve_confirm_' + profil + '_' + Date.now();
+  fbq('track', 'AddToWishlist', {
+    content_name: 'pokevendre_pro_reserve',
+    content_category: 'digital_course'
+  }, { eventID: reserveEventId });
+}
+</script>
+</Layout>

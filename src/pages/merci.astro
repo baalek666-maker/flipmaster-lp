@@ -1,0 +1,549 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Bienvenue — Pokévendre Pro" description="Ton profil de revendeur est prêt. Découvre ton diagnostic personnalisé." ogImage="/images/og-merci.jpg">
+
+<canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;"></canvas>
+<canvas id="profile-particles-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:2;"></canvas>
+
+<section class="relative min-h-screen flex items-center justify-center py-16 px-4 overflow-hidden">
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div id="bg-glow-1" class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[120px] transition-colors duration-1000"></div>
+    <div id="bg-glow-2" class="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] rounded-full blur-[100px] transition-colors duration-1000"></div>
+  </div>
+
+  <div class="max-w-2xl w-full relative z-10 text-center">
+    <div class="mb-8 reveal-scale">
+      <div id="check-circle" class="w-24 h-24 rounded-full flex items-center justify-center mx-auto shadow-lg transition-all duration-700" style="background:linear-gradient(135deg,rgba(34,197,94,0.2),rgba(139,92,246,0.2));border:2px solid rgba(34,197,94,0.4);">
+        <svg class="w-12 h-12 text-green-400 check-anim" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+    </div>
+
+    <div class="reveal" style="transition-delay:100ms">
+      <span class="retro-badge mb-4 inline-block">Profil déverrouillé 🔓</span>
+    </div>
+
+    <h1 class="text-3xl sm:text-5xl font-black text-white mb-2 reveal" style="transition-delay:200ms">
+      Bienvenue, <span class="neon-text" id="prenom-display">revendeur</span> ! 🎉
+    </h1>
+    <p class="text-gray-400 text-lg mb-2 reveal" style="transition-delay:250ms">
+      Ton profil <strong class="text-white" id="profil-name-display">est prêt</strong>
+    </p>
+
+    <div id="profile-card" class="hidden reveal" style="transition-delay:300ms">
+      <div id="profile-card-inner" class="glass-card p-6 sm:p-8 text-left mt-8 mb-8 border transition-all duration-700" style="border-color:rgba(139,92,246,0.2);">
+        <div class="flex items-center gap-3 mb-4">
+          <span id="profile-emoji" class="text-4xl"></span>
+          <div>
+            <h2 id="profile-title" class="text-xl sm:text-2xl font-black text-white"></h2>
+            <p id="profile-tagline" class="text-sm italic"></p>
+          </div>
+        </div>
+
+        <div class="mb-5">
+          <div class="flex items-center justify-between mb-1.5">
+            <h3 class="text-white font-bold text-xs uppercase tracking-wider">Niveau de progression</h3>
+            <span id="level-label" class="text-xs font-bold uppercase tracking-wider"></span>
+          </div>
+          <div class="h-3 bg-white/5 rounded-full overflow-hidden relative">
+            <div id="level-bar" class="h-full rounded-full transition-all duration-1500 ease-out relative overflow-hidden" style="width:0%">
+              <div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 animate-shimmer-bar"></div>
+            </div>
+          </div>
+          <div class="flex justify-between mt-1">
+            <span class="text-gray-600 text-[10px]">🌱 Débutant</span>
+            <span class="text-gray-600 text-[10px]">⚡ Intermédiaire</span>
+            <span class="text-gray-600 text-[10px]">🔥 Avancé</span>
+            <span class="text-gray-600 text-[10px]">🚀 Expert</span>
+          </div>
+        </div>
+
+        <div class="mb-5">
+          <h3 class="text-white font-bold text-xs uppercase tracking-wider mb-2">Ce qui te définit</h3>
+          <div id="profile-traits" class="space-y-2"></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-5">
+          <div>
+            <h3 class="text-green-400 font-bold text-xs uppercase tracking-wider mb-2">💪 Tes forces</h3>
+            <div id="profile-strengths" class="space-y-1"></div>
+          </div>
+          <div>
+            <h3 class="text-red-400 font-bold text-xs uppercase tracking-wider mb-2">⚠️ À surveiller</h3>
+            <div id="profile-weaknesses" class="space-y-1"></div>
+          </div>
+        </div>
+
+        <div id="advice-box" class="rounded-xl p-4 transition-all duration-700" style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);">
+          <p id="profile-advice" class="text-sm text-gray-300 leading-relaxed"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" style="transition-delay:400ms">
+      <h3 class="text-white font-bold text-lg mb-6">Ce qui t'attend maintenant 👇</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10 stagger-children">
+        <div id="step1-card" class="glass-card card-glow p-5 text-left border transition-all duration-700" style="border-color:rgba(139,92,246,0.15);">
+          <div id="step1-icon" class="w-8 h-8 rounded-lg flex items-center justify-center font-black text-sm mb-3 transition-all duration-700" style="background:rgba(139,92,246,0.2);color:#a78bfa;">1</div>
+          <h4 class="text-white font-bold text-sm mb-1">📧 Vérifie ta boîte mail</h4>
+          <p class="text-gray-500 text-xs">Ton profil détaillé arrive dans les 5 prochaines minutes. Vérifie tes spams si besoin.</p>
+        </div>
+        <div class="glass-card card-glow p-5 text-left">
+          <div class="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400 font-black text-sm mb-3">2</div>
+          <h4 class="text-white font-bold text-sm mb-1">🎯 Applique la méthode</h4>
+          <p class="text-gray-500 text-xs">Suis le plan d'action personnalisé adapté à ton profil pour tes premières reventes rentables.</p>
+        </div>
+        <div class="glass-card card-glow p-5 text-left">
+          <div class="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400 font-black text-sm mb-3">3</div>
+          <h4 class="text-white font-bold text-sm mb-1">📈 Refais le quiz dans 30 jours</h4>
+          <p class="text-gray-500 text-xs">Mesure ta progression et vois comment ton profil évolue avec la pratique.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="share-section" class="reveal" style="transition-delay:500ms">
+      <div class="glass-card p-6 text-center mb-8 border transition-all duration-700" style="border-color:rgba(139,92,246,0.15);">
+        <p class="text-white font-bold text-sm mb-1">🔗 Partage ton résultat</p>
+        <p class="text-gray-500 text-xs mb-4">Envoie ce quiz à un revendeur qui en a besoin</p>
+        <div class="flex items-center gap-2 max-w-sm mx-auto">
+          <input id="share-url" type="text" readonly class="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-gray-300 text-xs outline-none focus:border-purple-500 transition" />
+          <button id="copy-btn" class="btn-neon ripple !py-2 !px-4 !text-xs whitespace-nowrap" onclick="copyShareLink()">
+            <span id="copy-btn-text">Copier</span>
+          </button>
+        </div>
+        <div id="copy-feedback" class="text-green-400 text-xs mt-2 opacity-0 transition-opacity duration-300">&#10003; Lien copié !</div>
+      </div>
+    </div>
+
+    <!-- CTA RESERVATION -->
+    <div id="cta-section" class="reveal" style="transition-delay:600ms">
+      <div class="glass-card p-6 sm:p-8 text-center mb-8 border-2 transition-all duration-700" style="border-color:rgba(34,197,94,0.4);background:linear-gradient(135deg,rgba(34,197,94,0.05),rgba(139,92,246,0.08));">
+        <div class="mb-4">
+          <span class="text-xs font-bold uppercase tracking-widest text-green-400">Places limitées</span>
+        </div>
+        <h3 class="text-white font-black text-2xl sm:text-3xl mb-2">Pokévendre Pro</h3>
+        <p class="text-gray-400 text-sm mb-4">Formation complète · Accès à vie · Mises à jour incluses</p>
+        <div class="mb-6">
+          <span class="text-5xl font-black text-white">🏋️</span>
+        </div>
+        <button id="reserve-btn" class="btn-neon ripple text-lg px-10 py-4 w-full sm:w-auto cursor-pointer" onclick="reservePlace()">
+          <span id="reserve-btn-text">Réserver ma place →</span>
+        </button>
+        <p class="text-gray-600 text-xs mt-3">🔒 Réservation gratuite — tu seras prévenu en avant-premier</p>
+        <p class="text-amber-400 text-xs mt-1">⏳ Lancement imminent — plus que quelques places disponibles.</p>
+      </div>
+    </div>
+
+    <div class="reveal" style="transition-delay:700ms">
+      <a href="/" class="inline-block text-gray-500 hover:text-gray-300 transition text-sm">
+        &larr; Retour à l'accueil
+      </a>
+      <p class="text-gray-600 text-xs mt-6">Pok&eacute;vendre Pro &mdash; Le syst&egrave;me de d&eacute;cision pour revendeurs Pok&eacute;mon</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .check-anim {
+    stroke-dasharray: 30;
+    stroke-dashoffset: 30;
+    animation: checkDraw 0.6s ease-out 0.3s forwards;
+  }
+  @keyframes checkDraw {
+    to { stroke-dashoffset: 0; }
+  }
+  .profile-trait-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    color: #d1d5db;
+    font-size: 0.875rem;
+  }
+  .profile-trait-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+  .strength-item, .weakness-item {
+    color: #9ca3af;
+    font-size: 0.75rem;
+  }
+  @keyframes shimmer-bar {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  .animate-shimmer-bar {
+    animation: shimmer-bar 2s ease-in-out infinite;
+  }
+</style>
+<script is:inline>
+const profiles = {
+  debutant: {
+    id: 'debutant', name: 'Le D\u00e9butant Prudent', emoji: '\ud83c\udf31',
+    tagline: 'Tu as tout \u00e0 construire \u2014 et c\u2019est une chance.',
+    traits: ['Peu ou pas d\u2019exp\u00e9rience en revente', 'Fort potentiel mais manque de m\u00e9thode', 'Prudent, ce qui te prot\u00e8ge des grosses pertes'],
+    strengths: ['Frais et ouvert d\u2019esprit', 'Pas de mauvaises habitudes', '\u00c9nergie disponible'],
+    weaknesses: ['Manque de rep\u00e8res sur les prix', 'Risque de paralysie par l\u2019analyse', 'Peur de se lancer'],
+    advice: 'Tu as besoin d\u2019une m\u00e9thode simple et \u00e9prouv\u00e9e pour faire tes premiers pas en confiance.',
+    cta: 'Rejoins Pok\u00e9vendre Pro et fais ta premi\u00e8re revente rentable en 7  jours.',
+    color: '#4ade80', colorRgb: '74,222,128', level: 15, levelLabel: '\ud83c\udf31 Niveau 1 \u2014 D\u00e9butant'
+  },
+  epuise: {
+    id: 'epuise', name: 'Le Revendeur \u00c9puis\u00e9', emoji: '\ud83d\ude2b',
+    tagline: 'Tu travailles dur\u2026 mais pas malin.',
+    traits: ['Tu revends d\u00e9j\u00e0, mais \u00e7a te pompe toute ton \u00e9nergie', 'Trop de temps pass\u00e9 pour pas assez de profit', 'Tu t\u2019\u00e9parpilles sans syst\u00e8me'],
+    strengths: ['Exp\u00e9rience terrain r\u00e9elle', 'Connaissance du march\u00e9', 'R\u00e9silience prouv\u00e9e'],
+    weaknesses: ['Processus chaotique', 'Rentabilit\u00e9 faible', '\u00c9puisement chronique'],
+    advice: 'Tu n\u2019as pas besoin de travailler PLUS. Tu as besoin de syst\u00e8me. Automatise, standardise.',
+    cta: 'Pok\u00e9vendre Pro va transformer ton chaos en machine \u00e0 cash pr\u00e9visible.',
+    color: '#facc15', colorRgb: '250,204,21', level: 45, levelLabel: '\u26a1 Niveau 2 \u2014 Interm\u00e9diaire'
+  },
+  cauterise: {
+    id: 'cauterise', name: 'Le Caut\u00e9ris\u00e9', emoji: '\ud83d\udd25',
+    tagline: 'Tu as pris des claques. Mais tu es toujours l\u00e0.',
+    traits: ['Tu as d\u00e9j\u00e0 perdu de l\u2019argent en revente', 'La peur du mauvais investissement te paralyse', 'Tu sais que c\u2019est possible, mais tu doutes de toi'],
+    strengths: ['Connaissance des pi\u00e8ges', 'Prudence acquise par l\u2019exp\u00e9rience', 'Motivation profonde de r\u00e9ussir'],
+    weaknesses: ['Confiance \u00e9rod\u00e9e', 'H\u00e9sitation excessive', 'Biais du survivant invers\u00e9'],
+    advice: 'Tes pertes sont ta meilleure formation. Ce qui te manque, c\u2019est un cadre pour transformer cette exp\u00e9rience en jugement.',
+    cta: 'Pok\u00e9vendre Pro te redonne le contr\u00f4le. Des r\u00e8gles claires, z\u00e9ro prise de t\u00eate.',
+    color: '#f87171', colorRgb: '248,113,113', level: 60, levelLabel: '\ud83d\udd25 Niveau 3 \u2014 Avanc\u00e9'
+  },
+  ambitieux: {
+    id: 'ambitieux', name: 'L\u2019Ambitieux', emoji: '\ud83d\ude80',
+    tagline: 'Tu as la flamme. Maintenant il te faut le carburant.',
+    traits: ['Tu veux faire de la revente ton activit\u00e9 principale', 'Tu es pr\u00eat \u00e0 investir temps et argent', 'Tu cherches la m\u00e9thode qui passe \u00e0 l\u2019\u00e9chelle'],
+    strengths: ['Ambition sans limites', 'Pr\u00eat \u00e0 investir', 'Vision claire de l\u2019objectif'],
+    weaknesses: ['Risque de pr\u00e9cipitation', 'Sauter des \u00e9tapes', 'N\u00e9gliger les fondamentaux'],
+    advice: 'L\u2019ambition sans structure, c\u2019est un moteur sans volant. Tu as besoin d\u2019un syst\u00e8me scalable.',
+    cta: 'Pok\u00e9vendre Pro est ton infrastructure. Passe de side hustle \u00e0 business.',
+    color: '#a78bfa', colorRgb: '167,139,250', level: 80, levelLabel: '\ud83d\ude80 Niveau 4 \u2014 Expert'
+  }
+};
+
+const params = new URLSearchParams(window.location.search);
+const profilKey = (params.get('profil') || 'debutant').toLowerCase();
+const prenom = params.get('prenom') || 'revendeur';
+const leadEmail = params.get('email') || '';
+const profile = profiles[profilKey] || profiles.debutant;
+
+function applyProfile() {
+  document.getElementById('prenom-display').textContent = prenom;
+  document.getElementById('profil-name-display').textContent = profile.name;
+  document.getElementById('profile-emoji').textContent = profile.emoji;
+  document.getElementById('profile-title').textContent = profile.name;
+  document.getElementById('profile-tagline').textContent = profile.tagline;
+  document.getElementById('profile-tagline').style.color = profile.color;
+  document.getElementById('profile-advice').textContent = profile.advice;
+  document.getElementById('level-label').textContent = profile.levelLabel;
+  document.getElementById('level-label').style.color = profile.color;
+
+  var traitsEl = document.getElementById('profile-traits');
+  profile.traits.forEach(function(t) {
+    var div = document.createElement('div');
+    div.className = 'profile-trait-item';
+    div.innerHTML = '<span class="profile-trait-dot" style="background:' + profile.color + '"></span><span>' + t + '</span>';
+    traitsEl.appendChild(div);
+  });
+
+  var strengthsEl = document.getElementById('profile-strengths');
+  profile.strengths.forEach(function(s) {
+    var div = document.createElement('div');
+    div.className = 'strength-item';
+    div.textContent = '\u2713 ' + s;
+    strengthsEl.appendChild(div);
+  });
+
+  var weaknessesEl = document.getElementById('profile-weaknesses');
+  profile.weaknesses.forEach(function(w) {
+    var div = document.createElement('div');
+    div.className = 'weakness-item';
+    div.textContent = '\u2022 ' + w;
+    weaknessesEl.appendChild(div);
+  });
+
+  document.getElementById('profile-card').classList.remove('hidden');
+
+  applyGlow();
+  animateLevelBar();
+  launchConfetti();
+  setTimeout(launchProfileParticles, 600);
+}
+
+function applyGlow() {
+  var c = profile.color;
+  var rgb = profile.colorRgb;
+
+  document.getElementById('bg-glow-1').style.background = 'radial-gradient(circle, rgba(' + rgb + ',0.15) 0%, transparent 70%)';
+  document.getElementById('bg-glow-2').style.background = 'radial-gradient(circle, rgba(' + rgb + ',0.08) 0%, transparent 70%)';
+
+  var card = document.getElementById('profile-card-inner');
+  card.style.borderColor = 'rgba(' + rgb + ',0.3)';
+  card.style.boxShadow = '0 0 30px rgba(' + rgb + ',0.1), 0 0 60px rgba(' + rgb + ',0.05)';
+
+  var checkCircle = document.getElementById('check-circle');
+  checkCircle.style.background = 'linear-gradient(135deg, rgba(' + rgb + ',0.2), rgba(' + rgb + ',0.05))';
+  checkCircle.style.borderColor = 'rgba(' + rgb + ',0.4)';
+
+  var adviceBox = document.getElementById('advice-box');
+  adviceBox.style.background = 'rgba(' + rgb + ',0.08)';
+  adviceBox.style.borderColor = 'rgba(' + rgb + ',0.2)';
+
+  var step1Card = document.getElementById('step1-card');
+  if (step1Card) {
+    step1Card.style.borderColor = 'rgba(' + rgb + ',0.2)';
+  }
+  var step1Icon = document.getElementById('step1-icon');
+  if (step1Icon) {
+    step1Icon.style.background = 'rgba(' + rgb + ',0.2)';
+    step1Icon.style.color = c;
+  }
+}
+
+function animateLevelBar() {
+  var bar = document.getElementById('level-bar');
+  bar.style.background = 'linear-gradient(90deg, ' + profile.color + ', rgba(' + profile.colorRgb + ',0.6))';
+  setTimeout(function() { bar.style.width = profile.level + '%'; }, 400);
+}
+// ===== 5. CONFETTI =====
+function launchConfetti() {
+  var canvas = document.getElementById('confetti-canvas');
+  var ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  var colors = [profile.color, '#ffffff', '#a78bfa', '#facc15', '#f87171', '#4ade80'];
+  var particles = [];
+
+  for (var i = 0; i < 150; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      w: Math.random() * 8 + 4,
+      h: Math.random() * 4 + 2,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      vx: (Math.random() - 0.5) * 3,
+      vy: Math.random() * 3 + 2,
+      rotation: Math.random() * 360,
+      rotationSpeed: (Math.random() - 0.5) * 10,
+      opacity: 1
+    });
+  }
+
+  var startTime = Date.now();
+  var duration = 4000;
+
+  function animate() {
+    var elapsed = Date.now() - startTime;
+    if (elapsed > duration) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      return;
+    }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    var fadeFactor = elapsed > duration * 0.7 ? 1 - ((elapsed - duration * 0.7) / (duration * 0.3)) : 1;
+
+    particles.forEach(function(p) {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.05;
+      p.rotation += p.rotationSpeed;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation * Math.PI / 180);
+      ctx.globalAlpha = p.opacity * Math.max(0, fadeFactor);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    });
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  window.addEventListener('resize', function() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+}
+
+// ===== 3. PROFILE PARTICLES =====
+function launchProfileParticles() {
+  var canvas = document.getElementById('profile-particles-canvas');
+  var ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  var particles = [];
+  var maxParticles = 40;
+
+  function createParticle() {
+    return {
+      x: Math.random() * canvas.width,
+      y: -10,
+      size: Math.random() * 3 + 1,
+      speedY: Math.random() * 0.8 + 0.3,
+      speedX: (Math.random() - 0.5) * 0.5,
+      opacity: Math.random() * 0.5 + 0.2,
+      color: profile.color
+    };
+  }
+
+  for (var i = 0; i < maxParticles; i++) {
+    var p = createParticle();
+    p.y = Math.random() * canvas.height;
+    particles.push(p);
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(function(p, idx) {
+      p.y += p.speedY;
+      p.x += p.speedX;
+
+      if (p.y > canvas.height + 10) {
+        particles[idx] = createParticle();
+        return;
+      }
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.opacity;
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  window.addEventListener('resize', function() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+}
+
+// ===== 4. SHARE / COPY LINK =====
+function copyShareLink() {
+  var input = document.getElementById('share-url');
+  var url = input.value;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(function() {
+      showCopyFeedback();
+    });
+  } else {
+    input.select();
+    document.execCommand('copy');
+    showCopyFeedback();
+  }
+}
+
+function showCopyFeedback() {
+  var fb = document.getElementById('copy-feedback');
+  fb.style.opacity = '1';
+  document.getElementById('copy-btn-text').textContent = 'Copié !';
+  setTimeout(function() {
+    fb.style.opacity = '0';
+    document.getElementById('copy-btn-text').textContent = 'Copier';
+  }, 2000);
+}
+
+// ===== 5. STRIPE CHECKOUT =====
+// ===== META PIXEL TRACKING =====
+// Lead + Advanced Matching with email from quiz optin
+// Helper: send event to CAPI (server-side) for deduplication
+function sendCapiEvent(eventName, eventData, eventId) {
+  var payload = { event_name: eventName, event_data: eventData, event_id: eventId };
+  if (leadEmail) { payload.user_data = { em: leadEmail }; }
+  // Attach _fbc/_fbp cookies for server-side attribution
+  var mc = (typeof window.getMetaCookies === 'function') ? window.getMetaCookies() : {};
+  if (mc.fbc) { payload.user_data = payload.user_data || {}; payload.user_data.fbc = mc.fbc; }
+  if (mc.fbp) { payload.user_data = payload.user_data || {}; payload.user_data.fbp = mc.fbp; }
+  fetch('/api/capi', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(function() {}); // fire-and-forget
+}
+
+if (typeof fbq !== 'undefined') {
+  var leadEventId = 'lead_' + profilKey + '_' + Date.now();
+  if (leadEmail) {
+    // SHA-256 hash email for Advanced Matching
+    crypto.subtle.digest('SHA-256', new TextEncoder().encode(leadEmail.trim().toLowerCase())).then(function(buf) {
+      var hash = Array.from(new Uint8Array(buf)).map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+      fbq('init', '1418087700005184', { em: hash });
+      fbq('track', 'Lead', {
+        content_name: 'quiz_lead',
+        content_category: 'quiz',
+        value: 0,
+        currency: 'EUR'
+      }, { eventID: leadEventId });
+    });
+  } else {
+    fbq('track', 'Lead', {
+      content_name: 'quiz_lead',
+      content_category: 'quiz',
+      value: 0,
+      currency: 'EUR'
+    }, { eventID: leadEventId });
+  }
+  // CAPI server-side Lead (same eventID for dedup)
+  sendCapiEvent('Lead', {
+    content_name: 'quiz_lead',
+    content_category: 'quiz',
+    value: 0,
+    currency: 'EUR'
+  }, leadEventId);
+}
+
+function reservePlace() {
+  var btn = document.getElementById('reserve-btn');
+  var btnText = document.getElementById('reserve-btn-text');
+  btn.disabled = true;
+  btnText.textContent = 'Réservation...';
+
+  // Meta Pixel: AddToWishlist (reservation = intent signal)
+  if (typeof fbq !== 'undefined') {
+    var reserveEventId = 'reserve_' + profilKey + '_' + Date.now();
+    fbq('track', 'AddToWishlist', {
+      content_name: 'pokevendre_pro_reserve',
+      content_category: 'digital_course'
+    }, { eventID: reserveEventId });
+    sendCapiEvent('AddToWishlist', {
+      content_name: 'pokevendre_pro_reserve',
+      content_category: 'digital_course'
+    }, reserveEventId);
+  }
+
+  // Call VPS API to save reservation, then redirect to confirmation page
+  fetch('/api/reserve', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: leadEmail, prenom: prenom, profil: profilKey })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    window.location.href = '/reserve?prenom=' + encodeURIComponent(prenom) + '&profil=' + encodeURIComponent(profilKey);
+  })
+  .catch(function(err) {
+    console.error('Reserve error:', err);
+    // Fallback: still redirect to confirmation page even if API fails
+    window.location.href = '/reserve?prenom=' + encodeURIComponent(prenom) + '&profil=' + encodeURIComponent(profilKey);
+  });
+}
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', function() {
+  applyProfile();
+  document.getElementById('share-url').value = window.location.origin + '/quiz?ref=' + profilKey;
+});
+</script>
+</Layout>

@@ -1,0 +1,433 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  ogType?: string;
+  canonicalUrl?: string;
+}
+
+const {
+  title,
+  description = "Pokévendre Pro  — Le système de décision pour revendre des cartes Pokémon avec profit",
+  ogImage = "/images/og-default.jpg",
+  ogType = "website",
+  canonicalUrl,
+} = Astro.props;
+
+const siteUrl = "https://pokevendrepro.com";
+const pageUrl = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
+const fullOgImage = new URL(ogImage, siteUrl).href;
+---
+
+<!doctype html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <meta name="theme-color" content="#a855f7" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="canonical" href={pageUrl} />
+  <title>{title}</title>
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content={ogType} />
+  <meta property="og:url" content={pageUrl} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={fullOgImage} />
+  <meta property="og:site_name" content="Pokévendre Pro" />
+  <meta property="og:locale" content="fr_FR" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content={pageUrl} />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={fullOgImage} />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Pokévendre Pro",
+    "url": siteUrl,
+    "description": "Le système de décision pour revendre des cartes Pokémon avec profit",
+    "inLanguage": "fr",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": `${siteUrl}/quiz/`,
+      "query-input": "required name=search_term"
+    }
+  })} />
+
+  <!-- Google Analytics 4 -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1N5ZY6F0EH"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1N5ZY6F0EH', { send_page_view: true });
+  </script>
+
+  <!-- Meta Pixel -->
+  <script is:inline>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1418087700005184');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none" alt=""
+      src="https://www.facebook.com/tr?id=1418087700005184&ev=PageView&noscript=1" />
+  </noscript>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <style is:global>
+    @property --angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+  </style>
+  <style is:global>
+    @import '../styles/global.css';
+  </style>
+</head>
+<body class="bg-[#050507] text-gray-200 antialiased grid-pattern">
+  <!-- Particles Canvas -->
+  <canvas id="particles-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;"></canvas>
+  
+  <!-- Noise Overlay -->
+  <div class="noise-overlay"></div>
+
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[#050507]/80 border-b border-purple-500/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+      <a href="/" class="flex items-center gap-2 group">
+        <span class="text-2xl">⚡</span>
+        <span class="text-lg sm:text-xl font-black retro-title tracking-tight">Pokévendre Pro</span>
+      </a>
+      <a href="/quiz/" class="btn-neon ripple text-xs sm:text-sm !py-1.5 !px-3 sm:!py-2 sm:!px-5 whitespace-nowrap flex-shrink-0">Commencer →</a>
+    </div>
+  </nav>
+
+  <main class="relative z-10">
+    <slot />
+  </main>
+
+  <!-- Scroll Reveal + Particles + Parallax + Counters + Card Glow + Typewriter -->
+  <script>
+    // ===== PARTICLES — subtle full-page background =====
+    const canvas = document.getElementById('particles-canvas') as HTMLCanvasElement;
+    const ctx = canvas.getContext('2d')!;
+    let particles: { x: number; y: number; vx: number; vy: number; size: number; opacity: number; hue: number }[] = [];
+    let mouseX = -9999, mouseY = -9999;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Sparse particles — subtle ambient effect across entire page
+    const PARTICLE_COUNT = Math.min(70, Math.floor(window.innerWidth / 25));
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.2,
+        vy: (Math.random() - 0.5) * 0.2,
+        size: Math.random() * 2 + 0.5,
+        opacity: Math.random() * 0.4 + 0.15,
+        hue: 250 + Math.random() * 40
+      });
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((p, i) => {
+        // Gentle mouse attraction
+        const dx = mouseX - p.x;
+        const dy = mouseY - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 200) {
+          p.vx += dx * 0.00002;
+          p.vy += dy * 0.00002;
+        }
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Wrap around viewport
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+
+        // Draw particle — tiny dot
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${p.hue}, 50%, 65%, ${p.opacity})`;
+        ctx.fill();
+
+        // Draw connections — very faint lines
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const d = Math.sqrt((p.x - p2.x) ** 2 + (p.y - p2.y) ** 2);
+if (d < 160) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `hsla(265, 50%, 60%, ${0.12 * (1 - d / 160)})`;
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      });
+
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // ===== SCROLL REVEAL =====
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    // ===== PARALLAX =====
+    const parallaxEls = document.querySelectorAll('[data-parallax]');
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      parallaxEls.forEach(el => {
+        const speed = parseFloat((el as HTMLElement).dataset.parallax || '0.5');
+        const rect = el.getBoundingClientRect();
+        const yPos = -(scrollY - (rect.top + scrollY - window.innerHeight)) * speed * 0.1;
+        (el as HTMLElement).style.transform = `translateY(${yPos}px)`;
+      });
+    }, { passive: true });
+
+    // ===== COUNTER ANIMATION =====
+    const counters = document.querySelectorAll('[data-counter]');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target as HTMLElement;
+          const target = parseInt(el.dataset.counter || '0');
+          const prefix = el.dataset.prefix || '';
+          const suffix = el.dataset.suffix || '';
+          let current = 0;
+          const duration = 2000;
+          const step = target / (duration / 16);
+          const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+              current = target;
+              clearInterval(timer);
+            }
+            el.textContent = prefix + Math.floor(current).toLocaleString('fr-FR') + suffix;
+          }, 16);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(el => counterObserver.observe(el));
+
+    // ===== CARD GLOW (mouse follow) =====
+    document.querySelectorAll('.card-glow').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = (card as HTMLElement).getBoundingClientRect();
+        const x = (e as MouseEvent).clientX - rect.left;
+        const y = (e as MouseEvent).clientY - rect.top;
+        (card as HTMLElement).style.setProperty('--mouse-x', `${x}px`);
+        (card as HTMLElement).style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+
+    // ===== TYPEWRITER =====
+    const typewriterEls = document.querySelectorAll('[data-typewriter]');
+    typewriterEls.forEach(el => {
+      const text = (el as HTMLElement).dataset.typewriter || '';
+      (el as HTMLElement).textContent = '';
+      (el as HTMLElement).style.visibility = 'visible';
+      let i = 0;
+      const typeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const interval = setInterval(() => {
+              if (i < text.length) {
+                (el as HTMLElement).textContent += text[i];
+                i++;
+              } else {
+                clearInterval(interval);
+              }
+            }, 40);
+            typeObserver.unobserve(el);
+          }
+        });
+      }, { threshold: 0.5 });
+      typeObserver.observe(el);
+    });
+
+    // ===== NAVBAR SCROLL =====
+    const nav = document.querySelector('nav');
+    let lastScrollY = 0;
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > 100) {
+        nav?.classList.add('shadow-lg', 'shadow-purple-900/20');
+      } else {
+        nav?.classList.remove('shadow-lg', 'shadow-purple-900/20');
+      }
+      lastScrollY = currentScrollY;
+    }, { passive: true });
+
+    // ===== META PIXEL: expose _fbc/_fbp cookies for CAPI =====
+    // These are set by the Meta Pixel JS and are essential for server-side attribution
+    window.getMetaCookies = function() {
+      const getCookie = (name: string) => {
+        const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+        return match ? match.pop() : '';
+      };
+      return { fbc: getCookie('_fbc') || '', fbp: getCookie('_fbp') || '' };
+    };
+
+    // ===== GA4 + META PIXEL TRACKING =====
+    // Exposed as window.trackEvent so child pages (quiz, index) can call it
+    // (Astro <script> modules are scoped — functions are NOT global by default)
+    window.trackEvent = function(eventName: string, params?: Record<string, string | number>) {
+      // GA4
+      if (typeof gtag !== 'undefined') {
+        gtag('event', eventName, params);
+      }
+      // Meta Pixel — map GA4 events to standard Meta events
+      if (typeof fbq !== 'undefined') {
+        switch (eventName) {
+          case 'cta_click':
+            fbq('trackCustom', 'CTAClick', {
+              cta_text: params?.cta_text || '',
+              cta_location: params?.cta_location || ''
+            });
+            break;
+          case 'vsl_play':
+            fbq('trackCustom', 'VSLPlay', { page: params?.page || '' });
+            break;
+          case 'scroll_depth':
+            if (params?.percent === 75 || params?.percent === 100) {
+              fbq('trackCustom', 'ScrollDepth', { percent: params.percent, page: params?.page || '' });
+            }
+            break;
+          case 'view_content':
+            fbq('track', 'ViewContent', { content_name: params?.content_name || '', content_category: params?.content_category || '' });
+            break;
+          case 'quiz_start':
+            fbq('track', 'ViewContent', { content_name: 'quiz_start', content_category: 'quiz' });
+            break;
+          case 'quiz_step':
+            fbq('trackCustom', 'QuizStep', { step: params?.step || '', page: params?.page || '' });
+            break;
+          case 'quiz_optin':
+            // Lead is fired on merci.astro with Advanced Matching + CAPI — skip here to avoid duplicates
+            fbq('trackCustom', 'QuizOptin', { content_name: 'quiz_optin' });
+            break;
+          case 'quiz_complete':
+            fbq('track', 'CompleteRegistration', { content_name: 'quiz_complete' });
+            break;
+        }
+      }
+    };
+
+    // --- CTA Click Tracking ---
+    document.querySelectorAll('a[href="/quiz/"], a.btn-neon').forEach(el => {
+      el.addEventListener('click', () => {
+        const text = (el as HTMLElement).textContent?.trim() || 'unknown';
+        const href = (el as HTMLAnchorElement).href || '';
+        trackEvent('cta_click', {
+          cta_text: text,
+          cta_href: href,
+          cta_location: window.location.pathname
+        });
+      });
+    });
+
+    // --- VSL Play Tracking ---
+    const vslVideo = document.getElementById('vsl-video') as HTMLVideoElement | null;
+    const vslPlayBtn = document.getElementById('vsl-play-btn');
+    let vslPlayTracked = false;
+    if (vslVideo) {
+      vslVideo.addEventListener('play', () => {
+        if (!vslPlayTracked) {
+          vslPlayTracked = true;
+          trackEvent('vsl_play', { page: window.location.pathname });
+        }
+      });
+    }
+    if (vslPlayBtn) {
+      vslPlayBtn.addEventListener('click', () => {
+        if (!vslPlayTracked) {
+          vslPlayTracked = true;
+          trackEvent('vsl_play', { page: window.location.pathname });
+        }
+      });
+    }
+
+    // --- Scroll Depth Tracking ---
+    const scrollMilestones = [25, 50, 75, 100] as const;
+    const scrollHit = new Set<number>();
+    function checkScrollDepth() {
+      const scrollH = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollH <= 0) return;
+      const pct = Math.round((window.scrollY / scrollH) * 100);
+      for (const m of scrollMilestones) {
+        if (pct >= m && !scrollHit.has(m)) {
+          scrollHit.add(m);
+          trackEvent('scroll_depth', { percent: m, page: window.location.pathname });
+        }
+      }
+    }
+    window.addEventListener('scroll', checkScrollDepth, { passive: true });
+    checkScrollDepth();
+  </script>
+
+  <!-- Footer -->
+  <footer class="relative z-10 border-t border-purple-500/10 mt-16 py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-gray-500">
+      <div class="flex items-center gap-4">
+        <a href="/politique" class="hover:text-purple-400 transition-colors">Politique de confidentialité</a>
+        <span class="text-gray-700">·</span>
+        <a href="/mentions-legales" class="hover:text-purple-400 transition-colors">Mentions légales</a>
+        <span class="text-gray-700">·</span>
+        <a href="/cgv" class="hover:text-purple-400 transition-colors">CGV</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

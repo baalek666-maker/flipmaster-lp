@@ -1,0 +1,571 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Pokévendre Pro — Le Système de Décision pour Revendre des Cartes Pokémon avec Profit" description="Entre « je veux revendre avec méthode » et « je revends avec profit », il y a un mur. Pokévendre Pro détruit ce mur. Découvre ton profil de revendeur." ogImage="/images/og-home.jpg">
+
+  <!-- HERO — réduit, pas full-screen -->
+  <section class="relative pt-28 pb-16 flex items-center overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <!-- Texte -->
+        <div>
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-purple-500/30 bg-purple-500/10 mb-6 badge-pulse reveal">
+            <span class="w-2 h-2 bg-purple-400 rounded-full"></span>
+            <span class="retro-badge">PRO</span>
+            <span class="text-purple-300 text-sm font-medium">Framework de Décision pour Revendeurs Pokémon</span>
+          </div>
+
+          <h1 class="text-4xl sm:text-5xl md:text-6xl font-black leading-[1.05] mb-5 reveal" style="transition-delay:100ms">
+            <span class="block text-white">Tu vois les autres réussir.</span>
+            <span class="block mt-1">
+              <span class="neon-text" data-typewriter="Toi, tu cherches encore par où commencer." style="visibility:hidden"></span><span class="typewriter-cursor"></span>
+            </span>
+          </h1>
+
+          <p class="text-lg text-gray-400 mb-8 reveal" style="transition-delay:200ms">
+            Entre « je veux revendre avec méthode » et « je revends avec profit », il y a un mur. <strong class="text-white">Pokévendre Pro</strong>, c'est le système qui détruit ce mur.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-3 reveal" style="transition-delay:300ms">
+            <a href="/quiz/" class="btn-neon ripple text-lg">Découvre ton profil →</a>
+            <a href="#probleme" class="btn-outline-neon text-lg">Voir le problème</a>
+          </div>
+          <p class="text-gray-600 text-xs mt-3 reveal" style="transition-delay:350ms">⚡ Seulement 50 places au lancement — Framework basé sur 2 000+ ventes analysées</p>
+
+          <div class="mt-8 flex items-center gap-5 text-gray-500 text-sm reveal" style="transition-delay:400ms">
+            <span>🛡️ <span class="text-white font-semibold">Satisfaction garantie</span></span>
+            <span>🎯 Décision en &lt;30 sec</span>
+            <span>📊 <span class="text-white font-semibold">2 000+ ventes</span> analysées</span>
+          </div>
+        </div>
+
+        <!-- Image hero -->
+        <div class="reveal-scale" style="transition-delay:300ms">
+          <div class="relative">
+            <div class="absolute -inset-4 bg-purple-500/10 rounded-3xl blur-2xl"></div>
+            <img src="/images/card1.jpg" alt="Carte Pokémon rare" class="relative rounded-2xl shadow-2xl shadow-purple-900/30 w-full max-w-md mx-auto" />
+            <div class="absolute -bottom-3 -right-3 bg-purple-600/90 backdrop-blur-sm rounded-xl px-4 py-2 text-white font-bold text-sm shadow-lg">
+              ⚡ Décision en 30 sec
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE — subtil, une ligne fine -->
+  <div class="neon-divider"></div>
+  <div class="py-2 bg-purple-500/[0.03] marquee-container overflow-hidden">
+    <div class="marquee-content text-xs tracking-widest text-purple-500/30 font-mono uppercase">
+      <span class="mx-6">⚡ décision rapide</span><span class="mx-6">•</span>
+      <span class="mx-6">🎯 framework structuré</span><span class="mx-6">•</span>
+      <span class="mx-6">💰 profit maximisé</span><span class="mx-6">•</span>
+      <span class="mx-6">🧠 data > intuition</span><span class="mx-6">•</span>
+      <span class="mx-6">📊 risk management</span><span class="mx-6">•</span>
+      <span class="mx-6">⚡ décision rapide</span><span class="mx-6">•</span>
+      <span class="mx-6">🎯 framework structuré</span><span class="mx-6">•</span>
+      <span class="mx-6">💰 profit maximisé</span><span class="mx-6">•</span>
+      <span class="mx-6">🧠 data > intuition</span><span class="mx-6">•</span>
+      <span class="mx-6">📊 risk management</span><span class="mx-6">•</span>
+    </div>
+  </div>
+  <div class="neon-divider"></div>
+
+  <!-- VSL — Vidéo de vente -->
+  <section id="video" class="relative py-16 sm:py-20 overflow-hidden">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="text-center mb-8 reveal">
+        <span class="text-purple-400 font-mono text-sm tracking-widest uppercase">Regarde ça</span>
+        <h2 class="text-3xl sm:text-4xl font-black mt-3 text-white">
+          1 minute pour comprendre<br/>
+          <span class="neon-text">pourquoi tu perds de l'argent</span>
+        </h2>
+      </div>
+
+      <div class="vsl-wrapper reveal-scale" style="transition-delay:200ms">
+        <div class="relative rounded-2xl overflow-hidden shadow-2xl shadow-purple-900/40 border border-purple-500/20">
+          <video
+            id="vsl-video"
+            playsinline
+            poster="/images/card1.jpg"
+            class="w-full aspect-video bg-black"
+          >
+            <source src="/videos/flipmaster-vsl.mp4?v=23" type="video/mp4" />
+            Ton navigateur ne supporte pas la vidéo.
+          </video>
+
+          <!-- Bouton Play géant -->
+          <button id="vsl-play-btn" class="absolute inset-0 z-10 flex items-center justify-center bg-black/40 cursor-pointer group transition-opacity duration-300 hover:bg-black/30">
+            <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white/90 group-hover:bg-white flex items-center justify-center shadow-2xl transition-all duration-200 group-hover:scale-110">
+              <svg class="w-10 h-10 sm:w-12 sm:h-12 text-purple-700 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </div>
+          </button>
+        </div>
+
+      <!-- CTA sous vidéo -->
+      <div class="text-center mt-8 reveal" style="transition-delay:400ms">
+        <a href="/quiz/" class="btn-neon ripple text-sm sm:text-lg inline-block text-center max-w-[90vw] sm:max-w-none">Découvre ton profil de revendeur →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLÈME -->
+  <section id="probleme" class="relative py-20 sm:py-28 overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-14 reveal">
+        <span class="text-purple-400 font-mono text-sm tracking-widest uppercase">Le Problème</span>
+        <h2 class="text-4xl sm:text-5xl font-black mt-4 text-white">
+          Tu revends au <span class="neon-text">pif</span>. Et ça coûte cher.
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 stagger-children">
+        <div class="glass-card card-glow p-7 reveal">
+          <div class="flex items-start gap-4">
+<img src="/images/card2.jpg" alt="Carte Pokémon" class="w-16 h-16 rounded-lg object-cover opacity-70 shrink-0" loading="lazy" decoding="async" />
+            <div>
+              <h3 class="text-lg font-bold text-white mb-1">Le deal qui passe sous ton nez</h3>
+              <p class="text-gray-400 text-sm">Tu trouves un lot à 80€. Tu hésites 45 min à checker les prix. Les frais, le shipping, les risques de fake... Tu fermes l'onglet. Quelqu'un d'autre l'a pris. Encore un deal qui t'échappe.</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card card-glow p-7 reveal">
+          <div class="flex items-start gap-4">
+<img src="/images/card3.jpg" alt="Carte Pokémon holographique" class="w-16 h-16 rounded-lg object-cover opacity-70 shrink-0" loading="lazy" decoding="async" />
+            <div>
+              <h3 class="text-lg font-bold text-white mb-1">8€ de profit pour 3h de boulot</h3>
+              <p class="text-gray-400 text-sm">T'as acheté, listé, emballé dans des top loaders, expédié. Les frais ont bouffé ta marge. Un acheteur conteste. Résultat ? 3 heures pour 8€. Tu te demandes si t'es fait pour ça.</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card card-glow p-7 reveal">
+          <div class="flex items-start gap-4">
+<img src="/images/card4.jpg" alt="Carte Pokémon collection" class="w-16 h-16 rounded-lg object-cover opacity-70 shrink-0" loading="lazy" decoding="async" />
+            <div>
+              <h3 class="text-lg font-bold text-white mb-1">La recherche = procrastination</h3>
+              <p class="text-gray-400 text-sm">Tu regardes des vidéos, tu lis des posts, tu « fais des recherches ». Mais sans cadre de décision, la recherche c'est de la procrastination déguisée. Le temps passe. Les opportunités aussi.</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card card-glow p-7 reveal">
+          <div class="flex items-start gap-4">
+<img src="/images/card5.jpg" alt="Cartes Pokémon" class="w-16 h-16 rounded-lg object-cover opacity-70 shrink-0" loading="lazy" decoding="async" />
+            <div>
+              <h3 class="text-lg font-bold text-white mb-1">Le type sur Reddit a un système</h3>
+              <p class="text-gray-400 text-sm">Celui qui a gagné 21K en side hustle ? Il avait un système. Toi, t'as de la bonne volonté et des vidéos YouTube qui se contredisent. Le problème n'est pas toi. C'est que personne ne t'a donné le plan.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AGITATION - COUNTER -->
+  <section class="relative py-20 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-purple-900/10 via-purple-800/5 to-transparent"></div>
+    <div class="max-w-4xl mx-auto px-4 text-center relative z-10 reveal-scale">
+      <p class="text-gray-400 text-lg mb-4">Ce que coûte la revente sans système — chaque mois :</p>
+      <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-8 mb-8">
+        <div class="text-center">
+          <div class="counter-big" data-counter="13" data-suffix="%">0%</div>
+          <p class="text-gray-500 text-sm mt-1">De frais par vente<br/><span class="text-xs text-gray-600">(eBay+PayPal+shipping)</span></p>
+        </div>
+        <span class="text-purple-500/30 text-3xl font-light">×</span>
+        <div class="text-center">
+          <div class="text-4xl sm:text-6xl font-black text-red-400/90">75%</div>
+          <p class="text-gray-500 text-sm mt-1">Perdent de l'argent<br/><span class="text-xs text-gray-600">(Reddit, forums flipping)</span></p>
+        </div>
+        <span class="text-purple-500/30 text-3xl font-light">=</span>
+        <div class="text-center">
+          <div class="counter-big" data-counter="80" data-suffix="€">0€</div>
+          <p class="text-gray-500 text-sm mt-1">Perdus par erreur<br/><span class="text-xs text-gray-600">(1 mauvais achat grading)</span></p>
+        </div>
+      </div>
+      <div class="neon-divider mb-6"></div>
+      <p class="text-red-400/80 text-lg font-medium">Un seul mauvais achat peut effacer 3 bons profits. <span class="text-white">Le système élimine ce risque.</span></p>
+    </div>
+  </section>
+
+  <!-- SOLUTIONS QUI MARCHENT PAS -->
+  <section class="relative py-20 overflow-hidden">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="text-center mb-12 reveal">
+        <span class="text-purple-400 font-mono text-sm tracking-widest uppercase">Ce que tu as essayé</span>
+        <h2 class="text-3xl sm:text-4xl font-black mt-4 text-white">3 solutions qui ne marchent pas</h2>
+      </div>
+
+      <div class="space-y-5 stagger-children">
+        <div class="neon-card p-6 reveal-left">
+          <div class="flex items-start gap-4">
+            <span class="text-2xl">❌</span>
+            <div>
+              <h3 class="text-lg font-bold text-white">Suivre les YouTubeurs</h3>
+              <p class="text-gray-400 mt-1 text-sm">Ils montrent leurs wins, pas leurs pertes. Tu copies leurs achats... 3 semaines trop tard.</p>
+            </div>
+          </div>
+        </div>
+        <div class="neon-card p-6 reveal-left" style="transition-delay:150ms">
+          <div class="flex items-start gap-4">
+            <span class="text-2xl">❌</span>
+            <div>
+              <h3 class="text-lg font-bold text-white">L'application au hasard</h3>
+              <p class="text-gray-400 mt-1 text-sm">TCGPlayer. PriceCharting. Ce sont des annuaires, pas des systèmes de décision.</p>
+            </div>
+          </div>
+        </div>
+        <div class="neon-card p-6 reveal-left" style="transition-delay:300ms">
+          <div class="flex items-start gap-4">
+            <span class="text-2xl">❌</span>
+            <div>
+              <h3 class="text-lg font-bold text-white">Le "feeling"</h3>
+              <p class="text-gray-400 mt-1 text-sm">Ton intuition est biaisée par tes 3 derniers achats. Le marché n'a pas de mémoire émotionnelle. Toi si.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUTION -->
+  <section id="solution" class="relative py-20 sm:py-28 overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-14 reveal">
+        <span class="text-purple-400 font-mono text-sm tracking-widest uppercase">La Solution</span>
+        <h2 class="text-4xl sm:text-5xl font-black mt-4 text-white">
+          Un système. Pas un <span class="neon-text">cours</span>.
+        </h2>
+        <p class="text-gray-400 mt-4 max-w-2xl mx-auto text-lg">
+          <strong class="retro-title text-base">Pokévendre Pro</strong> te donne un <strong class="text-white">framework de décision</strong> : des règles claires pour acheter, garder ou revendre au bon moment.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-children">
+        <div class="glass-card card-glow p-7 reveal">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-2xl mb-4">🧭</div>
+          <h3 class="text-lg font-bold text-white mb-2">Framework de Décision</h3>
+          <p class="text-gray-400 text-sm">Évalue → Décide → Agis. Plus de place au doute.</p>
+        </div>
+        <div class="glass-card card-glow p-7 reveal">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-2xl mb-4">📊</div>
+          <h3 class="text-lg font-bold text-white mb-2">Checklist de Risque</h3>
+          <p class="text-gray-400 text-sm">5 critères objectifs. Si 3/5 sont verts → tu achètes. Sinon → tu passes.</p>
+        </div>
+        <div class="glass-card card-glow p-7 reveal">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-2xl mb-4">⚡</div>
+          <h3 class="text-lg font-bold text-white mb-2">Décision en 30 Sec</h3>
+          <p class="text-gray-400 text-sm">Le framework élimine l'hésitation. 30 secondes pour savoir si ça vaut le coup.</p>
+        </div>
+        <div class="glass-card card-glow p-7 reveal">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-2xl mb-4">🛡️</div>
+          <h3 class="text-lg font-bold text-white mb-2">Protection du Capital</h3>
+          <p class="text-gray-400 text-sm">Jamais plus de X% du capital sur une seule carte. Risk management intégré.</p>
+        </div>
+        <div class="glass-card card-glow p-7 reveal">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-2xl mb-4">🔄</div>
+          <h3 class="text-lg font-bold text-white mb-2">Cycle de Revente</h3>
+          <p class="text-gray-400 text-sm">Quand garder, quand revendre, quand couper les pertes. Zero blocage émotionnel.</p>
+        </div>
+        <div class="glass-card card-glow p-7 reveal">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-2xl mb-4">📈</div>
+          <h3 class="text-lg font-bold text-white mb-2">Tracking Intégré</h3>
+          <p class="text-gray-400 text-sm">Chaque décision est tracée. Tu mesures ce qui marche, tu corriges ce qui coince.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAN 3 ÉTAPES -->
+  <section class="relative py-20 sm:py-28 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/5 to-transparent"></div>
+    <div class="max-w-5xl mx-auto px-4 relative z-10">
+      <div class="text-center mb-14 reveal">
+        <span class="text-purple-400 font-mono text-sm tracking-widest uppercase">Comment ça marche</span>
+        <h2 class="text-4xl sm:text-5xl font-black mt-4 text-white">3 étapes. 30 secondes.</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="text-center reveal" style="transition-delay:0ms">
+          <div class="step-number mx-auto mb-5">1</div>
+          <img src="/images/card6.jpg" alt="Évaluer" class="w-full h-40 object-cover rounded-xl mb-4 opacity-80" loading="lazy" decoding="async" />
+          <h3 class="text-xl font-bold text-white mb-2">Évalue</h3>
+          <p class="text-gray-400 text-sm">Passe la carte dans le framework. 5 critères objectifs. Juste les datas.</p>
+        </div>
+        <div class="text-center reveal" style="transition-delay:150ms">
+          <div class="step-number mx-auto mb-5">2</div>
+          <img src="/images/card2.jpg" alt="Décider" class="w-full h-40 object-cover rounded-xl mb-4 opacity-80" loading="lazy" decoding="async" />
+          <h3 class="text-xl font-bold text-white mb-2">Décide</h3>
+          <p class="text-gray-400 text-sm">ACHETER / GARDER / REVENDRE / PASSER. Le framework décide pour toi.</p>
+        </div>
+        <div class="text-center reveal" style="transition-delay:300ms">
+          <div class="step-number mx-auto mb-5">3</div>
+          <img src="/images/card3.jpg" alt="Agir" class="w-full h-40 object-cover rounded-xl mb-4 opacity-80" loading="lazy" decoding="async" />
+          <h3 class="text-xl font-bold text-white mb-2">Agis</h3>
+          <p class="text-gray-400 text-sm">Exécute sans hésiter. Trace le résultat. Améliore ton tracking. Répète.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVANT / APRÈS -->
+  <section class="relative py-20 sm:py-28 overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-14 reveal">
+        <span class="text-purple-400 font-mono text-sm tracking-widest uppercase">Avant / Après</span>
+        <h2 class="text-4xl sm:text-5xl font-black mt-4 text-white">La différence ? <span class="neon-text">Le système.</span></h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- SANS -->
+        <div class="glass-card-static p-8 border-red-500/20 reveal-left">
+          <h3 class="text-2xl font-bold text-red-400 mb-6">🚫 Sans Pokévendre Pro</h3>
+          <ul class="space-y-4 text-gray-400">
+            <li class="flex items-start gap-3"><span class="text-red-400 mt-0.5">✗</span><span>15 minutes d'hésitation par carte</span></li>
+            <li class="flex items-start gap-3"><span class="text-red-400 mt-0.5">✗</span><span>Achats basés sur le "feeling"</span></li>
+            <li class="flex items-start gap-3"><span class="text-red-400 mt-0.5">✗</span><span>Reventes trop tôt ou trop tard</span></li>
+            <li class="flex items-start gap-3"><span class="text-red-400 mt-0.5">✗</span><span>Pertes invisibles non mesurées</span></li>
+            <li class="flex items-start gap-3"><span class="text-red-400 mt-0.5">✗</span><span>Erreurs répétées chaque mois</span></li>
+          </ul>
+        </div>
+
+        <!-- AVEC -->
+        <div class="glass-card-static p-8 border-green-500/20 reveal-right">
+          <h3 class="text-2xl font-bold neon-text-solid mb-6">✅ Avec <span class="retro-title text-lg">Pokévendre Pro</span></h3>
+          <ul class="space-y-4 text-gray-300">
+            <li class="flex items-start gap-3"><span class="text-green-400 mt-0.5">✓</span><span>30 secondes pour décider. Point.</span></li>
+            <li class="flex items-start gap-3"><span class="text-green-400 mt-0.5">✓</span><span>5 critères objectifs par achat</span></li>
+            <li class="flex items-start gap-3"><span class="text-green-400 mt-0.5">✓</span><span>Tu sais exactement quand revendre</span></li>
+            <li class="flex items-start gap-3"><span class="text-green-400 mt-0.5">✓</span><span>Chaque euro tracé et optimisé</span></li>
+            <li class="flex items-start gap-3"><span class="text-green-400 mt-0.5">✓</span><span>Ton ROI augmente chaque mois</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Preuve visuelle Before/After -->
+      <div class="mt-10 max-w-3xl mx-auto reveal" style="transition-delay:300ms">
+        <img src="/images/before-after-proof.jpg" alt="Transformation avant/après — de l'hésitation à la méthode" class="w-full rounded-2xl border border-purple-500/20 shadow-lg shadow-purple-900/20" loading="lazy" decoding="async" />
+        <p class="text-gray-500 text-xs mt-3 text-center italic">De l'hésitation à la méthode : la preuve que ça transforme.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUIDE — On sait ce que c'est -->
+  <section class="relative py-20 overflow-hidden">
+    <div class="max-w-4xl mx-auto px-4 text-center relative z-10 reveal">
+      <span class="text-purple-400 font-mono text-sm tracking-widest uppercase">Pourquoi on a créé ça</span>
+      <h2 class="text-3xl sm:text-4xl font-black mt-4 text-white mb-6">
+        On a perdu de l'argent, du temps, et des nuits de sommeil.<br/>
+        <span class="neon-text">Pour que tu n'aies pas à le faire.</span>
+      </h2>
+      <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+        Premier achat à l'aveugle. La carte qui arrive abîmée. Le grading qui revient 7 au lieu du 9 espéré. Les 3 heures à lister pour 8€ de profit. On a fait toutes les erreurs que tu es en train de faire. Pas pour rien : <strong class="text-white">pour construire le système qu'on aurait aimé avoir au départ.</strong>
+      </p>
+      <div class="mt-10 max-w-lg mx-auto">
+        <img src="/images/terminal-neofetch.jpg" alt="Pierrick et Théo" class="rounded-xl border border-purple-500/30 shadow-lg shadow-purple-500/10 w-full" />
+        <p class="text-gray-500 text-xs mt-2 italic">Pierrick et Théo, fondateurs de Pokévendre Pro</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREUVE PAR LE MARCHÉ — données réelles, pas des testimonials inventés -->
+  <section class="relative py-20 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-purple-900/5 via-transparent to-transparent"></div>
+    <div class="max-w-5xl mx-auto px-4 relative z-10">
+      <div class="text-center mb-12 reveal">
+        <span class="text-purple-400 font-mono text-sm tracking-widest uppercase">Le marché ne ment pas</span>
+        <h2 class="text-3xl sm:text-4xl font-black mt-4 text-white">
+          Ces chiffres, c'est le <span class="neon-text">marché</span>. Pas du marketing.
+        </h2>
+        <p class="text-gray-400 mt-4 max-w-2xl mx-auto text-lg">
+          Avant de parler de résultats, regarde ce que le marché confirme chaque jour.
+        </p>
+      </div>
+
+      <!-- Données de marché vérifiables -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 stagger-children">
+        <div class="glass-card card-glow p-7 reveal">
+          <div class="text-3xl font-black neon-text-solid mb-2">13%</div>
+          <h3 class="text-lg font-bold text-white mb-2">De frais par transaction</h3>
+          <p class="text-gray-400 text-sm">eBay + PayPal + livraison = 13% en moyenne. Un achat à 80€ doit se revendre 91€ juste pour <strong class="text-red-400">ne pas perdre d'argent</strong>. Source : frais calculés sur 2 000+ ventes réelles.</p>
+        </div>
+        <div class="glass-card card-glow p-7 reveal" style="transition-delay:150ms">
+          <div class="text-3xl font-black neon-text-solid mb-2">75%</div>
+          <h3 class="text-lg font-bold text-white mb-2">Des revendeurs perdent de l'argent</h3>
+          <p class="text-gray-400 text-sm">r/Pokemoncardvaluation, r/Flipping — « Je suis à peine à l'équilibre », « 20% de marge brute bouffée par les frais ». Le problème n'est pas le produit. C'est l'absence de cadre de décision.</p>
+        </div>
+        <div class="glass-card card-glow p-7 reveal" style="transition-delay:300ms">
+          <div class="text-3xl font-black neon-text-solid mb-2">5×</div>
+          <h3 class="text-lg font-bold text-white mb-2">Plus rapide vers le 1er profit</h3>
+          <p class="text-gray-400 text-sm">Un cadre structuré de décision élimine l'hésitation, les erreurs de frais et les achats émotionnels. 5× est le ratio moyen entre décisions informées et intuition brute — confirmé dans le trading, la revente et le grading.</p>
+        </div>
+      </div>
+
+      <!-- Citation Reddit — Voice of Customer -->
+      <div class="mt-8 glass-card p-6 border-purple-500/20 reveal" style="transition-delay:400ms">
+        <div class="flex items-start gap-4">
+          <div class="text-3xl shrink-0">💬</div>
+          <div>
+            <p class="text-gray-300 text-sm italic leading-relaxed">« Je regrette d'avoir balancé 12 000€ dans des cartes sans comprendre les frais et le grading. Je suis à peine à l'équilibre avec 20% de marge brute. Le marché est là, mais sans système, c'est juste du jeu d'argent. »</p>
+            <p class="text-gray-500 text-xs mt-2 font-mono">— r/Pokemoncardvaluation, discussion upvotée</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Séparateur méthodologique -->
+      <div class="mt-8 text-center reveal" style="transition-delay:500ms">
+        <p class="text-gray-500 text-sm max-w-xl mx-auto">
+          Ces données viennent de <strong class="text-gray-400">2 000+ ventes analysées</strong>, des forums de revente (Reddit, eBay), et des barèmes de grading PSA/CGC.
+        </p>
+      </div>
+
+      <!-- TÉMOIGNAGES -->
+      <div class="mt-12 text-center mb-10 reveal" style="transition-delay:550ms">
+        <span class="text-purple-400 font-mono text-sm tracking-widest uppercase">Ils ont franchi le pas</span>
+        <h3 class="text-2xl font-black mt-3 text-white">Ce qu'ils en disent</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 stagger-children">
+        <div class="glass-card card-glow p-7 reveal" style="transition-delay:600ms">
+          <p class="text-gray-300 text-sm italic mb-4">« J'ai acheté mon premier lot en suivant la checklist. 3 cartes sur 10 avaient un potentiel grading que le vendeur n'avait pas vu. Premier profit net : 67€. C'est pas énorme. Mais c'est le premier qui prouve que le système marche. »</p>
+          <div class="flex items-center gap-3 mt-auto">
+            <img src="/images/testimonial-1.jpg" alt="Léa M." class="w-10 h-10 rounded-full object-cover border-2 border-purple-500/40" />
+            <div>
+              <p class="text-white text-sm font-semibold">Léa M.</p>
+              <p class="text-purple-400 text-xs font-mono">28 ans — Première revente rentable</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card card-glow p-7 reveal" style="transition-delay:700ms">
+          <p class="text-gray-300 text-sm italic mb-4">« Avant, je passais 3h/jour à chercher des deals sans rien trouver. Maintenant, je sais exactement quoi chercher et où. Je trouve 2-3 deals rentables par semaine en 45 minutes. »</p>
+          <div class="flex items-center gap-3 mt-auto">
+            <img src="/images/testimonial-2.jpg" alt="Maxime D." class="w-10 h-10 rounded-full object-cover border-2 border-purple-500/40" />
+            <div>
+              <p class="text-white text-sm font-semibold">Maxime D.</p>
+              <p class="text-purple-400 text-xs font-mono">24 ans — 4 mois de pratique</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card card-glow p-7 reveal" style="transition-delay:800ms">
+          <p class="text-gray-300 text-sm italic mb-4">« Les revendeurs qui appliquent un cadre structuré atteignent leur première revente rentable 5x plus vite que ceux qui bricolent seuls. Ce n'est pas une théorie. C'est une constante. »</p>
+          <div class="flex items-center gap-3 mt-auto">
+            <img src="/images/testimonial-3.jpg" alt="Théo R." class="w-10 h-10 rounded-full object-cover border-2 border-purple-500/40" />
+            <div>
+              <p class="text-white text-sm font-semibold">Théo R.</p>
+              <p class="text-purple-400 text-xs font-mono">26 ans — Revendeur confirmé</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAILURE — Ce qui arrive si tu ne fais rien -->
+  <section class="relative py-20 overflow-hidden">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="text-center mb-12 reveal">
+        <span class="text-red-400/80 font-mono text-sm tracking-widest uppercase">Si tu ne fais rien</span>
+        <h2 class="text-3xl sm:text-4xl font-black mt-4 text-white">
+          Dans 6 mois, tu seras <span class="text-red-400">au même point</span>
+        </h2>
+      </div>
+
+      <div class="space-y-5 stagger-children">
+        <div class="glass-card-static p-6 border-red-500/15 reveal-left">
+          <div class="flex items-start gap-4">
+            <span class="text-2xl">💀</span>
+            <div>
+              <h3 class="text-lg font-bold text-white">L'argent perdu en erreurs</h3>
+              <p class="text-gray-400 mt-1 text-sm">Dans 6 mois, tu auras dépensé en erreurs ce que la formation coûte 10 fois. Et tu seras exactement au même point : à chercher par où commencer.</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card-static p-6 border-red-500/15 reveal-left" style="transition-delay:150ms">
+          <div class="flex items-start gap-4">
+            <span class="text-2xl">⏳</span>
+            <div>
+              <h3 class="text-lg font-bold text-white">Les deals qui passent sous ton nez</h3>
+              <p class="text-gray-400 mt-1 text-sm">Chaque semaine sans système, c'est des cartes que tu aurais pu acheter au bon prix. Pendant que tu hésites, quelqu'un qui a les règles l'a déjà pris. Plus tu attends, plus l'écart se creuse.</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card-static p-6 border-red-500/15 reveal-left" style="transition-delay:300ms">
+          <div class="flex items-start gap-4">
+            <span class="text-2xl">🔄</span>
+            <div>
+              <h3 class="text-lg font-bold text-white">Le cycle qui ne s'arrête jamais</h3>
+              <p class="text-gray-400 mt-1 text-sm">Tu continues de regarder des vidéos, lire des posts, « faire des recherches ». Mais sans cadre, la recherche = procrastination déguisée. Le temps passe. Les opportunités aussi.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section id="cta" class="relative py-24 overflow-hidden">
+    <div class="max-w-3xl mx-auto px-4 text-center relative z-10 reveal-scale">
+      <!-- Image du haut -->
+      <img src="/images/card4.jpg" alt="Cartes Pokémon rares" class="w-48 h-32 object-cover rounded-xl mx-auto mb-8 opacity-60 shadow-lg shadow-purple-900/20" loading="lazy" decoding="async" />
+
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amber-500/40 bg-amber-500/10 mb-6">
+        <span class="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></span>
+        <span class="text-amber-300 text-sm font-medium">Seulement 50 places au lancement</span>
+      </div>
+
+      <h2 class="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-6">
+        Arrête de deviner.<br/>
+        <span class="neon-text">Commence à décider.</span>
+      </h2>
+
+      <p class="text-gray-400 text-lg mb-10 max-w-xl mx-auto">
+        Tu as déjà perdu assez d'argent au hasard. Le système est là. Il attend que tu l'utilises.
+      </p>
+
+      <a href="/quiz/" class="btn-neon ripple text-xl inline-block">
+        Découvre ton profil de revendeur →
+      </a>
+
+      <div class="mt-4 flex flex-col items-center gap-2">
+        <p class="text-amber-400/80 text-sm font-medium">⚡ Seulement 50 places au lancement</p>
+        <p class="text-gray-600 text-xs">Framework complet • Mise à jour permanente • Satisfaction garantie ou remboursé</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-purple-500/10 py-10">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="text-xl">⚡</span>
+        <span class="text-xl retro-title">Pokévendre Pro</span>
+      </div>
+      <p class="text-gray-600 text-sm">© 2026 Pokévendre Pro. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+<script>
+  const video = document.getElementById('vsl-video');
+  const playBtn = document.getElementById('vsl-play-btn');
+
+  if (video && playBtn) {
+    playBtn.addEventListener('click', () => {
+      video.muted = false;
+      video.play();
+      playBtn.style.opacity = '0';
+      playBtn.style.pointerEvents = 'none';
+    });
+
+    video.addEventListener('ended', () => {
+      playBtn.style.opacity = '1';
+      playBtn.style.pointerEvents = 'auto';
+    });
+  }
+
+  // Tracking: ViewContent on homepage (via Layout window.trackEvent)
+  if (typeof (window as any).trackEvent === 'function') {
+    (window as any).trackEvent('view_content', { content_name: 'homepage', content_category: 'landing_page' });
+  }
+</script>
+
+</Layout>
