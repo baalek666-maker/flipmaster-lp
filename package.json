@@ -5,10 +5,10 @@
   "scripts": {
     "dev": "astro dev --host 0.0.0.0",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "postinstall": "sed -i 's/const routeUrls = _routes.reduce/const routeUrls = (_routes || []).reduce/' node_modules/@astrojs/sitemap/dist/index.js"
   },
   "dependencies": {
-    "@astrojs/netlify": "^5.5.4",
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/tailwind": "^5.1.0",
     "astro": "^4.16.0",

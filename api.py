@@ -684,6 +684,19 @@ def stripe_webhook():
         prenom = metadata.get('prenom', '') or (customer_name.split(' ')[0] if customer_name else '')
         session_id = session.get('id', '')
 
+        # Idempotency: skip if session already processed
+        try:
+            conn_check = sqlite3.connect(DB_PATH)
+            c_check = conn_check.cursor()
+            c_check.execute('SELECT id FROM purchases WHERE session_id = ?', (session_id,))
+            if c_check.fetchone():
+                print(f'Webhook: session {session_id} already processed, skipping')
+                conn_check.close()
+                return jsonify({'received': True})
+            conn_check.close()
+        except Exception as e:
+            print(f'Idempotency check error: {e}')
+
         # Send purchase confirmation email
         try:
             send_purchase_email(prenom, customer_email, profil)
