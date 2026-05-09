@@ -870,6 +870,9 @@ def capi_event():
     This allows Lead/InitiateCheckout to be sent server-side
     for better attribution and deduplication with the pixel.
     """
+    client_ip = request.headers.get('X-Forwarded-For', request.remote_addr).split(',')[0].strip()
+    if not _rate_limit_check(client_ip):
+        return jsonify({'status': 'error', 'message': 'Rate limit exceeded'}), 429
     data = request.get_json(force=True, silent=True) or {}
     event_name = data.get('event_name')
     event_data = data.get('event_data', {})
@@ -892,6 +895,9 @@ def unsubscribe():
     email = request.args.get('email', '')
     if not email:
         return jsonify({'status': 'error', 'message': 'Email requis'}), 400
+    client_ip = request.headers.get('X-Forwarded-For', request.remote_addr).split(',')[0].strip()
+    if not _rate_limit_check(client_ip):
+        return jsonify({'status': 'error', 'message': 'Rate limit exceeded'}), 429
     try:
         unsubscribe_email(email)
         return jsonify({'status': 'ok', 'message': f'{email} désinscrit avec succès'})
