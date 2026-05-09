@@ -1,8 +1,29 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Picture from '../components/Picture.astro';
+
+const courseSchema = {
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Pokévendre Pro",
+  "description": "Le système de décision pour revendre des cartes Pokémon avec profit. Framework complet : évaluation, achat, revente, optimisation.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Pokévendre Pro",
+    "url": "https://pokevendrepro.com"
+  },
+  "inLanguage": "fr",
+  "offers": {
+    "@type": "Offer",
+    "price": "47",
+    "priceCurrency": "EUR",
+    "availability": "https://schema.org/InStock",
+    "url": "https://pokevendrepro.com"
+  }
+};
 ---
 
-<Layout title="Pokévendre Pro — Le Système de Décision pour Revendre des Cartes Pokémon avec Profit" description="Entre « je veux revendre avec méthode » et « je revends avec profit », il y a un mur. Pokévendre Pro détruit ce mur. Découvre ton profil de revendeur." ogImage="/images/og-home.jpg">
+<Layout title="Pokévendre Pro — Le Système de Décision pour Revendre des Cartes Pokémon avec Profit" description="Entre « je veux revendre avec méthode » et « je revends avec profit », il y a un mur. Pokévendre Pro détruit ce mur. Découvre ton profil de revendeur." ogImage="/images/og-home.jpg" jsonLd={[courseSchema]}>
 
   <!-- HERO — réduit, pas full-screen -->
   <section class="relative pt-28 pb-16 flex items-center overflow-hidden">
@@ -44,7 +65,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="reveal-scale" style="transition-delay:300ms">
           <div class="relative">
             <div class="absolute -inset-4 bg-purple-500/10 rounded-3xl blur-2xl"></div>
-            <img src="/images/card1.jpg" alt="Carte Pokémon rare" class="relative rounded-2xl shadow-2xl shadow-purple-900/30 w-full max-w-md mx-auto" />
+            <Picture src="/images/card1.jpg" alt="Carte Pokémon rare" class="relative rounded-2xl shadow-2xl shadow-purple-900/30 w-full max-w-md mx-auto" loading="eager" decoding="auto" />
             <div class="absolute -bottom-3 -right-3 bg-purple-600/90 backdrop-blur-sm rounded-xl px-4 py-2 text-white font-bold text-sm shadow-lg">
               ⚡ Décision en 30 sec
             </div>
@@ -88,6 +109,7 @@ import Layout from '../layouts/Layout.astro';
           <video
             id="vsl-video"
             playsinline
+            preload="none"
             poster="/images/vsl-poster.jpg"
             class="w-full aspect-video bg-black"
           >
@@ -125,7 +147,7 @@ import Layout from '../layouts/Layout.astro';
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 stagger-children">
         <div class="glass-card card-glow p-7 reveal">
           <div class="flex items-start gap-4">
-<img src="/images/card2.jpg" alt="Carte Pokémon" class="w-16 h-16 rounded-lg object-cover opacity-70 shrink-0" loading="lazy" decoding="async" />
+<Picture src="/images/card2.jpg" alt="Carte Pokémon" class="w-16 h-16 rounded-lg object-cover opacity-70 shrink-0" />
             <div>
               <h3 class="text-lg font-bold text-white mb-1">Le deal qui passe sous ton nez</h3>
               <p class="text-gray-400 text-sm">Tu trouves un lot à 80€. Tu hésites 45 min à checker les prix. Les frais, le shipping, les risques de fake... Tu fermes l'onglet. Quelqu'un d'autre l'a pris. Encore un deal qui t'échappe.</p>
@@ -134,7 +156,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
         <div class="glass-card card-glow p-7 reveal">
           <div class="flex items-start gap-4">
-<img src="/images/card3.jpg" alt="Carte Pokémon holographique" class="w-16 h-16 rounded-lg object-cover opacity-70 shrink-0" loading="lazy" decoding="async" />
+<Picture src="/images/card3.jpg" alt="Carte Pokémon holographique" class="w-16 h-16 rounded-lg object-cover opacity-70 shrink-0" />
             <div>
               <h3 class="text-lg font-bold text-white mb-1">8€ de profit pour 3h de boulot</h3>
               <p class="text-gray-400 text-sm">T'as acheté, listé, emballé dans des top loaders, expédié. Les frais ont bouffé ta marge. Un acheteur conteste. Résultat ? 3 heures pour 8€. Tu te demandes si t'es fait pour ça.</p>
@@ -143,7 +165,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
         <div class="glass-card card-glow p-7 reveal">
           <div class="flex items-start gap-4">
-<img src="/images/card4.jpg" alt="Carte Pokémon collection" class="w-16 h-16 rounded-lg object-cover opacity-70 shrink-0" loading="lazy" decoding="async" />
+<Picture src="/images/card4.jpg" alt="Carte Pokémon collection" class="w-16 h-16 rounded-lg object-cover opacity-70 shrink-0" />
             <div>
               <h3 class="text-lg font-bold text-white mb-1">La recherche = procrastination</h3>
               <p class="text-gray-400 text-sm">Tu regardes des vidéos, tu lis des posts, tu « fais des recherches ». Mais sans cadre de décision, la recherche c'est de la procrastination déguisée. Le temps passe. Les opportunités aussi.</p>
@@ -152,7 +174,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
         <div class="glass-card card-glow p-7 reveal">
           <div class="flex items-start gap-4">
-<img src="/images/card5.jpg" alt="Cartes Pokémon" class="w-16 h-16 rounded-lg object-cover opacity-70 shrink-0" loading="lazy" decoding="async" />
+<Picture src="/images/card5.jpg" alt="Cartes Pokémon" class="w-16 h-16 rounded-lg object-cover opacity-70 shrink-0" />
             <div>
               <h3 class="text-lg font-bold text-white mb-1">Le type sur Reddit a un système</h3>
               <p class="text-gray-400 text-sm">Celui qui a gagné 21K en side hustle ? Il avait un système. Toi, t'as de la bonne volonté et des vidéos YouTube qui se contredisent. Le problème n'est pas toi. C'est que personne ne t'a donné le plan.</p>
@@ -289,19 +311,19 @@ import Layout from '../layouts/Layout.astro';
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="text-center reveal" style="transition-delay:0ms">
           <div class="step-number mx-auto mb-5">1</div>
-          <img src="/images/card6.jpg" alt="Évaluer" class="w-full h-40 object-cover rounded-xl mb-4 opacity-80" loading="lazy" decoding="async" />
+          <Picture src="/images/card6.jpg" alt="Évaluer" class="w-full h-40 object-cover rounded-xl mb-4 opacity-80" />
           <h3 class="text-xl font-bold text-white mb-2">Évalue</h3>
           <p class="text-gray-400 text-sm">Passe la carte dans le framework. 5 critères objectifs. Juste les datas.</p>
         </div>
         <div class="text-center reveal" style="transition-delay:150ms">
           <div class="step-number mx-auto mb-5">2</div>
-          <img src="/images/card2.jpg" alt="Décider" class="w-full h-40 object-cover rounded-xl mb-4 opacity-80" loading="lazy" decoding="async" />
+          <Picture src="/images/card2.jpg" alt="Décider" class="w-full h-40 object-cover rounded-xl mb-4 opacity-80" />
           <h3 class="text-xl font-bold text-white mb-2">Décide</h3>
           <p class="text-gray-400 text-sm">ACHETER / GARDER / REVENDRE / PASSER. Le framework décide pour toi.</p>
         </div>
         <div class="text-center reveal" style="transition-delay:300ms">
           <div class="step-number mx-auto mb-5">3</div>
-          <img src="/images/card3.jpg" alt="Agir" class="w-full h-40 object-cover rounded-xl mb-4 opacity-80" loading="lazy" decoding="async" />
+          <Picture src="/images/card3.jpg" alt="Agir" class="w-full h-40 object-cover rounded-xl mb-4 opacity-80" />
           <h3 class="text-xl font-bold text-white mb-2">Agis</h3>
           <p class="text-gray-400 text-sm">Exécute sans hésiter. Trace le résultat. Améliore ton tracking. Répète.</p>
         </div>
@@ -345,7 +367,7 @@ import Layout from '../layouts/Layout.astro';
 
       <!-- Preuve visuelle Before/After -->
       <div class="mt-10 max-w-3xl mx-auto reveal" style="transition-delay:300ms">
-        <img src="/images/before-after-proof.jpg" alt="Transformation avant/après — de l'hésitation à la méthode" class="w-full rounded-2xl border border-purple-500/20 shadow-lg shadow-purple-900/20" loading="lazy" decoding="async" />
+        <Picture src="/images/before-after-proof.jpg" alt="Transformation avant/après — de l'hésitation à la méthode" class="w-full rounded-2xl border border-purple-500/20 shadow-lg shadow-purple-900/20" />
         <p class="text-gray-500 text-xs mt-3 text-center italic">De l'hésitation à la méthode : la preuve que ça transforme.</p>
       </div>
     </div>
@@ -363,7 +385,7 @@ import Layout from '../layouts/Layout.astro';
         Premier achat à l'aveugle. La carte qui arrive abîmée. Le grading qui revient 7 au lieu du 9 espéré. Les 3 heures à lister pour 8€ de profit. On a fait toutes les erreurs que tu es en train de faire. Pas pour rien : <strong class="text-white">pour construire le système qu'on aurait aimé avoir au départ.</strong>
       </p>
       <div class="mt-10 max-w-lg mx-auto">
-        <img src="/images/terminal-neofetch.jpg" alt="Pierrick et Théo" class="rounded-xl border border-purple-500/30 shadow-lg shadow-purple-500/10 w-full" />
+        <Picture src="/images/terminal-neofetch.jpg" alt="Pierrick et Théo" class="rounded-xl border border-purple-500/30 shadow-lg shadow-purple-500/10 w-full" />
         <p class="text-gray-500 text-xs mt-2 italic">Pierrick et Théo, fondateurs de Pokévendre Pro</p>
       </div>
     </div>
@@ -429,7 +451,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="glass-card card-glow p-7 reveal" style="transition-delay:600ms">
           <p class="text-gray-300 text-sm italic mb-4">« J'ai acheté mon premier lot en suivant la checklist. 3 cartes sur 10 avaient un potentiel grading que le vendeur n'avait pas vu. Premier profit net : 67€. C'est pas énorme. Mais c'est le premier qui prouve que le système marche. »</p>
           <div class="flex items-center gap-3 mt-auto">
-            <img src="/images/testimonial-1.jpg" alt="Léa M." class="w-10 h-10 rounded-full object-cover border-2 border-purple-500/40" />
+            <Picture src="/images/testimonial-1.jpg" alt="Léa M." class="w-10 h-10 rounded-full object-cover border-2 border-purple-500/40" loading="eager" decoding="auto" />
             <div>
               <p class="text-white text-sm font-semibold">Léa M.</p>
               <p class="text-purple-400 text-xs font-mono">28 ans — Première revente rentable</p>
@@ -439,7 +461,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="glass-card card-glow p-7 reveal" style="transition-delay:700ms">
           <p class="text-gray-300 text-sm italic mb-4">« Avant, je passais 3h/jour à chercher des deals sans rien trouver. Maintenant, je sais exactement quoi chercher et où. Je trouve 2-3 deals rentables par semaine en 45 minutes. »</p>
           <div class="flex items-center gap-3 mt-auto">
-            <img src="/images/testimonial-2.jpg" alt="Maxime D." class="w-10 h-10 rounded-full object-cover border-2 border-purple-500/40" />
+            <Picture src="/images/testimonial-2.jpg" alt="Maxime D." class="w-10 h-10 rounded-full object-cover border-2 border-purple-500/40" />
             <div>
               <p class="text-white text-sm font-semibold">Maxime D.</p>
               <p class="text-purple-400 text-xs font-mono">24 ans — 4 mois de pratique</p>
@@ -449,7 +471,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="glass-card card-glow p-7 reveal" style="transition-delay:800ms">
           <p class="text-gray-300 text-sm italic mb-4">« Les revendeurs qui appliquent un cadre structuré atteignent leur première revente rentable 5x plus vite que ceux qui bricolent seuls. Ce n'est pas une théorie. C'est une constante. »</p>
           <div class="flex items-center gap-3 mt-auto">
-            <img src="/images/testimonial-3.jpg" alt="Théo R." class="w-10 h-10 rounded-full object-cover border-2 border-purple-500/40" />
+            <Picture src="/images/testimonial-3.jpg" alt="Théo R." class="w-10 h-10 rounded-full object-cover border-2 border-purple-500/40" />
             <div>
               <p class="text-white text-sm font-semibold">Théo R.</p>
               <p class="text-purple-400 text-xs font-mono">26 ans — Revendeur confirmé</p>
@@ -506,7 +528,7 @@ import Layout from '../layouts/Layout.astro';
   <section id="cta" class="relative py-24 overflow-hidden">
     <div class="max-w-3xl mx-auto px-4 text-center relative z-10 reveal-scale">
       <!-- Image du haut -->
-      <img src="/images/card4.jpg" alt="Cartes Pokémon rares" class="w-48 h-32 object-cover rounded-xl mx-auto mb-8 opacity-60 shadow-lg shadow-purple-900/20" loading="lazy" decoding="async" />
+      <Picture src="/images/card4.jpg" alt="Cartes Pokémon rares" class="w-48 h-32 object-cover rounded-xl mx-auto mb-8 opacity-60 shadow-lg shadow-purple-900/20" />
 
       <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amber-500/40 bg-amber-500/10 mb-6">
         <span class="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></span>
