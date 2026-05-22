@@ -1,0 +1,568 @@
+<style>
+/* ═══ MODULE HERO ═══ */
+.module-hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(59,130,246,0.08));border-radius:16px;margin-bottom:2rem;border:1px solid rgba(139,92,246,0.15)}
+.hero-badge{display:inline-block;background:rgba(139,92,246,0.2);color:#c4b5fd;padding:0.35rem 1rem;border-radius:20px;font-size:0.85rem;font-weight:600;margin-bottom:1rem}
+.hero-title{font-size:2rem;font-weight:800;color:#f1f5f9;margin:0.5rem 0;line-height:1.2}
+.hero-subtitle{font-size:1.05rem;color:#94a3b8;max-width:540px;margin:0 auto 1.2rem;line-height:1.6}
+.hero-checklist{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin-top:1rem}
+.hero-check{background:rgba(74,222,128,0.1);color:#4ade80;padding:0.3rem 0.8rem;border-radius:20px;font-size:0.85rem;font-weight:500}
+/* ═══ STAT CHIPS ═══ */
+.stat-row{display:flex;gap:1rem;flex-wrap:wrap;margin:1.2rem 0}
+.stat-chip{background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.15);border-radius:12px;padding:0.8rem 1.2rem;text-align:center;flex:1;min-width:120px}
+.stat-chip .num{display:block;font-size:1.3rem;font-weight:800;color:#e2e8f0}
+.stat-chip .label{display:block;font-size:0.8rem;color:#94a3b8;margin-top:0.25rem}
+/* ═══ LESSON PROGRESS ═══ */
+.lesson-progress{display:flex;align-items:center;justify-content:center;gap:0;margin:1.5rem 0}
+.lp-dot{width:36px;height:36px;border-radius:50%;background:rgba(139,92,246,0.15);color:#94a3b8;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0}
+.lp-dot.active{background:#7c3aed;color:#fff;box-shadow:0 0 12px rgba(124,58,237,0.4)}
+.lp-line{width:32px;height:2px;background:rgba(139,92,246,0.2);flex-shrink:0}
+/* ═══ GLOW DIVIDER ═══ */
+.glow-divider{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(139,92,246,0.3),transparent);margin:2rem 0}
+/* ═══ SECTION PANEL ═══ */
+.section-panel{margin-bottom:1.5rem}
+.section-header{display:flex;align-items:flex-start;gap:0.8rem;margin-bottom:1.2rem}
+.section-icon{font-size:1.5rem;flex-shrink:0;margin-top:0.15rem}
+.section-header-text h2{font-size:1.4rem;font-weight:700;color:#f1f5f9;margin:0;line-height:1.3}
+.section-header-text h3{font-size:1.15rem;font-weight:600;color:#e2e8f0;margin:0}
+.section-header-text p{font-size:0.9rem;color:#94a3b8;margin:0.2rem 0 0}
+/* ═══ LESSON BADGE ═══ */
+.lesson-badge{display:inline-block;background:#7c3aed;color:#fff;font-size:0.7rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:10px;margin-right:0.5rem;vertical-align:middle}
+/* ═══ SPLIT ROW / CARDS ═══ */
+.split-row{display:flex;gap:1rem;flex-wrap:wrap;margin:1.2rem 0}
+.split-card{flex:1;min-width:240px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.2rem}
+.split-card h3,.split-card h4{margin:0 0 0.6rem;font-size:1rem;color:#e2e8f0}
+.split-yes{border-color:rgba(74,222,128,0.25);background:rgba(74,222,128,0.04)}
+.split-no{border-color:rgba(248,113,113,0.25);background:rgba(248,113,113,0.04)}
+.split-warn{border-color:rgba(234,179,8,0.25);background:rgba(234,179,8,0.04)}
+/* ═══ CHECKLIST ═══ */
+.checklist{list-style:none;padding:0;margin:0.5rem 0}
+.checklist li{padding:0.4rem 0 0.4rem 1.4rem;position:relative;color:#cbd5e1;font-size:0.9rem;line-height:1.5}
+.checklist li::before{content:'•';position:absolute;left:0;color:#7c3aed;font-weight:700}
+.checklist-premium{list-style:none;padding:0;counter-reset:check}
+.checklist-premium li{padding:0.7rem 0.8rem 0.7rem 2.6rem;position:relative;border-bottom:1px solid rgba(255,255,255,0.06);color:#cbd5e1;font-size:0.9rem;cursor:pointer;transition:background 0.2s}
+.checklist-premium li:hover{background:rgba(139,92,246,0.06)}
+.checklist-premium li::before{counter-increment:check;content:counter(check);position:absolute;left:0.6rem;width:1.6rem;height:1.6rem;border-radius:50%;background:rgba(139,92,246,0.15);color:#c4b5fd;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700}
+.checklist-premium li.checked{text-decoration:line-through;opacity:0.5}
+.checklist-premium li.checked::before{content:'✓';background:#4ade80;color:#0f172a}
+/* ═══ RULE BOX ═══ */
+.rule-box{background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.15);border-radius:12px;padding:1.2rem 1.4rem;margin:1.2rem 0;color:#e2e8f0;line-height:1.7}
+.rule-box strong{color:#c4b5fd}
+/* ═══ ALERT BOX ═══ */
+.alert-box{background:rgba(248,113,113,0.06);border-left:4px solid #f87171;border-radius:0 12px 12px 0;padding:1rem 1.2rem;margin:1.2rem 0;color:#cbd5e1;line-height:1.6;font-size:0.9rem}
+.alert-box strong{color:#e2e8f0}
+.alert-box ul{margin:0.5rem 0 0;padding-left:1.2rem}
+/* ═══ FORMULA BOX ═══ */
+.formula-box{background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:1.2rem 1.4rem;margin:1.2rem 0;color:#e2e8f0;line-height:1.8;font-family:'SF Mono',Monaco,monospace;font-size:0.9rem}
+.formula-box .formula-label{font-family:inherit;color:#94a3b8;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.4rem}
+.formula-box code{background:rgba(139,92,246,0.15);padding:0.15rem 0.4rem;border-radius:4px;color:#c4b5fd;font-family:inherit}
+/* ═══ STEPS FLOW ═══ */
+.steps-flow{display:flex;gap:1rem;flex-wrap:wrap;margin:1.2rem 0}
+.step-item{flex:1;min-width:160px;background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.12);border-radius:12px;padding:1rem;text-align:center}
+.step-badge{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#7c3aed;color:#fff;font-size:0.85rem;font-weight:700;margin-bottom:0.5rem}
+.step-detail{display:block;font-size:0.8rem;color:#94a3b8;margin-top:0.2rem}
+.step-item p{font-size:0.85rem;color:#cbd5e1;margin:0.4rem 0 0;line-height:1.5}
+/* ═══ SCENARIO CARD ═══ */
+.scenario-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.2rem 1.4rem;margin:1.2rem 0}
+.scenario-card h4{margin:0 0 0.8rem;font-size:1rem;color:#e2e8f0}
+.scenario-card .verdict{display:inline-block;padding:0.25rem 0.7rem;border-radius:16px;font-size:0.8rem;font-weight:700;margin-top:0.6rem}
+.verdict-green{background:rgba(74,222,128,0.15);color:#4ade80}
+.verdict-yellow{background:rgba(234,179,8,0.15);color:#eab308}
+.verdict-red{background:rgba(248,113,113,0.15);color:#f87171}
+/* ═══ SIGNAL CARD ═══ */
+.signal-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1rem 1.2rem;margin:0.8rem 0;display:flex;gap:1rem;align-items:flex-start}
+.signal-num{width:36px;height:36px;border-radius:50%;background:rgba(139,92,246,0.15);color:#c4b5fd;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;flex-shrink:0}
+.signal-content h4{margin:0 0 0.3rem;color:#e2e8f0;font-size:0.95rem}
+.signal-content p{margin:0;color:#94a3b8;font-size:0.85rem;line-height:1.5}
+/* ═══ TABLE WRAP ═══ */
+.table-wrap{overflow-x:auto;margin:1rem 0;border-radius:12px;border:1px solid rgba(255,255,255,0.08)}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:0.85rem}
+.table-wrap th{background:rgba(139,92,246,0.12);color:#c4b5fd;padding:0.7rem 0.8rem;text-align:left;font-weight:600;border-bottom:1px solid rgba(255,255,255,0.08)}
+.table-wrap td{padding:0.6rem 0.8rem;border-bottom:1px solid rgba(255,255,255,0.05);color:#cbd5e1}
+.table-wrap tr:last-child td{border-bottom:none}
+.table-wrap tr:hover td{background:rgba(139,92,246,0.04)}
+/* ═══ NEXT CARD ═══ */
+.next-card{background:linear-gradient(135deg,rgba(139,92,246,0.12),rgba(59,130,246,0.08));border:1px solid rgba(139,92,246,0.2);border-radius:12px;padding:1.2rem 1.4rem;margin-top:2rem;text-align:center}
+.next-label{font-size:0.75rem;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:0.08em}
+.next-title{font-size:1.1rem;font-weight:700;color:#f1f5f9;margin:0.4rem 0 0.3rem}
+.next-desc{font-size:0.85rem;color:#94a3b8;line-height:1.5}
+/* ═══ ACTION BOX ═══ */
+.action-box{background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.15);border-radius:12px;padding:1.2rem 1.4rem;margin:1.5rem 0;text-align:center}
+.action-box strong{color:#4ade80}
+.action-box p{color:#cbd5e1;margin:0.3rem 0 0;font-size:0.9rem}
+/* ═══ CASE CARD ═══ */
+.case-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.2rem 1.4rem;margin:1.2rem 0}
+.case-card h4{margin:0 0 0.8rem;font-size:1rem;color:#e2e8f0}
+.case-card .case-detail{color:#94a3b8;font-size:0.85rem;line-height:1.6;margin:0.3rem 0}
+.case-card .case-result{color:#cbd5e1;font-size:0.9rem;line-height:1.7;margin:0.5rem 0}
+.case-card .case-result strong{color:#e2e8f0}
+/* ═══ KEYWORD BOX ═══ */
+.keyword-box{background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.15);border-radius:12px;padding:1rem 1.2rem;margin:1rem 0}
+.keyword-box h4{margin:0 0 0.6rem;color:#e2e8f0;font-size:0.95rem}
+.keyword-box p{margin:0.2rem 0;color:#94a3b8;font-size:0.85rem;line-height:1.5}
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:640px){
+  .split-row,.steps-flow{flex-direction:column}
+  .stat-row{flex-direction:column}
+  .stat-chip{min-width:auto}
+  .hero-title{font-size:1.5rem}
+  .signal-card{flex-direction:column}
+}
+</style>
+
+<!-- ═══ MODULE HERO ═══ -->
+<div class="module-hero">
+  <div class="hero-badge">🎯 Module 2</div>
+  <div class="hero-title">Calculer le spread réel</div>
+  <div class="hero-subtitle">Tu ne JAMAIS achètes sans avoir calculé le profit réel au centime près. Plus de mauvaises surprises.</div>
+  <div class="hero-checklist">
+    <span class="hero-check">✓ Critère 3 — Spread ≥ 30%</span>
+    <span class="hero-check">✓ Critère 4 — Tous les frais intégrés</span>
+  </div>
+  <div class="stat-row">
+    <div class="stat-chip"><span class="num">13%</span><span class="label">Frais eBay</span></div>
+    <div class="stat-chip"><span class="num">4,10€</span><span class="label">Shipping FR</span></div>
+    <div class="stat-chip"><span class="num">30%</span><span class="label">ROI minimum</span></div>
+  </div>
+</div>
+
+<!-- ═══ LESSON PROGRESS ═══ -->
+<div class="lesson-progress">
+  <div class="lp-dot active">2.1</div>
+  <div class="lp-line"></div>
+  <div class="lp-dot active">2.2</div>
+  <div class="lp-line"></div>
+  <div class="lp-dot active">2.3</div>
+</div>
+
+<hr class="glow-divider">
+
+<!-- ═══ CRITÈRE 3 ═══ -->
+<div class="section-panel">
+  <div class="section-header">
+    <span class="section-icon">🎯</span>
+    <div class="section-header-text">
+      <h2>Critère 3 — Le spread réel est-il ≥ 30% ?</h2>
+      <p>Le troisième filtre. Les deux premiers vérifient la demande et le prix d'achat. Le Critère 3 vérifie ce qu'il te reste après tout le monde — après les frais, le shipping, les taxes.</p>
+    </div>
+  </div>
+
+  <div class="split-row">
+    <div class="split-card split-yes">
+      <h4>🟢 VERT</h4>
+      <p>Spread réel ≥ 30%<br>Le risque en vaut la récompense</p>
+    </div>
+    <div class="split-card split-warn">
+      <h4>🟡 PRUDENCE</h4>
+      <p>Spread réel entre 20% et 30%<br>Marge fine, un imprévu et tu perds</p>
+    </div>
+    <div class="split-card split-no">
+      <h4>🔴 ROUGE</h4>
+      <p>Spread réel &lt; 20%<br>Tu travailles pour les plateformes, pas pour toi</p>
+    </div>
+  </div>
+</div>
+
+<hr class="glow-divider">
+
+<!-- ═══ LEÇON 2.1 ═══ -->
+<div class="section-panel">
+  <div class="section-header">
+    <span class="section-icon">📐</span>
+    <div class="section-header-text">
+      <h3><span class="lesson-badge">Leçon 2.1</span> La formule du spread réel</h3>
+      <p>C'est la formule la plus importante de la formation. Si tu n'en retiens qu'une, c'est celle-ci.</p>
+    </div>
+  </div>
+
+  <!-- Formule du spread -->
+  <div class="formula-box">
+    <div class="formula-label">Formule du spread réel</div>
+    <code>Spread réel = Prix de vente estimé − Prix d'achat − Frais de plateforme − Shipping − Coût emballage − Taxes</code>
+  </div>
+
+  <div class="formula-box">
+    <div class="formula-label">ROI (Return On Investment)</div>
+    <code>ROI = (Spread réel ÷ Prix d'achat) × 100</code>
+  </div>
+
+  <div class="rule-box">
+    <strong>Le seuil : ROI ≥ 30% = 🟢. En dessous de 20% = 🔴.</strong>
+  </div>
+
+  <!-- Exemple chiffré -->
+  <div class="case-card">
+    <h4>📊 Exemple chiffré complet</h4>
+    <p class="case-detail">Tu as trouvé un lot sur eBay à 80€. Tu estimes pouvoir le revendre pour 120€.</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Poste</th><th>Montant</th><th>Détail</th></tr>
+        <tr><td>Prix de vente estimé</td><td>120,00€</td><td>Basé sur les ventes complétées</td></tr>
+        <tr><td><strong>− Prix d'achat</strong></td><td><strong>−80,00€</strong></td><td>Ce que tu paies</td></tr>
+        <tr><td><strong>− Frais eBay (13%)</strong></td><td><strong>−15,60€</strong></td><td>13% du prix de vente</td></tr>
+        <tr><td><strong>− Shipping sortant</strong></td><td><strong>−4,50€</strong></td><td>Enveloppe à bulles + suivi FR</td></tr>
+        <tr><td><strong>− Emballage</strong></td><td><strong>−1,00€</strong></td><td>Top loader + sleeve + étiquette</td></tr>
+        <tr><td><strong>= Spread réel</strong></td><td><strong>19,90€</strong></td><td>Ton profit réel</td></tr>
+        <tr><td><strong>ROI</strong></td><td><strong>24,9%</strong></td><td>19,90 ÷ 80 × 100</td></tr>
+      </table>
+    </div>
+    <div class="verdict verdict-yellow">🟡 PRUDENCE — 24,9% de ROI, dans la zone jaune</div>
+  </div>
+
+  <!-- Piège des 13% -->
+  <div class="alert-box">
+    <strong>⚠️ Le piège des 13%</strong><br>
+    eBay prélève environ 13% sur chaque vente. C'est le tueur de profit #1.<br>
+    <ul>
+      <li>Commission finale : <strong>12,9%</strong> du prix de vente (incluant shipping)</li>
+      <li>Frais d'insertion : <strong>0,35€</strong> par listing (gratuit pour les 50 premiers/mois)</li>
+      <li>Paiement géré par eBay : <strong>inclus</strong> dans les 12,9%</li>
+    </ul>
+    <strong>Sur une vente à 120€ avec 4,50€ de shipping :</strong><br>
+    Commission eBay : (120 + 4,50) × 12,9% = <strong>16,07€</strong><br>
+    Tu reçois : 124,50 − 16,07 = <strong>108,43€</strong><br>
+    Moins ton achat de 80€ : <strong>28,43€ de marge brute</strong><br><br>
+    Mais attends — il faut encore payer l'emballage et le shipping réel. Le shipping "offert" à l'acheteur, c'est toi qui le paies.
+  </div>
+
+  <!-- Marge brute vs ROI -->
+  <div class="case-card">
+    <h4>💡 Pourquoi une marge brute de 20% = break-even</h4>
+    <p class="case-detail">Beaucoup de débutants voient "achat 80€, vente 120€ = 50% de marge !" et pensent que c'est un bon deal. C'est faux.</p>
+    <div class="formula-box">
+      <div class="formula-label">Marge brute (illusion)</div>
+      <code>Marge brute = (120 − 80) ÷ 80 × 100 = 50%</code>
+    </div>
+    <div class="formula-box">
+      <div class="formula-label">ROI réel (vérité)</div>
+      <code>Spread réel = 120 − 80 − 15,60 − 4,50 − 1,00 = 18,90€<br>ROI réel = 18,90 ÷ 80 × 100 = 23,6%</code>
+    </div>
+    <p class="case-result"><strong>La marge brute de 50% se transforme en ROI réel de 23,6%. Presque divisé par deux.</strong></p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Marge brute</th><th>ROI réel estimé</th><th>Verdict</th></tr>
+        <tr><td>70%+</td><td>~40%+</td><td>🟢 Excellent</td></tr>
+        <tr><td>50-70%</td><td>~25-40%</td><td>🟡 À calculer</td></tr>
+        <tr><td>30-50%</td><td>~10-25%</td><td>🔴 Risqué</td></tr>
+        <tr><td>&lt; 30%</td><td>&lt; 10%</td><td>🔴 Pas de profit</td></tr>
+      </table>
+    </div>
+    <div class="rule-box">
+      <strong>La règle du Critère 3 : Spread réel &lt; 30% → 🔴. Le risque n'en vaut pas la récompense.</strong>
+    </div>
+  </div>
+</div>
+
+<hr class="glow-divider">
+
+<!-- ═══ LEÇON 2.2 ═══ -->
+<div class="section-panel">
+  <div class="section-header">
+    <span class="section-icon">🔍</span>
+    <div class="section-header-text">
+      <h3><span class="lesson-badge">Leçon 2.2</span> Les frais cachés que personne mentionne</h3>
+      <p>Chaque plateforme a ses frais. Si tu ne les connais pas, tu perds de l'argent sur chaque vente.</p>
+    </div>
+  </div>
+
+  <!-- eBay.fr -->
+  <div class="section-panel">
+    <div class="section-header">
+      <span class="section-icon">🟠</span>
+      <div class="section-header-text"><h3>eBay.fr</h3></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Frais</th><th>Montant</th><th>Quand</th></tr>
+        <tr><td>Commission finale</td><td>12,9%</td><td>Sur chaque vente (incluant shipping)</td></tr>
+        <tr><td>Frais d'insertion</td><td>0,35€</td><td>Par listing au-delà de 50/mois</td></tr>
+        <tr><td>Paiement géré</td><td>Inclus</td><td>Dans les 12,9%</td></tr>
+        <tr><td>Retour acheteur</td><td>Variable</td><td>Tu rembourses le prix + shipping, eBay garde sa commission</td></tr>
+        <tr><td>TVA (si assujetti)</td><td>20%</td><td>Sur ta marge, à déclarer</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Vinted -->
+  <div class="section-panel">
+    <div class="section-header">
+      <span class="section-icon">🟢</span>
+      <div class="section-header-text"><h3>Vinted</h3></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Frais</th><th>Montant</th><th>Quand</th></tr>
+        <tr><td>Protection acheteur</td><td>5% + 0,70€</td><td>Payé par l'acheteur (mais réduit le prix demandable)</td></tr>
+        <tr><td>Commission vendeur</td><td>0€</td><td>Vinted ne prend rien au vendeur</td></tr>
+        <tr><td>Shipping</td><td>3,09-5,09€</td><td>Selon la taille, souvent payé par l'acheteur</td></tr>
+        <tr><td>Retour</td><td>Gratuit</td><td>Si l'acheteur signale un problème</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Cardmarket -->
+  <div class="section-panel">
+    <div class="section-header">
+      <span class="section-icon">🔵</span>
+      <div class="section-header-text"><h3>Cardmarket</h3></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Frais</th><th>Montant</th><th>Quand</th></tr>
+        <tr><td>Commission</td><td>5-10%</td><td>Dégressive selon le volume de ventes</td></tr>
+        <tr><td>Frais de service</td><td>0,50€</td><td>Par commande</td></tr>
+        <tr><td>Shipping</td><td>Variable</td><td>Tu choisis le mode d'envoi</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Groupes Facebook -->
+  <div class="section-panel">
+    <div class="section-header">
+      <span class="section-icon">💬</span>
+      <div class="section-header-text"><h3>Groupes Facebook / Ventes directes</h3></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Frais</th><th>Montant</th><th>Quand</th></tr>
+        <tr><td>Commission</td><td>0€</td><td>Pas d'intermédiaire</td></tr>
+        <tr><td>PayPal Biens &amp; Services</td><td>2,9% + 0,35€</td><td>Si l'acheteur paie par PayPal</td></tr>
+        <tr><td>Shipping</td><td>Variable</td><td>À ta charge ou à celle de l'acheteur</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Coût réel du shipping -->
+  <div class="section-panel">
+    <div class="section-header">
+      <span class="section-icon">📦</span>
+      <div class="section-header-text">
+        <h3>Le coût réel du shipping</h3>
+        <p>Le shipping, c'est pas juste un timbre. Voici le vrai coût d'un envoi.</p>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Poste</th><th>Coût</th><th>Détail</th></tr>
+        <tr><td>Enveloppe à bulles</td><td>0,30€</td><td>Achetées par lot de 50</td></tr>
+        <tr><td>Top loader</td><td>0,15€</td><td>Protection rigide</td></tr>
+        <tr><td>Sleeve</td><td>0,05€</td><td>Protection souple</td></tr>
+        <tr><td>Étiquette</td><td>0,10€</td><td>Imprimée à la maison</td></tr>
+        <tr><td>Affranchissement FR</td><td>3,50€</td><td>Lettre suivie</td></tr>
+        <tr><td>Affranchissement UE</td><td>5,50€</td><td>Lettre suivie internationale</td></tr>
+        <tr><td>Affranchissement US</td><td>7,00€</td><td>Lettre suivie internationale</td></tr>
+        <tr style="border-top:2px solid rgba(139,92,246,0.2)"><td><strong>Total FR</strong></td><td><strong>4,10€</strong></td><td>Envoi standard FR</td></tr>
+        <tr><td><strong>Total UE</strong></td><td><strong>6,10€</strong></td><td>Envoi standard UE</td></tr>
+      </table>
+    </div>
+    <div class="rule-box">
+      <strong>Coût d'emballage par carte : ~1€</strong> (sleeve + top loader + enveloppe à bulles). Pour un lot de 5 cartes, ça reste ~1€ si tu envoies tout dans la même enveloppe. Mais le shipping est par envoi, pas par carte.
+    </div>
+  </div>
+
+  <!-- TVA -->
+  <div class="section-panel">
+    <div class="section-header">
+      <span class="section-icon">🏛️</span>
+      <div class="section-header-text">
+        <h3>La TVA — quand la déclarer</h3>
+      </div>
+    </div>
+    <div class="split-row">
+      <div class="split-card split-yes">
+        <h4>✅ Micro-entreprise</h4>
+        <p>Pas de TVA à collecter si CA &lt; 94 300€/an (vente de marchandises). La TVA est incluse dans ton forfait.</p>
+      </div>
+      <div class="split-card split-no">
+        <h4>❌ Au-delà</h4>
+        <p>TVA à 20% sur tes ventes. Tu dois la collecter séparément.</p>
+      </div>
+    </div>
+    <div class="rule-box">
+      <strong>La règle pratique :</strong> Si tu commences, déclare en micro-entreprise. La TVA est gérée automatiquement. Mais n'oublie pas que ton profit réel est <strong>après impôts</strong>.
+    </div>
+  </div>
+
+  <!-- Coût des litiges -->
+  <div class="section-panel">
+    <div class="section-header">
+      <span class="section-icon">⚖️</span>
+      <div class="section-header-text">
+        <h3>Le coût caché des litiges</h3>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Type de litige</th><th>Coût</th><th>Fréquence</th></tr>
+        <tr><td>Retour "article pas conforme"</td><td>Tu perds le shipping aller + retour + eBay garde sa commission</td><td>~2-3% des ventes</td></tr>
+        <tr><td>Retour "article endommagé"</td><td>Idem + la carte peut être abîmée</td><td>~1% des ventes</td></tr>
+        <tr><td>Litige PayPal</td><td>Tu peux perdre le montant total si tu n'as pas de preuve</td><td>Rare mais coûteux</td></tr>
+      </table>
+    </div>
+    <div class="alert-box">
+      <strong>Prévois 3-5% de tes revenus en pertes liées aux litiges.</strong> C'est le coût de faire affaire.
+    </div>
+  </div>
+</div>
+
+<hr class="glow-divider">
+
+<!-- ═══ LEÇON 2.3 ═══ -->
+<div class="section-panel">
+  <div class="section-header">
+    <span class="section-icon">🧮</span>
+    <div class="section-header-text">
+      <h3><span class="lesson-badge">Leçon 2.3</span> Le calculateur de spread Pokévendre Pro</h3>
+      <p>Le calculateur fait le travail pour toi. Tu entres les chiffres, il sort le verdict.</p>
+    </div>
+  </div>
+
+  <!-- Étapes du calculateur -->
+  <div class="steps-flow">
+    <div class="step-item">
+      <div class="step-badge">1</div>
+      <p><strong>Prix d'achat</strong></p>
+      <span class="step-detail">Ce que tu paies, shipping inclus si nécessaire</span>
+    </div>
+    <div class="step-item">
+      <div class="step-badge">2</div>
+      <p><strong>Plateforme de revente</strong></p>
+      <span class="step-detail">Frais appliqués automatiquement</span>
+    </div>
+    <div class="step-item">
+      <div class="step-badge">3</div>
+      <p><strong>Prix de vente estimé</strong></p>
+      <span class="step-detail">Basé sur les ventes complétées</span>
+    </div>
+    <div class="step-item">
+      <div class="step-badge">4</div>
+      <p><strong>Shipping estimé</strong></p>
+      <span class="step-detail">FR : 4,10€ · UE : 6,10€ · US : 7,00€</span>
+    </div>
+    <div class="step-item">
+      <div class="step-badge">5</div>
+      <p><strong>Verdict</strong></p>
+      <span class="step-detail">🟢 🟡 ou 🔴 automatique</span>
+    </div>
+  </div>
+
+  <!-- Scénario 1 -->
+  <div class="scenario-card">
+    <h4>📊 Scénario 1 : Achat lot eBay, revente individuelle</h4>
+    <p style="color:#cbd5e1;font-size:0.9rem;line-height:1.6">Tu achètes un lot de 15 cartes sur eBay à 45€ (shipping inclus). Tu estimes pouvoir revendre les 3 meilleures cartes pour 85€. Le reste en bulk pour 10€.</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Poste</th><th>Montant</th></tr>
+        <tr><td>Prix d'achat</td><td>45€</td></tr>
+        <tr><td>Prix de vente estimé</td><td>95€ (85€ individuelles + 10€ bulk)</td></tr>
+        <tr><td>Frais eBay</td><td>95 × 12,9% = 12,26€</td></tr>
+        <tr><td>Emballage</td><td>4 × 1€ = 4€</td></tr>
+        <tr><td>Shipping</td><td>4,10€ × 4 envois = 16,40€</td></tr>
+        <tr><td><strong>Profit net</strong></td><td><strong>17,34€</strong></td></tr>
+        <tr><td><strong>ROI</strong></td><td><strong>38,5%</strong></td></tr>
+      </table>
+    </div>
+    <div class="verdict verdict-green">🟢 CRITÈRE 3 PASSÉ</div>
+  </div>
+
+  <!-- Scénario 2 -->
+  <div class="scenario-card">
+    <h4>📊 Scénario 2 : Achat Vinted, revente eBay</h4>
+    <p style="color:#cbd5e1;font-size:0.9rem;line-height:1.6">Tu achètes une carte sur Vinted à 15€ (shipping inclus). Prix de marché eBay : 35€.</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Poste</th><th>Montant</th></tr>
+        <tr><td>Prix d'achat</td><td>15€</td></tr>
+        <tr><td>Prix de vente estimé</td><td>35€</td></tr>
+        <tr><td>Frais eBay</td><td>35 × 12,9% = 4,52€</td></tr>
+        <tr><td>Emballage</td><td>1€</td></tr>
+        <tr><td>Shipping</td><td>4,10€ (envoi FR)</td></tr>
+        <tr><td><strong>Profit net</strong></td><td><strong>10,38€</strong></td></tr>
+        <tr><td><strong>ROI</strong></td><td><strong>69,2%</strong></td></tr>
+      </table>
+    </div>
+    <div class="verdict verdict-green">🟢 CRITÈRE 3 PASSÉ — excellent deal</div>
+  </div>
+
+  <!-- Scénario 3 -->
+  <div class="scenario-card">
+    <h4>📊 Scénario 3 : Achat avec potentiel grading</h4>
+    <p style="color:#cbd5e1;font-size:0.9rem;line-height:1.6">Tu achètes une carte vintage en apparence NM à 25€ sur un groupe Facebook. Si PSA 10, elle vaut 150€. Grading : ~30€ + 15€ shipping + 3 mois d'attente.</p>
+
+    <div style="margin:1rem 0">
+      <p style="color:#eab308;font-weight:600;font-size:0.9rem;margin-bottom:0.5rem">Sans grading :</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Poste</th><th>Montant</th></tr>
+          <tr><td>Prix de vente estimé (raw NM)</td><td>40€</td></tr>
+          <tr><td>Frais eBay</td><td>40 × 12,9% = 5,16€</td></tr>
+          <tr><td>Emballage + shipping</td><td>5,10€</td></tr>
+          <tr><td><strong>Profit net</strong></td><td><strong>4,74€</strong></td></tr>
+          <tr><td><strong>ROI</strong></td><td><strong>19%</strong></td></tr>
+        </table>
+      </div>
+      <div class="verdict verdict-yellow">🟡 PRUDENCE sans grading</div>
+    </div>
+
+    <div style="margin:1rem 0">
+      <p style="color:#4ade80;font-weight:600;font-size:0.9rem;margin-bottom:0.5rem">Avec grading (PSA 10) :</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Poste</th><th>Montant</th></tr>
+          <tr><td>Prix de vente estimé (PSA 10)</td><td>150€</td></tr>
+          <tr><td>Coût total</td><td>25€ (achat) + 30€ (grading) + 15€ (shipping PSA) = 70€</td></tr>
+          <tr><td>Frais eBay</td><td>150 × 12,9% = 19,35€</td></tr>
+          <tr><td>Emballage + shipping</td><td>5,10€</td></tr>
+          <tr><td><strong>Profit net</strong></td><td><strong>55,55€</strong></td></tr>
+          <tr><td><strong>ROI</strong></td><td><strong>79,4%</strong></td></tr>
+        </table>
+      </div>
+      <div class="verdict verdict-green">🟢 CRITÈRE 3 PASSÉ — mais risque de ne pas obtenir le PSA 10</div>
+    </div>
+
+    <div class="alert-box">
+      <strong>⚠️ Note sur le grading :</strong> Le grading est un pari. Si la carte obtient PSA 9 au lieu de PSA 10, sa valeur peut chuter de 50-70%. On détaille le risque de grading dans le Module 3 (Critère 5).
+    </div>
+  </div>
+
+  <!-- Calcul mental rapide -->
+  <div class="section-panel">
+    <div class="section-header">
+      <span class="section-icon">🧠</span>
+      <div class="section-header-text">
+        <h3>Quand NE PAS utiliser le calculateur</h3>
+        <p>Pour les deals simples, tu devrais pouvoir calculer de tête.</p>
+      </div>
+    </div>
+
+    <div class="rule-box">
+      <strong>Le calcul mental rapide :</strong><br>
+      1. Prix de vente estimé × 0,87 = ce que tu gardes après eBay (13% de frais)<br>
+      2. Soustrais ~5€ pour shipping + emballage<br>
+      3. Soustrais le prix d'achat<br>
+      4. Divise par le prix d'achat × 100 = ROI estimé
+    </div>
+
+    <div class="case-card">
+      <h4>⚡ Exemple rapide</h4>
+      <p class="case-detail">Vente estimée : 50€</p>
+      <ul class="checklist">
+        <li>Après eBay : 50 × 0,87 = <strong>43,50€</strong></li>
+        <li>Après shipping + emballage : 43,50 − 5 = <strong>38,50€</strong></li>
+        <li>Après achat (25€) : 38,50 − 25 = <strong>13,50€</strong></li>
+        <li>ROI : 13,50 ÷ 25 × 100 = <strong>54%</strong> → 🟢</li>
+      </ul>
+      <div class="verdict verdict-green">🟢 Si le calcul mental donne 🟢, le calculateur confirmera</div>
+    </div>
+
+    <div class="rule-box">
+      <strong>Si c'est 🟡 ou 🔴 au calcul mental → utilise le calculateur pour vérifier.</strong>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ NEXT CARD ═══ -->
+<div class="next-card">
+  <div class="next-label">Module suivant</div>
+  <div class="next-title">Module 3 — Évaluer l'état et le potentiel de grading</div>
+  <div class="next-desc">Tu sais calculer le spread réel. Maintenant, apprends à évaluer l'état d'une carte et le risque de grading — les Critères 5 et 6 du Framework.</div>
+</div>

@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FormationApp from '../components/FormationApp';
+---
+
+<Layout title="Formation — Pokévendre Pro" description="Accède à la formation Pokévendre Pro : le système de décision pour revendre des cartes Pokémon avec profit." ogImage="/images/og-default.jpg" hideCta>
+  <section class="min-h-screen pt-4 pb-16 px-2 sm:px-4">
+    <FormationApp client:load />
+  </section>
+</Layout>

@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Accès — Pokévendre Pro" description="Bienvenue dans Pokévendre Pro ! Ton accès à la formation est prêt." ogImage="/images/og-default.jpg">
+<Layout title="Accès — Pokévendre Pro" description="Bienvenue dans Pokévendre Pro ! Ton accès à la formation est prêt." ogImage="/images/og-default.jpg" hideCta>
 
 <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;"></canvas>
 
@@ -187,7 +187,16 @@ async function verifySession() {
 
       // Fill access content
       var accessEl = document.getElementById('access-content');
-      accessEl.innerHTML = '<div class="flex items-center gap-3 p-3 rounded-lg" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2)">' +
+      var accessCodeHtml = '';
+      if (data.access_code) {
+        accessCodeHtml = '<div class="p-4 rounded-lg text-center" style="background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.3);">' +
+          '<p class="text-gray-400 text-xs mb-2">🔑 Ton code d\'accès à la formation</p>' +
+          '<p class="text-2xl font-black tracking-widest text-purple-400 font-mono mb-3">' + data.access_code + '</p>' +
+          '<a href="https://pokevendrepro.com/formation?code=' + data.access_code + '" class="inline-block px-6 py-3 rounded-lg font-semibold text-white text-sm" style="background:linear-gradient(135deg,#7c3aed,#a855f7);">Accéder à la formation →</a>' +
+          '</div>';
+      }
+      accessEl.innerHTML = accessCodeHtml +
+        '<div class="flex items-center gap-3 p-3 rounded-lg" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2)">' +
         '<span class="text-2xl">📧</span>' +
         '<div><p class="text-white font-medium text-sm">Email de confirmation envoyé</p>' +
         '<p class="text-gray-500 text-xs">' + (data.customer_email || '') + '</p></div></div>' +
@@ -203,7 +212,7 @@ async function verifySession() {
         // SHA-256 hash email for Advanced Matching
         crypto.subtle.digest('SHA-256', new TextEncoder().encode(data.customer_email.trim().toLowerCase())).then(function(buf) {
           var hash = Array.from(new Uint8Array(buf)).map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
-          fbq('init', '1418087700005184', { em: hash });
+          fbq('init', '947903204620148', { em: hash });
           // ===== META PIXEL: Purchase Event (with user data) =====
           fbq('track', 'Purchase', {
             value: 47,

@@ -27,7 +27,7 @@ from email.mime.multipart import MIMEMultipart
 from flask import Flask, request, jsonify
 from datetime import datetime, timezone
 from email_sequence import schedule_lead_emails, send_all_pending, unsubscribe_email, cancel_purchase_emails, init_sequence_db
-from emails_content import build_purchase_email
+from emails_content import get_email_content
 from datetime import timedelta
 
 app = Flask(__name__)
@@ -61,7 +61,7 @@ if STRIPE_SECRET_KEY:
     stripe.api_key = STRIPE_SECRET_KEY
 
 # Meta CAPI config
-META_PIXEL_ID = '1418087700005184'
+META_PIXEL_ID = '947903204620148'
 META_ACCESS_TOKEN = os.environ.get('META_ACCESS_TOKEN', '')
 
 # Launch day offset: days between lead capture and access opening (J+N)
@@ -97,7 +97,7 @@ PROFILES = {
         'hero': "Tu as tout à construire — et c'est une chance.",
         'strengths': ["Frais et ouvert d'esprit", 'Pas de mauvaises habitudes', 'Énergie disponible'],
         'advice': "Tu as besoin d'une méthode simple et éprouvée pour faire tes premiers pas en confiance.",
-        'nextSteps': ["Vérifie tes spams si tu ne vois pas cet email", 'Suis le plan d\'action de ton profil', 'Rejoins la communauté Pokévendre Pro']
+        'nextEmail': "Demain, je te montre l'erreur que font 90% des débutants — et comment l'éviter dès le premier jour."
     },
     'epuise': {
         'name': 'Le Revendeur Épuisé',
@@ -108,7 +108,7 @@ PROFILES = {
         'hero': 'Tu travailles dur… mais pas malin.',
         'strengths': ['Expérience terrain réelle', 'Connaissance du marché', 'Résilience prouvée'],
         'advice': "Tu n'as pas besoin de travailler PLUS. Tu as besoin de système. Automatise, standardise.",
-        'nextSteps': ['Identifie ta plus grosse perte de temps', 'Applique le framework de décision', 'Passe de side hustle à business']
+        'nextEmail': "Demain, je te montre la seule chose qui sépare un revendeur qui s'épuise d'un revendeur qui gagne — et ce n'est pas le temps."
     },
     'cauterise': {
         'name': 'Le Cautérisé',
@@ -119,7 +119,7 @@ PROFILES = {
         'hero': 'Tu as pris des claques. Mais tu es toujours là.',
         'strengths': ['Connaissance des pièges', "Prudence acquise par l'expérience", 'Motivation profonde de réussir'],
         'advice': "Tes pertes sont ta meilleure formation. Ce qui te manque, c'est un cadre pour transformer cette expérience en jugement.",
-        'nextSteps': ["Arrête de revendre à l'aveugle", 'Utilise les règles de décision Pokévendre Pro', 'Reconstruis ta confiance étape par étape']
+        'nextEmail': "Demain, je te montre comment transformer tes pertes en avantage — parce que quelqu'un qui a pris des claques et qui est encore là a déjà la moitié du travail de fait."
     },
     'ambitieux': {
         'name': "L'Ambitieux",
@@ -130,7 +130,7 @@ PROFILES = {
         'hero': 'Tu as la flamme. Maintenant il te faut le carburant.',
         'strengths': ['Ambition sans limites', "Prêt à investir", "Vision claire de l'objectif"],
         'advice': "L'ambition sans structure, c'est un moteur sans volant. Tu as besoin d'un système scalable.",
-        'nextSteps': ['Structure ton processus de revente', 'Automatise les tâches répétitives', "Passe à l'échelle avec Pokévendre Pro"]
+        'nextEmail': "Demain, je te montre pourquoi l'ambition seule ne suffit pas — et ce que font ceux qui passent de 200€ à 2000€ par mois."
     }
 }
 
@@ -264,7 +264,6 @@ def hex_to_rgb(hex_color):
 def build_email_html(prenom, profil, p):
     rgb = hex_to_rgb(p['color'])
     strengths_html = ''.join(f'<p style="margin:6px 0;color:#d1d5db;font-size:14px">✓ {s}</p>' for s in p['strengths'])
-    steps_html = ''.join(f'<p style="margin:8px 0;color:#9ca3af;font-size:14px">{i+1}. {s}</p>' for i, s in enumerate(p['nextSteps']))
     return f'''<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <style>body{{margin:0;padding:0;background:#0f0f1a;font-family:Arial,sans-serif;color:#e2e8f0}}a{{color:{p['color']}}}</style>
 </head><body>
@@ -283,13 +282,10 @@ def build_email_html(prenom, profil, p):
 <h3 style="color:#fff;margin:0 0 12px;font-size:14px">🎯 Ton conseil personnalisé</h3>
 <p style="color:#d1d5db;font-size:14px;line-height:1.6">{p['advice']}</p>
 </div>
-<div style="text-align:center;margin:30px 0">
-<a href="https://buy.stripe.com/4gM9AScw480n3778sP4gg01" style="display:inline-block;background:{p['color']};color:#0f0f1a;font-weight:bold;padding:14px 32px;border-radius:8px;text-decoration:none;font-size:16px">Précommander Pokévendre Pro →</a>
+<div style="border-left:3px solid {p['color']};padding:12px 20px;margin:24px 0">
+<p style="margin:0;color:#9ca3af;font-size:14px;line-height:1.5">📬 {p['nextEmail']}</p>
 </div>
-<div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:20px;margin-top:20px">
-<h3 style="color:#fff;margin:0 0 12px;font-size:14px">📋 Tes prochaines étapes</h3>
-{steps_html}
-</div>
+<p style="color:#d1d5db;font-size:15px;margin-top:24px">— Théo, CEO Pokévendre Pro</p>
 <div style="text-align:center;margin-top:30px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.05)">
 <p style="color:#6b7280;font-size:12px">Pokévendre Pro — Le système de décision pour revendeurs Pokémon</p>
 </div>
@@ -303,10 +299,8 @@ def build_email_text(prenom, profil, p):
     for s in p['strengths']:
         text += f"  ✓ {s}\n"
     text += f"\n🎯 Ton conseil :\n{p['advice']}\n\n"
-    text += "📋 Prochaines étapes :\n"
-    for i, s in enumerate(p['nextSteps']):
-        text += f"  {i+1}. {s}\n"
-    text += "\n→ Précommander Pokévendre Pro : https://buy.stripe.com/4gM9AScw480n3778sP4gg01\n\n"
+    text += f"📬 {p['nextEmail']}\n\n"
+    text += "— Théo, CEO Pokévendre Pro\n\n"
     text += "Pokévendre Pro — Le système de décision pour revendeurs Pokémon"
     return text
 
@@ -628,7 +622,9 @@ def create_checkout():
 
 @app.route('/verify-session', methods=['POST', 'OPTIONS'])
 def verify_session():
-    """Verify a Stripe Checkout session after payment."""
+    """Verify a Stripe Checkout session after payment.
+    Also generates/returns access code for the formation.
+    """
     if request.method == 'OPTIONS':
         return '', 204
 
@@ -642,13 +638,27 @@ def verify_session():
         session = stripe.checkout.Session.retrieve(session_id)
 
         if session.payment_status == 'paid':
+            customer_email = session.customer_details.email if session.customer_details else ''
+            customer_name = session.customer_details.name if session.customer_details else ''
+            metadata = session.metadata or {}
+            prenom = metadata.get('prenom', '') or (customer_name.split(' ')[0] if customer_name else '')
+
+            # Generate or retrieve access code
+            access_code = ''
+            try:
+                init_access_codes_table()
+                access_code = create_access_code(customer_email, prenom, session_id)
+            except Exception as e:
+                print(f'Verify-session: access code error: {e}')
+
             return jsonify({
                 'status': 'complete',
-                'customer_email': session.customer_details.email if session.customer_details else '',
-                'customer_name': session.customer_details.name if session.customer_details else '',
+                'customer_email': customer_email,
+                'customer_name': customer_name,
                 'amount_total': session.amount_total,
                 'currency': session.currency,
-                'metadata': session.metadata or {}
+                'metadata': metadata,
+                'access_code': access_code
             })
         else:
             return jsonify({'status': session.payment_status})
@@ -697,9 +707,18 @@ def stripe_webhook():
         except Exception as e:
             print(f'Idempotency check error: {e}')
 
-        # Send purchase confirmation email
+        # Generate access code
+        access_code = ''
         try:
-            send_purchase_email(prenom, customer_email, profil)
+            init_access_codes_table()
+            access_code = create_access_code(customer_email, prenom, session_id)
+            print(f'🔑 Access code for {customer_email}: {access_code}')
+        except Exception as e:
+            print(f'Access code generation error: {e}')
+
+        # Send purchase confirmation email (with access code)
+        try:
+            send_purchase_email(prenom, customer_email, profil, access_code=access_code)
         except Exception as e:
             print(f'Purchase email error: {e}')
             # Don't fail the webhook
@@ -745,36 +764,42 @@ def stripe_webhook():
     return jsonify({'received': True})
 
 
-def send_purchase_email(prenom, email, profil):
-    """Send adaptive purchase confirmation email.
-    Calculates days until access based on lead capture date.
-    J+LAUNCH_DAY_OFFSET = launch day. If days_until_access <= 0, access is immediate.
+def send_purchase_email(prenom, email, profil, access_code=''):
+    """Send post-achat email (E9 - Remerciement + Réassurance).
+    Access is immediate — includes access code for the formation.
     """
     if not email:
         return
 
-    # Calculate days until access (J+N from capture date)
-    days_until_access = LAUNCH_DAY_OFFSET  # default fallback
-    try:
-        conn = sqlite3.connect(DB_PATH)
-        c = conn.cursor()
-        c.execute('SELECT date FROM leads WHERE email = ?', (email,))
-        row = c.fetchone()
-        conn.close()
-        if row and row[0]:
-            capture_date = datetime.fromisoformat(row[0])
-            if capture_date.tzinfo is None:
-                capture_date = capture_date.replace(tzinfo=timezone.utc)
-            now = datetime.now(timezone.utc)
-            days_since_capture = (now - capture_date).days
-            days_until_access = LAUNCH_DAY_OFFSET - days_since_capture
-    except Exception as e:
-        print(f'Could not calculate days_until_access: {e}')
-
-    result = build_purchase_email(prenom, days_until_access)
+    result = get_email_content(9, prenom, sender='Théo, CEO Pokévendre Pro')
     subject = result['subject']
     text = result['text']
     html = result['html']
+
+# Inject access code into email if available
+    if access_code:
+        access_url = f'https://pokevendrepro.com/formation?code={access_code}'
+        access_block_html = f'''
+        <div style="margin:24px 0;padding:20px;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);border-radius:12px;text-align:center;">
+            <p style="margin:0 0 8px;color:#a3a3a3;font-size:14px;">🔑 Ton code d'accès à la formation</p>
+            <p style="margin:0 0 12px;font-size:28px;font-weight:800;color:#4ade80;letter-spacing:2px;font-family:monospace;">{access_code}</p>
+            <a href="{access_url}" style="display:inline-block;padding:12px 28px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:16px;">Accéder à la formation →</a>
+            <p style="margin:12px 0 0;color:#737373;font-size:12px;">Ou va sur pokevendrepro.com/formation et entre le code ci-dessus</p>
+        </div>'''
+        access_block_text = f'''
+🔑 Ton code d'accès à la formation : {access_code}
+
+Accéder à la formation : {access_url}
+Ou va sur pokevendrepro.com/formation et entre le code ci-dessus.
+'''
+        # Insert before the closing tags
+        html = html.replace('</body>', access_block_html + '</body>') if '</body>' in html else html + access_block_html
+        text = text + access_block_text
+
+    # Replace unsubscribe placeholder
+    unsub_url = f'https://pokevendrepro.com/unsubscribe?email={email}'
+    html = html.replace('{{unsubscribe_url}}', unsub_url)
+    text = text.replace('{{unsubscribe_url}}', unsub_url)
 
     msg = MIMEMultipart('alternative')
     msg['From'] = f'Pokévendre Pro <{GMAIL_USER}>'
@@ -916,6 +941,269 @@ def unsubscribe():
         return jsonify({'status': 'ok', 'message': f'{email} désinscrit avec succès'})
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+# === ACCESS CODES ===
+
+def init_access_codes_table():
+    """Create access_codes table if it doesn't exist."""
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS access_codes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        code TEXT NOT NULL UNIQUE,
+        email TEXT NOT NULL,
+        prenom TEXT DEFAULT '',
+        session_id TEXT DEFAULT '',
+        created_at TEXT NOT NULL,
+        used_at TEXT DEFAULT NULL,
+        revoked INTEGER DEFAULT 0,
+        revoked_at TEXT DEFAULT NULL
+    )''')
+    c.execute('CREATE INDEX IF NOT EXISTS idx_access_codes_code ON access_codes(code)')
+    c.execute('CREATE INDEX IF NOT EXISTS idx_access_codes_email ON access_codes(email)')
+    conn.commit()
+    conn.close()
+
+
+def generate_access_code():
+    """Generate a unique access code in format PV-XXXX-XXXX (alphanumeric, no ambiguous chars)."""
+    import random
+    import string
+    # Exclude ambiguous chars: 0/O, 1/I/L
+    chars = ''.join(c for c in string.ascii_uppercase + string.digits if c not in '0O1IL')
+    while True:
+        part1 = ''.join(random.choices(chars, k=4))
+        part2 = ''.join(random.choices(chars, k=4))
+        code = f'PV-{part1}-{part2}'
+        # Check uniqueness
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        c.execute('SELECT id FROM access_codes WHERE code = ?', (code,))
+        if not c.fetchone():
+            conn.close()
+            return code
+        conn.close()
+
+
+def create_access_code(email, prenom='', session_id=''):
+    """Create an access code for a customer. Returns the code."""
+    init_access_codes_table()
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    # Check if code already exists for this email+session
+    if session_id:
+        c.execute('SELECT code FROM access_codes WHERE session_id = ?', (session_id,))
+        row = c.fetchone()
+        if row:
+            conn.close()
+            return row[0]  # Return existing code
+    # Check if active code exists for this email
+    c.execute('SELECT code FROM access_codes WHERE email = ? AND revoked = 0', (email,))
+    row = c.fetchone()
+    if row:
+        conn.close()
+        return row[0]  # Return existing active code
+    # Generate new code
+    code = generate_access_code()
+    now = datetime.now(timezone.utc).isoformat()
+    c.execute('INSERT INTO access_codes (code, email, prenom, session_id, created_at) VALUES (?,?,?,?,?)',
+              (code, email, prenom, session_id, now))
+    conn.commit()
+    conn.close()
+    print(f'🔑 Access code created: {code} for {email}')
+    return code
+
+
+def get_access_code(code):
+    """Look up an access code. Returns dict or None."""
+    init_access_codes_table()
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute('SELECT code, email, prenom, created_at, used_at, revoked FROM access_codes WHERE code = ?', (code,))
+    row = c.fetchone()
+    conn.close()
+    if not row:
+        return None
+    return {
+        'code': row[0],
+        'email': row[1],
+        'prenom': row[2],
+        'created_at': row[3],
+        'used_at': row[4],
+        'revoked': bool(row[5])
+    }
+
+
+def mark_code_used(code):
+    """Mark an access code as used (first login)."""
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    now = datetime.now(timezone.utc).isoformat()
+    c.execute('UPDATE access_codes SET used_at = ? WHERE code = ? AND used_at IS NULL', (now, code))
+    conn.commit()
+    conn.close()
+
+
+@app.route('/verify-code', methods=['POST', 'OPTIONS'])
+def verify_code():
+    """Verify an access code and return access info.
+    Sets a session token (JWT-like) for subsequent requests.
+    """
+    if request.method == 'OPTIONS':
+        return '', 204
+
+    client_ip = request.headers.get('X-Forwarded-For', request.remote_addr or '').split(',')[0].strip()
+    if not _rate_limit_check(client_ip):
+        return jsonify({'status': 'error', 'message': 'Trop de requêtes. Réessaie dans 1 minute.'}), 429
+
+    data = request.get_json(force=True, silent=True) or {}
+    code = (data.get('code') or '').strip().upper()
+
+    if not code:
+        return jsonify({'status': 'error', 'message': 'Code requis'}), 400
+
+    info = get_access_code(code)
+    if not info:
+        return jsonify({'status': 'error', 'message': 'Code invalide'}), 404
+
+    if info['revoked']:
+        return jsonify({'status': 'error', 'message': 'Ce code a été désactivé. Contacte pokevendrepro@gmail.com'}), 403
+
+    # Mark first use
+    mark_code_used(code)
+
+    # Generate a simple access token (HMAC of code + secret)
+    import hmac as _hmac
+    token_secret = os.environ.get('ACCESS_TOKEN_SECRET', 'pokevendre-pro-2025')
+    token = _hmac.new(token_secret.encode(), code.encode(), hashlib.sha256).hexdigest()
+
+    return jsonify({
+        'status': 'ok',
+        'code': info['code'],
+        'prenom': info['prenom'],
+        'token': token
+    })
+
+
+@app.route('/check-access', methods=['POST', 'OPTIONS'])
+def check_access():
+    """Check if a code+token combo is valid (for page-level access control)."""
+    if request.method == 'OPTIONS':
+        return '', 204
+
+    data = request.get_json(force=True, silent=True) or {}
+    code = (data.get('code') or '').strip().upper()
+    token = data.get('token', '')
+
+    if not code or not token:
+        return jsonify({'status': 'error', 'message': 'Code et token requis'}), 400
+
+    info = get_access_code(code)
+    if not info or info['revoked']:
+        return jsonify({'status': 'error', 'message': 'Accès invalide'}), 403
+
+    import hmac as _hmac
+    token_secret = os.environ.get('ACCESS_TOKEN_SECRET', 'pokevendre-pro-2025')
+    expected = _hmac.new(token_secret.encode(), code.encode(), hashlib.sha256).hexdigest()
+    if not _hmac.compare_digest(token, expected):
+        return jsonify({'status': 'error', 'message': 'Token invalide'}), 403
+
+    return jsonify({
+        'status': 'ok',
+        'code': info['code'],
+        'prenom': info['prenom']
+    })
+
+
+@app.route('/module/<module_id>', methods=['POST', 'OPTIONS'])
+def serve_module(module_id):
+    """Serve a formation module HTML after verifying access token."""
+    if request.method == 'OPTIONS':
+        return '', 204
+
+    data = request.get_json(force=True, silent=True) or {}
+    code = (data.get('code') or '').strip().upper()
+    token = data.get('token', '')
+
+    if not code or not token:
+        return jsonify({'status': 'error', 'message': 'Code et token requis'}), 400
+
+    # Verify access
+    info = get_access_code(code)
+    if not info or info['revoked']:
+        return jsonify({'status': 'error', 'message': 'Accès invalide'}), 403
+
+    import hmac as _hmac
+    token_secret = os.environ.get('ACCESS_TOKEN_SECRET', 'pokevendre-pro-2025')
+    expected = _hmac.new(token_secret.encode(), code.encode(), hashlib.sha256).hexdigest()
+    if not _hmac.compare_digest(token, expected):
+        return jsonify({'status': 'error', 'message': 'Token invalide'}), 403
+
+    # Validate module_id (only allow known module files)
+    allowed_modules = ['module-0', 'module-1', 'module-2', 'module-3', 'module-4', 'bonus']
+    if module_id not in allowed_modules:
+        return jsonify({'status': 'error', 'message': 'Module inconnu'}), 404
+
+    # Serve the HTML file
+    import os as _os
+    module_path = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'dist', 'formation', f'{module_id}.html')
+    if not _os.path.exists(module_path):
+        return jsonify({'status': 'error', 'message': 'Module non trouvé'}), 404
+
+    with open(module_path, 'r', encoding='utf-8') as f:
+        html_content = f.read()
+
+    return jsonify({
+        'status': 'ok',
+        'module_id': module_id,
+        'html': html_content
+    })
+
+
+@app.route('/admin/access-codes', methods=['GET'])
+def admin_list_codes():
+    """Admin endpoint: list all access codes."""
+    api_key = request.headers.get('X-API-Key', '')
+    if api_key != ADMIN_API_KEY:
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    init_access_codes_table()
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute('SELECT code, email, prenom, session_id, created_at, used_at, revoked FROM access_codes ORDER BY id DESC')
+    rows = c.fetchall()
+    conn.close()
+
+    return jsonify([{
+        'code': r[0], 'email': r[1], 'prenom': r[2], 'session_id': r[3],
+        'created_at': r[4], 'used_at': r[5], 'revoked': bool(r[6])
+    } for r in rows])
+
+
+@app.route('/admin/revoke-code', methods=['POST'])
+def admin_revoke_code():
+    """Admin endpoint: revoke an access code."""
+    api_key = request.headers.get('X-API-Key', '')
+    if api_key != ADMIN_API_KEY:
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    data = request.get_json(force=True, silent=True) or {}
+    code = (data.get('code') or '').strip().upper()
+
+    if not code:
+        return jsonify({'error': 'Code requis'}), 400
+
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    now = datetime.now(timezone.utc).isoformat()
+    c.execute('UPDATE access_codes SET revoked = 1, revoked_at = ? WHERE code = ?', (now, code))
+    conn.commit()
+    if c.rowcount == 0:
+        conn.close()
+        return jsonify({'error': 'Code non trouvé'}), 404
+    conn.close()
+    return jsonify({'status': 'ok', 'message': f'Code {code} révoqué'})
 
 
 # === SCHEDULER ===

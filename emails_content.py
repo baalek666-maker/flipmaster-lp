@@ -329,92 +329,35 @@ def build_email_8(prenom):
 
 
 def build_email_9(prenom):
-    a = ACCENT[9]
+    """Email 9 — Post-achat : Remerciement + Réassurance (VMF + Doc 47).
+    Accès immédiat. Plus de logique précommande.
+    """
+    a = ACCENT[9]  # vert #4ade80
     body = ''
     body += greeting(prenom)
-    body += paragraph("Bienvenue dans Pok\u00e9vendre Pro.")
-    body += '<tr><td style="padding:12px 40px;"><div style="background:rgba(' + hex_to_rgb(a) + ',0.12);border:2px solid ' + a + ';border-radius:12px;padding:24px;text-align:center;"><p style="margin:0;color:' + a + ';font-size:22px;font-weight:800;">\u2705 Tu as fait le bon choix.</p></div></td></tr>'
-    body += spacer(8)
-    body += paragraph("Pas le choix facile. Le bon choix. Celui qui change la donne.")
-    body += section_heading("\U0001f4e5", "Tes prochains pas", a)
-    body += list_item("1", "Check tes emails — tu vas recevoir ton acc\u00e8s dans les prochaines minutes", a)
-    body += list_item("2", "Commence par le Module 1 — les fondamentaux", a)
-    body += list_item("3", "Utilise le calculateur de spread sur ta prochaine carte", a)
-    body += list_item("4", "Rejoins la communaut\u00e9 — pr\u00e9sente-toi et dis-nous ton objectif", a)
-    body += spacer(8)
-    body += highlight_box("Conseil : ne saute pas d&#39;\u00e9tape. Le Module 1 prend 30 minutes. Apr\u00e8s \u00e7a, tu sauras exactement quoi chercher sur Vinted ou eBay.", a)
+    body += paragraph("Tu viens de rejoindre Pok\u00e9vendre Pro. Bienvenue.")
+    body += spacer(4)
+    body += paragraph("Je veux \u00eatre direct avec toi : <span style=\"color:" + a + ";font-weight:700;\">merci de ta confiance.</span>")
+    body += paragraph("Je sais que t&#39;as probablement encore un doute quelque part. <span style=\"color:#ffffff;font-weight:700;\">C&#39;est normal.</span>")
     body += separator()
-    body += section_heading("\U0001f64c", "Ce que les autres en disent", a)
-    body += proof_card("Sarah", "\u00ab J&#39;ai commenc\u00e9 le soir m\u00eame. 3 jours apr\u00e8s, premier achat rentable. \u00bb", a)
-    body += proof_card("Mehdi", "\u00ab Le calculateur m&#39;a sauv\u00e9 d&#39;un mauvais achat d\u00e8s le premier jour. D\u00e9j\u00e0 rentable. \u00bb", a)
+    body += section_heading("\U0001f4e5", "Voici ce qui se passe maintenant", a)
+    body += list_item("1", "Tu re\u00e7ois ton acc\u00e8s dans les 10 prochaines minutes", a)
+    body += list_item("2", "Tu commences d\u00e8s que tu es pr\u00eat — pas de pression, juste du concret", a)
+    body += list_item("3", "Si tu as une question, r\u00e9ponds directement \u00e0 cet email. <span style=\"color:#ffffff;font-weight:700;\">Je lis tout personnellement.</span>", a)
     body += spacer(8)
-    body += paragraph("Tu n&#39;es pas seul l\u00e0-dedans. La communaut\u00e9 est active, et je r\u00e9ponds personnellement aux questions.")
-    body += separator()
-    body += '<tr><td style="padding:8px 40px;"><div style="background:rgba(' + hex_to_rgb(a) + ',0.06);border:1px solid rgba(' + hex_to_rgb(a) + ',0.12);border-radius:10px;padding:16px 20px;text-align:center;"><p style="margin:0;color:' + a + ';font-size:14px;">\U0001f4ac Une question ? R\u00e9ponds \u00e0 cet email. Je suis l\u00e0.</p></div></td></tr>'
-    body += spacer(12)
-    body += bold_paragraph("Bienvenue dans le syst\u00e8me.")
-    body += signature()
+    body += highlight_box("Pas dans 2 semaines. Pas \u00ab quand j&#39;aurai le temps \u00bb. <span style=\"color:" + a + ";\">Maintenant.</span>", a)
+    body += spacer(8)
+    body += paragraph("Tu as fait le plus dur : tu as arr\u00eat\u00e9 de deviner et tu as choisi un syst\u00e8me.")
+    body += bold_paragraph("Maintenant, suis-le.")
+    body += spacer(8)
+    body += signature('Th\u00e9o, CEO Pok\u00e9vendre Pro')
+    body += ps_block("P.S. Thomas a voulu arr\u00eater 3 fois les 10 premiers jours. Il a continu\u00e9. Premier mois : +340\u20ac. Fais comme Thomas : continue.")
     return {
-        'subject': "\u2705 Bienvenue dans le syst\u00e8me (" + prenom + ")",
-        'html': email_shell(a, "Tes 4 prochains pas...", body),
-        'text': "Salut " + prenom + ",\n\nBienvenue dans Pok\u00e9vendre Pro.\n\n\u2705 Tu as fait le bon choix.\n\nTes prochains pas :\n1. Check tes emails — ton acc\u00e8s arrive\n2. Commence par le Module 1\n3. Utilise le calculateur de spread\n4. Rejoins la communaut\u00e9\n\nTu n'es pas seul. Je r\u00e9ponds personnellement aux questions.\n\nBienvenue dans le syst\u00e8me.\n\n\u2014 {sender}"
+        'subject': "bienvenue dans Pok\u00e9vendre Pro \U0001f389",
+        'html': email_shell(a, "Ton acc\u00e8s est actif. Voici tes 3 premiers pas.", body),
+        'text': "Salut " + prenom + ",\n\nTu viens de rejoindre Pok\u00e9vendre Pro. Bienvenue.\n\nJe veux \u00eatre direct avec toi : merci de ta confiance.\n\nJe sais que t'as probablement encore un doute quelque part. C'est normal.\n\nVoici ce qui se passe maintenant :\n1. Tu re\u00e7ois ton acc\u00e8s dans les 10 prochaines minutes\n2. Tu commences d\u00e8s que tu es pr\u00eat — pas de pression, juste du concret\n3. Si tu as une question, r\u00e9ponds directement \u00e0 cet email. Je lis tout personnellement.\n\nPas dans 2 semaines. Pas \u00ab quand j'aurai le temps \u00bb. Maintenant.\n\nTu as fait le plus dur : tu as arr\u00eat\u00e9 de deviner et tu as choisi un syst\u00e8me.\n\nMaintenant, suis-le.\n\n\u2014 Th\u00e9o, CEO Pok\u00e9vendre Pro\nP.S. Thomas a voulu arr\u00eater 3 fois les 10 premiers jours. Il a continu\u00e9. Premier mois : +340\u20ac. Fais comme Thomas : continue."
     }
 
-
-# ============================================================
-# DISPATCHER
-# ============================================================
-
-def build_purchase_email(prenom, days_until_access):
-    """Email adaptatif post-achat. 
-    days_until_access: nombre de jours avant l'ouverture (J+LAUNCH_DAY_OFFSET du lead).
-    Si 0 ou negatif = acces immediat.
-    """
-    a = "#4ade80"  # vert pour confirmation
-    
-    if days_until_access > 0:
-        # PRECOMMANDE - acces dans X jours
-        subject = "✅ Confirmation — Ton accès arrive dans " + str(days_until_access) + " jour" + ("" if days_until_access == 1 else "s")
-        preview = "Précommande confirmée. Prépare-toi."
-        
-        body = ""
-        body += '<tr><td style="padding:24px 40px 8px;"><p style="margin:0;font-size:22px;color:#ffffff;font-weight:800;">✅ C\'est confirmé, ' + prenom + '.</p></td></tr>'
-        body += '<tr><td style="padding:8px 40px;"><p style="margin:0;color:#d1d5db;font-size:15px;line-height:1.7;">Tu as pris la meilleure décision pour ta revente. Pas de doute possible.</p></td></tr>'
-        body += '<tr><td style="padding:16px 40px;"><div style="background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.2);border-radius:12px;padding:20px;text-align:center;"><p style="margin:0 0 4px;color:#4ade80;font-size:14px;text-transform:uppercase;letter-spacing:1px;">Ton accès ouvre dans</p><p style="margin:0;color:#ffffff;font-size:36px;font-weight:800;">' + str(days_until_access) + ' jour' + ("" if days_until_access == 1 else "s") + '</p></div></td></tr>'
-        body += '<tr><td style="padding:16px 40px 8px;">' + section_heading("🎯", "En attendant, fais ça", a) + '</td></tr>'
-        body += '<tr><td style="padding:8px 40px;"><p style="margin:0 0 12px;color:#d1d5db;font-size:15px;line-height:1.7;">Pas la peine d\'attendre sans rien faire. Voici ce que tu peux faire dès maintenant :</p></td></tr>'
-        body += check_item("Ouvre Vinted et repère 3 cartes Pokémon qui t\'intéressent")
-        body += check_item("Regarde les prix de vente ET les frais — note-le")
-        body += check_item("Identifie 1 carte en dessous du prix marché — tu auras un avantage le jour J")
-        body += '<tr><td style="padding:16px 40px;"><div style="background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.12);border-radius:10px;padding:16px 20px;"><p style="margin:0;color:#9ca3af;font-size:14px;line-height:1.6;">💡 Le jour où tu auras accès, tu sauras exactement si cette carte vaut le coup. Le calculateur te le dira en 30 secondes.</p></div></td></tr>'
-        body += '<tr><td style="padding:20px 40px 8px;"><p style="margin:0;color:#d1d5db;font-size:15px;line-height:1.7;">On se retrouve dans ' + str(days_until_access) + ' jour' + ("" if days_until_access == 1 else "s") + '.</p></td></tr>'
-        body += '<tr><td style="padding:8px 40px;"><p style="margin:0;color:#9ca3af;font-size:14px;">— Jean, community manager à Pokévendre Pro</p></td></tr>'
-        
-        text = "Salut " + prenom + ",\n\nC\'est confirmé. Tu as pris la meilleure décision pour ta revente.\n\nTon accès ouvre dans " + str(days_until_access) + " jour" + ("" if days_until_access == 1 else "s") + ".\n\nEn attendant, fais ça :\n- Ouvre Vinted et repère 3 cartes qui t\'intéressent\n- Regarde les prix de vente ET les frais\n- Identifie 1 carte en dessous du prix marché\n\nLe jour J, tu sauras exactement si cette carte vaut le coup. Le calculateur te le dira en 30 secondes.\n\nOn se retrouve dans " + str(days_until_access) + " jour" + ("" if days_until_access == 1 else "s") + ".\n\n— Jean, community manager à Pokévendre Pro"
-    else:
-        # ACCES IMMEDIAT
-        subject = "✅ Bienvenue dans le système, " + prenom
-        preview = "Ton accès est actif. C\'est parti."
-        
-        body = ""
-        body += '<tr><td style="padding:24px 40px 8px;"><p style="margin:0;font-size:22px;color:#ffffff;font-weight:800;">✅ Bienvenue, ' + prenom + '.</p></td></tr>'
-        body += '<tr><td style="padding:8px 40px;"><p style="margin:0;color:#d1d5db;font-size:15px;line-height:1.7;">Ton accès est actif. Tu fais partie des 23.</p></td></tr>'
-        body += '<tr><td style="padding:16px 40px;"><div style="background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.2);border-radius:12px;padding:20px;text-align:center;"><p style="margin:0 0 4px;color:#4ade80;font-size:14px;text-transform:uppercase;letter-spacing:1px;">Accès</p><p style="margin:0;color:#ffffff;font-size:24px;font-weight:800;">Activé maintenant</p></div></td></tr>'
-        body += '<tr><td style="padding:16px 40px 8px;">' + section_heading("🚀", "Tes 4 premiers pas", a) + '</td></tr>'
-        body += check_item("Ouvre le calculateur de spread — c\'est le cœur du système")
-        body += check_item("Tape une carte que tu as repérée — vois le profit réel en 30 secondes")
-        body += check_item("Vérifie les keywords et seuils d\'achat mis à jour ce mois-ci")
-        body += check_item("Présente-toi dans le groupe communautaire")
-        body += '<tr><td style="padding:16px 40px;"><p style="margin:0;color:#d1d5db;font-size:15px;line-height:1.7;">Tu n\'as plus besoin de deviner. Le système est là.</p></td></tr>'
-        body += '<tr><td style="padding:8px 40px;"><p style="margin:0;color:#9ca3af;font-size:14px;">— Jean, community manager à Pokévendre Pro</p></td></tr>'
-        
-        text = "Salut " + prenom + ",\n\nBienvenue dans le système. Ton accès est acité. Tu fais partie des 23.\n\nTes 4 premiers pas :\n1. Ouvre le calculateur de spread\n2. Tape une carte que tu as repérée\n3. Vérifie les keywords et seuils d\'achat\n4. Présente-toi dans le groupe communautaire\n\nTu n\'as plus besoin de deviner. Le système est là.\n\n— Jean, community manager à Pokévendre Pro"
-    
-    return {
-        'subject': subject,
-        'html': email_shell(a, preview, body),
-        'text': text
-    }
 
 def build_reserve_email(prenom, days_until_access):
     """Email de confirmation de réservation (waitlist gratuite).
@@ -439,9 +382,9 @@ def build_reserve_email(prenom, days_until_access):
         body += check_item("Identifie 1 carte en dessous du prix marché — tu auras un avantage le jour J")
         body += '<tr><td style="padding:16px 40px;"><div style="background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.12);border-radius:10px;padding:16px 20px;"><p style="margin:0;color:#9ca3af;font-size:14px;line-height:1.6;">💡 Le jour où ça ouvre, tu sauras exactement si cette carte vaut le coup. Le calculateur te le dira en 30 secondes.</p></div></td></tr>'
         body += '<tr><td style="padding:20px 40px 8px;"><p style="margin:0;color:#d1d5db;font-size:15px;line-height:1.7;">On se retrouve dans ' + str(days_until_access) + ' jour' + ("" if days_until_access == 1 else "s") + '. Tu recevras un email le jour J.</p></td></tr>'
-        body += '<tr><td style="padding:8px 40px;"><p style="margin:0;color:#9ca3af;font-size:14px;">— Jean, community manager à Pokévendre Pro</p></td></tr>'
+        body += '<tr><td style="padding:8px 40px;"><p style="margin:0;color:#9ca3af;font-size:14px;">— Théo, CEO Pokévendre Pro</p></td></tr>'
 
-        text = "Salut " + prenom + ",\n\nTa place est réservée. Tu fais partie des premiers — et tu seras prévenu avant tout le monde.\n\nOuverture dans " + str(days_until_access) + " jour" + ("" if days_until_access == 1 else "s") + ".\n\nEn attendant, prépare-toi :\n- Ouvre Vinted et repère 3 cartes qui t'intéressent\n- Regarde les prix de vente ET les frais\n- Identifie 1 carte en dessous du prix marché\n\nLe jour J, le calculateur te dira en 30 secondes si elle vaut le coup.\n\nTu recevras un email le jour J.\n\n— Jean, community manager à Pokévendre Pro"
+        text = "Salut " + prenom + ",\n\nTa place est réservée. Tu fais partie des premiers — et tu seras prévenu avant tout le monde.\n\nOuverture dans " + str(days_until_access) + " jour" + ("" if days_until_access == 1 else "s") + ".\n\nEn attendant, prépare-toi :\n- Ouvre Vinted et repère 3 cartes qui t'intéressent\n- Regarde les prix de vente ET les frais\n- Identifie 1 carte en dessous du prix marché\n\nLe jour J, le calculateur te dira en 30 secondes si elle vaut le coup.\n\nTu recevras un email le jour J.\n\n— Théo, CEO Pokévendre Pro"
     else:
         # OUVERTURE IMMINENTE
         subject = "🎟️ Place réservée — Ça ouvre très vite"
@@ -452,13 +395,13 @@ def build_reserve_email(prenom, days_until_access):
         body += '<tr><td style="padding:8px 40px;"><p style="margin:0;color:#d1d5db;font-size:15px;line-height:1.7;">Ta place est réservée. L\'ouverture est imminente — tu seras prévenu en premier.</p></td></tr>'
         body += '<tr><td style="padding:16px 40px;"><div style="background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.2);border-radius:12px;padding:20px;text-align:center;"><p style="margin:0 0 4px;color:#4ade80;font-size:14px;text-transform:uppercase;letter-spacing:1px;">Statut</p><p style="margin:0;color:#ffffff;font-size:24px;font-weight:800;">Ouverture imminente 🔥</p></div></td></tr>'
         body += '<tr><td style="padding:16px 40px 8px;">' + section_heading("⚡", "Prépare-toi maintenant", a) + '</td></tr>'
-        body += check_item("Ouvre Vinted et repère 3 cartes Pokémon qui t\'intéressent")
+        body += check_item("Ouvre Vinted et repère 3 cartes Pokémon qui t\'intéressesnt")
         body += check_item("Regarde les prix de vente ET les frais — note-le")
         body += check_item("Identifie 1 carte en dessous du prix marché")
         body += '<tr><td style="padding:16px 40px;"><p style="margin:0;color:#d1d5db;font-size:15px;line-height:1.7;">Surveille ta boîte mail. Le calculateur arrive.</p></td></tr>'
-        body += '<tr><td style="padding:8px 40px;"><p style="margin:0;color:#9ca3af;font-size:14px;">— Jean, community manager à Pokévendre Pro</p></td></tr>'
+        body += '<tr><td style="padding:8px 40px;"><p style="margin:0;color:#9ca3af;font-size:14px;">— Théo, CEO Pokévendre Pro</p></td></tr>'
 
-        text = "Salut " + prenom + ",\n\nTa place est réservée. L'ouverture est imminente — tu seras prévenu en premier.\n\nPrépare-toi maintenant :\n- Ouvre Vinted et repère 3 cartes qui t'intéressent\n- Regarde les prix de vente ET les frais\n- Identifie 1 carte en dessous du prix marché\n\nSurveille ta boîte mail. Le calculateur arrive.\n\n— Jean, community manager à Pokévendre Pro"
+        text = "Salut " + prenom + ",\n\nTa place est réservée. L'ouverture est imminente — tu seras prévenu en premier.\n\nPrépare-toi maintenant :\n- Ouvre Vinted et repère 3 cartes qui t'intéressent\n- Regarde les prix de vente ET les frais\n- Identifie 1 carte en dessous du prix marché\n\nSurveille ta boîte mail. Le calculateur arrive.\n\n— Théo, CEO Pokévendre Pro"
 
     return {
         'subject': subject,
@@ -466,6 +409,10 @@ def build_reserve_email(prenom, days_until_access):
         'text': text
     }
 
+
+# ============================================================
+# DISPATCHER
+# ============================================================
 
 def get_email_content(email_number, prenom, **kwargs):
     """Return email dict with subject, html, text for the given email number (1-9).
@@ -495,6 +442,6 @@ def get_email_content(email_number, prenom, **kwargs):
             result[key] = result[key].replace('{lien_achat}', kwargs.get('lien_achat', 'https://buy.stripe.com/4gM9AScw480n3778sP4gg01'))
             result[key] = result[key].replace('{prix}', str(kwargs.get('prix', '')))
             result[key] = result[key].replace('{date_fermeture}', kwargs.get('date_fermeture', ''))
-            result[key] = result[key].replace('{sender}', kwargs.get('sender', 'Jean, community manager à Pokévendre Pro'))
+            result[key] = result[key].replace('{sender}', kwargs.get('sender', 'Théo, CEO Pokévendre Pro'))
     
     return result

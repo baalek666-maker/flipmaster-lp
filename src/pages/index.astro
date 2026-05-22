@@ -25,70 +25,51 @@ const courseSchema = {
 
 <Layout title="Pokévendre Pro — Le Système de Décision pour Revendre des Cartes Pokémon avec Profit" description="Entre « je veux revendre avec méthode » et « je revends avec profit », il y a un mur. Pokévendre Pro détruit ce mur. Découvre ton profil de revendeur." ogImage="/images/og-home.jpg" jsonLd={[courseSchema]}>
 
-  <!-- HERO — réduit, pas full-screen -->
-  <section class="relative pt-28 pb-16 flex items-center overflow-hidden">
-    <div class="max-w-6xl mx-auto px-4 relative z-10">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <!-- Texte -->
-        <div>
-          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-purple-500/30 bg-purple-500/10 mb-6 badge-pulse reveal">
-            <span class="w-2 h-2 bg-purple-400 rounded-full"></span>
-            <span class="retro-badge">PRO</span>
-            <span class="text-purple-300 text-sm font-medium">Framework de Décision pour Revendeurs Pokémon</span>
-          </div>
-
-          <h1 class="text-4xl sm:text-5xl md:text-6xl font-black leading-[1.05] mb-5 reveal" style="transition-delay:100ms">
-            <span class="block text-white">Tu vois les autres réussir.</span>
-            <span class="block mt-1">
-              <span class="neon-text" data-typewriter="Toi, tu cherches encore par où commencer." style="visibility:hidden"></span><span class="typewriter-cursor"></span>
-            </span>
-          </h1>
-
-          <p class="text-lg text-gray-400 mb-8 reveal" style="transition-delay:200ms">
-            Entre « je veux revendre avec méthode » et « je revends avec profit », il y a un mur. <strong class="text-white">Pokévendre Pro</strong>, c'est le système qui détruit ce mur.
-          </p>
-
-          <div class="flex flex-col sm:flex-row gap-3 reveal" style="transition-delay:300ms">
-            <a href="/quiz/" class="btn-neon ripple text-lg">Découvre ton profil →</a>
-            <a href="#probleme" class="btn-outline-neon text-lg">Voir le problème</a>
-          </div>
-          <p class="text-gray-600 text-xs mt-3 reveal" style="transition-delay:350ms">⚡ Seulement 50 places au lancement — Framework basé sur 2 000+ ventes analysées</p>
-
-          <div class="mt-8 flex items-center gap-5 text-gray-500 text-sm reveal" style="transition-delay:400ms">
-            <span>🛡️ <span class="text-white font-semibold">Satisfaction garantie</span></span>
-            <span>🎯 Décision en &lt;30 sec</span>
-            <span>📊 <span class="text-white font-semibold">2 000+ ventes</span> analysées</span>
-          </div>
+  <!-- HERO -->
+  <section class="relative pt-40 pb-32 flex items-center overflow-hidden">
+    <div class="max-w-5xl mx-auto px-6 relative z-10">
+      <div class="max-w-2xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-purple-500/30 bg-purple-500/10 mb-10 badge-pulse reveal">
+          <span class="w-2 h-2 bg-purple-400 rounded-full"></span>
+          <span class="retro-badge">PRO</span>
+          <span class="text-purple-300 text-sm font-medium">Framework de Décision</span>
         </div>
 
-        <!-- Image hero -->
-        <div class="reveal-scale" style="transition-delay:300ms">
-          <div class="relative">
-            <div class="absolute -inset-4 bg-purple-500/10 rounded-3xl blur-2xl"></div>
-            <Picture src="/images/card1.jpg" alt="Carte Pokémon rare" class="relative rounded-2xl shadow-2xl shadow-purple-900/30 w-full max-w-md mx-auto" loading="eager" decoding="auto" />
-            <div class="absolute -bottom-3 -right-3 bg-purple-600/90 backdrop-blur-sm rounded-xl px-4 py-2 text-white font-bold text-sm shadow-lg">
-              ⚡ Décision en 30 sec
-            </div>
-          </div>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-black leading-[1.1] mb-8 reveal" style="transition-delay:100ms">
+          <span class="block text-white">Tu vois les autres réussir.</span>
+          <span class="block mt-4">
+            <span class="neon-text" data-typewriter="Toi, tu cherches encore par où commencer." style="visibility:hidden"></span><span class="typewriter-cursor"></span>
+          </span>
+        </h1>
+
+        <p class="text-lg sm:text-xl text-gray-400 mb-12 max-w-lg mx-auto reveal" style="transition-delay:200ms">
+          Entre « je veux revendre avec méthode » et « je revends avec profit », il y a un mur. <strong class="text-white">Pokévendre Pro</strong> le détruit.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 reveal" style="transition-delay:300ms">
+          <a href="/quiz/" class="btn-neon ripple text-lg">Découvre ton profil →</a>
+          <a href="#probleme" class="btn-outline-neon text-lg">Voir le problème</a>
         </div>
+
+        <p class="text-gray-500 text-xs mt-6 reveal" style="transition-delay:350ms">⚡ 50 places à la réouverture · 2 000+ ventes analysées</p>
       </div>
     </div>
   </section>
 
-  <!-- MARQUEE — subtil, une ligne fine -->
+  <!-- MARQUEE -->
   <div class="neon-divider"></div>
-  <div class="py-2 bg-purple-500/[0.03] marquee-container overflow-hidden">
+  <div class="py-3 bg-purple-500/[0.03] marquee-container overflow-hidden">
     <div class="marquee-content text-xs tracking-widest text-purple-500/30 font-mono uppercase">
-      <span class="mx-6">⚡ décision rapide</span><span class="mx-6">•</span>
-      <span class="mx-6">🎯 framework structuré</span><span class="mx-6">•</span>
-      <span class="mx-6">💰 profit maximisé</span><span class="mx-6">•</span>
-      <span class="mx-6">🧠 data > intuition</span><span class="mx-6">•</span>
-      <span class="mx-6">📊 risk management</span><span class="mx-6">•</span>
-      <span class="mx-6">⚡ décision rapide</span><span class="mx-6">•</span>
-      <span class="mx-6">🎯 framework structuré</span><span class="mx-6">•</span>
-      <span class="mx-6">💰 profit maximisé</span><span class="mx-6">•</span>
-      <span class="mx-6">🧠 data > intuition</span><span class="mx-6">•</span>
-      <span class="mx-6">📊 risk management</span><span class="mx-6">•</span>
+      <span class="mx-8">⚡ décision rapide</span><span class="mx-8">•</span>
+      <span class="mx-8">🎯 framework structuré</span><span class="mx-8">•</span>
+      <span class="mx-8">💰 profit maximisé</span><span class="mx-8">•</span>
+      <span class="mx-8">🧠 data > intuition</span><span class="mx-8">•</span>
+      <span class="mx-8">📊 risk management</span><span class="mx-8">•</span>
+      <span class="mx-8">⚡ décision rapide</span><span class="mx-8">•</span>
+      <span class="mx-8">🎯 framework structuré</span><span class="mx-8">•</span>
+      <span class="mx-8">💰 profit maximisé</span><span class="mx-8">•</span>
+      <span class="mx-8">🧠 data > intuition</span><span class="mx-8">•</span>
+      <span class="mx-8">📊 risk management</span><span class="mx-8">•</span>
     </div>
   </div>
   <div class="neon-divider"></div>
@@ -135,49 +116,49 @@ const courseSchema = {
   </section>
 
   <!-- PROBLÈME -->
-  <section id="probleme" class="relative py-20 sm:py-28 overflow-hidden">
-    <div class="max-w-6xl mx-auto px-4">
-      <div class="text-center mb-14 reveal">
+  <section id="probleme" class="relative py-28 sm:py-36 overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-16 reveal">
         <span class="text-purple-400 font-mono text-sm tracking-widest uppercase">Le Problème</span>
         <h2 class="text-4xl sm:text-5xl font-black mt-4 text-white">
           Tu revends au <span class="neon-text">pif</span>. Et ça coûte cher.
         </h2>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 stagger-children">
-        <div class="glass-card card-glow p-7 reveal">
-          <div class="flex items-start gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 stagger-children">
+        <div class="glass-card card-glow p-8 reveal">
+          <div class="flex items-start gap-5">
             <img src="/images/card2.jpg" alt="Carte Pokémon" class="w-20 h-20 rounded-lg object-cover shrink-0" />
             <div>
-              <h3 class="text-lg font-bold text-white mb-1">Le deal qui passe sous ton nez</h3>
-              <p class="text-gray-400 text-sm">Tu trouves un lot à 80€. Tu hésites 45 min à checker les prix. Les frais, le shipping, les risques de fake... Tu fermes l'onglet. Quelqu'un d'autre l'a pris. Encore un deal qui t'échappe.</p>
+              <h3 class="text-lg font-bold text-white mb-2">Le deal qui passe sous ton nez</h3>
+              <p class="text-gray-400 text-sm leading-relaxed">Tu hésites 45 min. Tu fermes l'onglet. Quelqu'un d'autre l'a pris.</p>
             </div>
           </div>
         </div>
-        <div class="glass-card card-glow p-7 reveal">
-          <div class="flex items-start gap-4">
+        <div class="glass-card card-glow p-8 reveal">
+          <div class="flex items-start gap-5">
             <img src="/images/card3.jpg" alt="Carte Pokémon holographique" class="w-20 h-20 rounded-lg object-cover shrink-0" />
             <div>
-              <h3 class="text-lg font-bold text-white mb-1">8€ de profit pour 3h de boulot</h3>
-              <p class="text-gray-400 text-sm">T'as acheté, listé, emballé dans des top loaders, expédié. Les frais ont bouffé ta marge. Un acheteur conteste. Résultat ? 3 heures pour 8€. Tu te demandes si t'es fait pour ça.</p>
+              <h3 class="text-lg font-bold text-white mb-2">8€ de profit pour 3h de boulot</h3>
+              <p class="text-gray-400 text-sm leading-relaxed">Les frais bouffent ta marge. Un acheteur conteste. 3h pour 8€.</p>
             </div>
           </div>
         </div>
-        <div class="glass-card card-glow p-7 reveal">
-          <div class="flex items-start gap-4">
+        <div class="glass-card card-glow p-8 reveal">
+          <div class="flex items-start gap-5">
             <img src="/images/card4.jpg" alt="Carte Pokémon collection" class="w-20 h-20 rounded-lg object-cover shrink-0" />
             <div>
-              <h3 class="text-lg font-bold text-white mb-1">La recherche = procrastination</h3>
-              <p class="text-gray-400 text-sm">Tu regardes des vidéos, tu lis des posts, tu « fais des recherches ». Mais sans cadre de décision, la recherche c'est de la procrastination déguisée. Le temps passe. Les opportunités aussi.</p>
+              <h3 class="text-lg font-bold text-white mb-2">La recherche = procrastination</h3>
+              <p class="text-gray-400 text-sm leading-relaxed">Sans cadre de décision, « faire des recherches » = procrastiner. Le temps passe.</p>
             </div>
           </div>
         </div>
-        <div class="glass-card card-glow p-7 reveal">
-          <div class="flex items-start gap-4">
+        <div class="glass-card card-glow p-8 reveal">
+          <div class="flex items-start gap-5">
             <img src="/images/card5.jpg" alt="Cartes Pokémon" class="w-20 h-20 rounded-lg object-cover shrink-0" />
             <div>
-              <h3 class="text-lg font-bold text-white mb-1">Le type sur Reddit a un système</h3>
-              <p class="text-gray-400 text-sm">Celui qui a gagné 21K en side hustle ? Il avait un système. Toi, t'as de la bonne volonté et des vidéos YouTube qui se contredisent. Le problème n'est pas toi. C'est que personne ne t'a donné le plan.</p>
+              <h3 class="text-lg font-bold text-white mb-2">Le type sur Reddit a un système</h3>
+              <p class="text-gray-400 text-sm leading-relaxed">21K en side hustle grâce à un système. Toi, t'as des vidéos YouTube qui se contredisent.</p>
             </div>
           </div>
         </div>
@@ -532,7 +513,7 @@ const courseSchema = {
 
       <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amber-500/40 bg-amber-500/10 mb-6">
         <span class="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></span>
-        <span class="text-amber-300 text-sm font-medium">Seulement 50 places au lancement</span>
+        <span class="text-amber-300 text-sm font-medium">Seulement 50 places à la réouverture</span>
       </div>
 
       <h2 class="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-6">
@@ -549,8 +530,8 @@ const courseSchema = {
       </a>
 
       <div class="mt-4 flex flex-col items-center gap-2">
-        <p class="text-amber-400/80 text-sm font-medium">⚡ Seulement 50 places au lancement</p>
-        <p class="text-gray-600 text-xs">Framework complet • Mise à jour permanente • Satisfaction garantie ou remboursé</p>
+        <p class="text-amber-400/80 text-sm font-medium">⚡ Seulement 50 places à la réouverture</p>
+        <p class="text-gray-600 text-xs">Framework complet • Mise à jour permanente • Satisfaction garantie</p>
       </div>
     </div>
   </section>

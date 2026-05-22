@@ -6,6 +6,7 @@ interface Props {
   ogType?: string;
   canonicalUrl?: string;
   jsonLd?: Record<string, unknown>[];
+  hideCta?: boolean;
 }
 
 const {
@@ -15,6 +16,7 @@ const {
   ogType = "website",
   canonicalUrl,
   jsonLd = [],
+  hideCta = false,
 } = Astro.props;
 
 const siteUrl = "https://pokevendrepro.com";
@@ -88,12 +90,12 @@ const fullOgImage = new URL(ogImage, siteUrl).href;
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1418087700005184');
+    fbq('init', '947903204620148');
     fbq('track', 'PageView');
   </script>
   <noscript>
     <img height="1" width="1" style="display:none" alt=""
-      src="https://www.facebook.com/tr?id=1418087700005184&ev=PageView&noscript=1" />
+      src="https://www.facebook.com/tr?id=947903204620148&ev=PageView&noscript=1" />
   </noscript>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -123,7 +125,7 @@ const fullOgImage = new URL(ogImage, siteUrl).href;
         <span class="text-2xl">⚡</span>
         <span class="text-lg sm:text-xl font-black retro-title tracking-tight">Pokévendre Pro</span>
       </a>
-      <a href="/quiz/" class="btn-neon ripple text-xs sm:text-sm !py-1.5 !px-3 sm:!py-2 sm:!px-5 whitespace-nowrap flex-shrink-0">Commencer →</a>
+      {!hideCta && <a href="/quiz/" class="btn-neon ripple text-xs sm:text-sm !py-1.5 !px-3 sm:!py-2 sm:!px-5 whitespace-nowrap flex-shrink-0">Commencer →</a>}
     </div>
   </nav>
 

@@ -1,0 +1,450 @@
+<style>
+/* ═══ MODULE HERO ═══ */
+.module-hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(59,130,246,0.08));border-radius:16px;margin-bottom:2rem;border:1px solid rgba(139,92,246,0.15)}
+.hero-badge{display:inline-block;background:rgba(139,92,246,0.2);color:#c4b5fd;padding:0.35rem 1rem;border-radius:20px;font-size:0.85rem;font-weight:600;margin-bottom:1rem}
+.hero-title{font-size:2rem;font-weight:800;color:#f1f5f9;margin:0.5rem 0;line-height:1.2}
+.hero-subtitle{font-size:1.05rem;color:#94a3b8;max-width:540px;margin:0 auto 1.2rem;line-height:1.6}
+.hero-checklist{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin-top:1rem}
+.hero-check{background:rgba(74,222,128,0.1);color:#4ade80;padding:0.3rem 0.8rem;border-radius:20px;font-size:0.85rem;font-weight:500}
+/* ═══ STAT CHIPS ═══ */
+.stat-row{display:flex;gap:1rem;flex-wrap:wrap;margin:1.2rem 0}
+.stat-chip{background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.15);border-radius:12px;padding:0.8rem 1.2rem;text-align:center;flex:1;min-width:120px}
+.stat-chip .num{display:block;font-size:1.3rem;font-weight:800;color:#e2e8f0}
+.stat-chip .label{display:block;font-size:0.8rem;color:#94a3b8;margin-top:0.25rem}
+/* ═══ LESSON PROGRESS ═══ */
+.lesson-progress{display:flex;align-items:center;justify-content:center;gap:0;margin:1.5rem 0}
+.lp-dot{width:36px;height:36px;border-radius:50%;background:rgba(139,92,246,0.15);color:#94a3b8;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0}
+.lp-dot.active{background:#7c3aed;color:#fff;box-shadow:0 0 12px rgba(124,58,237,0.4)}
+.lp-line{width:32px;height:2px;background:rgba(139,92,246,0.2);flex-shrink:0}
+/* ═══ GLOW DIVIDER ═══ */
+.glow-divider{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(139,92,246,0.3),transparent);margin:2rem 0}
+/* ═══ SECTION PANEL ═══ */
+.section-panel{margin-bottom:1.5rem}
+.section-header{display:flex;align-items:flex-start;gap:0.8rem;margin-bottom:1.2rem}
+.section-icon{font-size:1.5rem;flex-shrink:0;margin-top:0.15rem}
+.section-header-text h2{font-size:1.4rem;font-weight:700;color:#f1f5f9;margin:0;line-height:1.3}
+.section-header-text h3{font-size:1.15rem;font-weight:600;color:#e2e8f0;margin:0}
+.section-header-text p{font-size:0.9rem;color:#94a3b8;margin:0.2rem 0 0}
+/* ═══ LESSON BADGE ═══ */
+.lesson-badge{display:inline-block;background:#7c3aed;color:#fff;font-size:0.7rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:10px;margin-right:0.5rem;vertical-align:middle}
+/* ═══ LESSON INTRO ═══ */
+.lesson-intro{background:rgba(139,92,246,0.06);border-left:4px solid #7c3aed;border-radius:0 12px 12px 0;padding:1rem 1.2rem;margin:1.2rem 0;color:#cbd5e1;line-height:1.6;font-size:0.9rem}
+.lesson-intro strong{color:#e2e8f0}
+/* ═══ SPLIT ROW / CARDS ═══ */
+.split-row{display:flex;gap:1rem;flex-wrap:wrap;margin:1.2rem 0}
+.split-card{flex:1;min-width:240px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.2rem}
+.split-card h3,.split-card h4{margin:0 0 0.6rem;font-size:1rem;color:#e2e8f0}
+.split-yes{border-color:rgba(74,222,128,0.25);background:rgba(74,222,128,0.04)}
+.split-no{border-color:rgba(248,113,113,0.25);background:rgba(248,113,113,0.04)}
+/* ═══ CHECKLIST ═══ */
+.checklist{list-style:none;padding:0;margin:0.5rem 0}
+.checklist li{padding:0.4rem 0 0.4rem 1.4rem;position:relative;color:#cbd5e1;font-size:0.9rem;line-height:1.5}
+.checklist li::before{content:'•';position:absolute;left:0;color:#7c3aed;font-weight:700}
+/* ═══ RULE BOX ═══ */
+.rule-box{background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.15);border-radius:12px;padding:1.2rem 1.4rem;margin:1.2rem 0;color:#e2e8f0;line-height:1.7}
+.rule-box strong{color:#c4b5fd}
+/* ═══ ALERT BOX ═══ */
+.alert-box{background:rgba(248,113,113,0.06);border-left:4px solid #f87171;border-radius:0 12px 12px 0;padding:1rem 1.2rem;margin:1.2rem 0;color:#cbd5e1;line-height:1.6;font-size:0.9rem}
+.alert-box strong{color:#fca5a5}
+.alert-box ul{margin:0.5rem 0 0;padding-left:1.2rem}
+/* ═══ STEPS FLOW ═══ */
+.steps-flow{display:flex;gap:1rem;flex-wrap:wrap;margin:1.2rem 0}
+.step-item{flex:1;min-width:160px;background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.12);border-radius:12px;padding:1rem;text-align:center}
+.step-badge{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#7c3aed;color:#fff;font-size:0.85rem;font-weight:700;margin-bottom:0.5rem}
+.step-detail{display:block;font-size:0.8rem;color:#94a3b8;margin-top:0.2rem}
+.step-item p{font-size:0.85rem;color:#cbd5e1;margin:0.4rem 0 0;line-height:1.5}
+/* ═══ SIGNAL CARDS ═══ */
+.signal-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.2rem;margin:1rem 0}
+.signal-card h4{margin:0 0 0.5rem;font-size:0.95rem;color:#e2e8f0}
+.signal-card p{margin:0.3rem 0;font-size:0.85rem;color:#94a3b8;line-height:1.5}
+.signal-card ul{margin:0.3rem 0;padding-left:1.2rem}
+.signal-card li{font-size:0.85rem;color:#cbd5e1;line-height:1.6}
+/* ═══ TABLE WRAP ═══ */
+.table-wrap{overflow-x:auto;margin:1rem 0;border-radius:12px;border:1px solid rgba(255,255,255,0.08)}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:0.85rem}
+.table-wrap th{background:rgba(139,92,246,0.12);color:#c4b5fd;padding:0.7rem 0.8rem;text-align:left;font-weight:600;border-bottom:1px solid rgba(255,255,255,0.08)}
+.table-wrap td{padding:0.6rem 0.8rem;border-bottom:1px solid rgba(255,255,255,0.05);color:#cbd5e1}
+.table-wrap tr:last-child td{border-bottom:none}
+.table-wrap tr:hover td{background:rgba(139,92,246,0.04)}
+/* ═══ NEXT CARD ═══ */
+.next-card{background:linear-gradient(135deg,rgba(139,92,246,0.12),rgba(59,130,246,0.08));border:1px solid rgba(139,92,246,0.2);border-radius:12px;padding:1.2rem 1.4rem;margin-top:2rem;text-align:center}
+.next-label{font-size:0.75rem;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:0.08em}
+.next-title{font-size:1.1rem;font-weight:700;color:#f1f5f9;margin:0.4rem 0 0.3rem}
+.next-desc{font-size:0.85rem;color:#94a3b8;line-height:1.5}
+/* ═══ ACTION BOX ═══ */
+.action-box{background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.15);border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0;color:#cbd5e1;font-size:0.9rem;line-height:1.6}
+.action-box strong{color:#4ade80}
+/* ═══ FORMULA BOX ═══ */
+.formula-box{background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.15);border-radius:12px;padding:1.2rem 1.4rem;margin:1.2rem 0;text-align:center;color:#e2e8f0;font-size:1rem;line-height:1.6}
+.formula-box code{background:rgba(139,92,246,0.15);color:#c4b5fd;padding:0.2rem 0.5rem;border-radius:6px;font-size:0.9rem}
+/* ═══ CASE STUDY ═══ */
+.case-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.2rem 1.4rem;margin:1.2rem 0}
+.case-card h3{margin:0 0 0.6rem;font-size:1.05rem;color:#e2e8f0}
+.case-card p{margin:0.4rem 0;font-size:0.9rem;color:#cbd5e1;line-height:1.6}
+.case-card ul{margin:0.4rem 0;padding-left:1.2rem}
+.case-card li{font-size:0.85rem;color:#cbd5e1;line-height:1.6}
+.case-verdict{display:inline-block;padding:0.3rem 0.8rem;border-radius:20px;font-size:0.8rem;font-weight:700;margin-top:0.5rem}
+.verdict-green{background:rgba(74,222,128,0.15);color:#4ade80}
+.verdict-yellow{background:rgba(234,179,8,0.15);color:#eab308}
+.verdict-red{background:rgba(248,113,113,0.15);color:#f87171}
+/* ═══ KEYWORD BOX ═══ */
+.keyword-box{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.2rem;margin:1rem 0}
+.keyword-box h4{margin:0 0 0.5rem;font-size:0.95rem;color:#e2e8f0}
+.keyword-box code{background:rgba(139,92,246,0.12);color:#c4b5fd;padding:0.15rem 0.4rem;border-radius:4px;font-size:0.82rem}
+.keyword-box ul{margin:0.4rem 0;padding-left:1.2rem}
+.keyword-box li{font-size:0.85rem;color:#cbd5e1;line-height:1.7}
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:640px){
+  .split-row,.steps-flow{flex-direction:column}
+  .stat-row{flex-direction:column}
+  .stat-chip{min-width:auto}
+  .hero-title{font-size:1.5rem}
+  .steps-flow{flex-direction:column}
+}
+</style>
+
+<!-- ═══ MODULE HERO ═══ -->
+<div class="module-hero">
+  <div class="hero-badge">🎯 Module 1</div>
+  <h1 class="hero-title">Trouver les bonnes cartes</h1>
+  <p class="hero-subtitle">Les 2 critères indispensables pour repérer une carte rentable avant d'acheter.</p>
+  <div class="stat-row">
+    <div class="stat-chip"><span class="num">2</span><span class="label">Critères clés</span></div>
+    <div class="stat-chip"><span class="num">4</span><span class="label">Leçons</span></div>
+    <div class="stat-chip"><span class="num">5</span><span class="label">Signaux sous-éval.</span></div>
+  </div>
+  <div class="hero-checklist">
+    <span class="hero-check">✅ Critère 1 : Demande réelle</span>
+    <span class="hero-check">✅ Critère 2 : Prix sous-évalué</span>
+  </div>
+</div>
+
+<!-- ═══ LESSON PROGRESS ═══ -->
+<div class="lesson-progress">
+  <div class="lp-dot active">1.1</div>
+  <div class="lp-line"></div>
+  <div class="lp-dot">1.2</div>
+  <div class="lp-line"></div>
+  <div class="lp-dot">1.3</div>
+  <div class="lp-line"></div>
+  <div class="lp-dot">1.4</div>
+</div>
+
+<hr class="glow-divider">
+
+<!-- ═══ CRITÈRE 1 ═══ -->
+<div class="section-panel">
+  <div class="section-header">
+    <span class="section-icon">📊</span>
+    <div class="section-header-text">
+      <h2>Critère 1 : La demande réelle</h2>
+      <p>Avant d'acheter, vérifiez que la carte se vend vraiment.</p>
+    </div>
+  </div>
+
+  <div class="lesson-intro">
+    <strong>Leçon 1.1</strong> — Une carte ne vaut que si quelqu'un veut l'acheter.<br>
+    Le prix affiché ne veut rien dire. Seul le <strong>prix de vente réel</strong> compte.
+  </div>
+</div>
+
+<!-- ═══ LEÇON 1.1 ═══ -->
+<div class="section-panel">
+  <div class="section-header">
+    <span class="section-icon">🔍</span>
+    <div class="section-header-text">
+      <h3><span class="lesson-badge">Leçon 1.1</span> Comprendre le marché</h3>
+    </div>
+  </div>
+
+  <p style="color:#cbd5e1;font-size:0.9rem;line-height:1.7;margin:0.8rem 0">
+    Le marché des cartes Pokémon fonctionne comme tout marché : 
+    <strong style="color:#e2e8f0">offre et demande</strong>.<br>
+    Une carte rare sans acheteur ne vaut rien. Une carte commune très demandée peut se revendre bien.
+  </p>
+
+  <div class="split-row">
+    <div class="split-card split-yes">
+      <h4>✅ Ce qui compte</h4>
+      <ul class="checklist">
+        <li>Prix de vente réel (ventes terminées)</li>
+        <li>Volume de ventes par semaine</li>
+        <li>Temps moyen pour vendre</li>
+        <li>Tendance de prix (↑ ou ↓)</li>
+      </ul>
+    </div>
+    <div class="split-card split-no">
+      <h4>❌ Ce qui ne compte pas</h4>
+      <ul class="checklist">
+        <li>Prix affiché par les vendeurs</li>
+        <li>Cotation dans un guide</li>
+        <li>"Ça se vend cher sur eBay US"</li>
+        <li>La rareté sans demande</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule-box">
+    <strong>Règle d'or :</strong> Regardez les <strong>ventes terminées</strong>, pas les annonces en cours.<br>
+    Un vendeur peut demander 50€ — si personne n'achète, la carte ne vaut pas 50€.
+  </div>
+</div>
+
+<hr class="glow-divider">
+
+<!-- ═══ LEÇON 1.2 ═══ -->
+<div class="section-panel">
+  <div class="section-header">
+    <span class="section-icon">📍</span>
+    <div class="section-header-text">
+      <h3><span class="lesson-badge">Leçon 1.2</span> Où chercher la demande</h3>
+    </div>
+  </div>
+
+  <p style="color:#cbd5e1;font-size:0.9rem;line-height:1.7;margin:0.8rem 0">
+    Voici les 4 plateformes à checker avant chaque achat.
+  </p>
+
+  <div class="steps-flow">
+    <div class="step-item">
+      <div class="step-badge">1</div>
+      <strong style="color:#e2e8f0">eBay</strong>
+      <span class="step-detail">Filtre "Sold items"</span>
+      <p>Ventes terminées + prix réel. Référence mondiale.</p>
+    </div>
+    <div class="step-item">
+      <div class="step-badge">2</div>
+      <strong style="color:#e2e8f0">Cardmarket</strong>
+      <span class="step-detail">Trend Price + ventes</span>
+      <p>Marché européen. Regardez le prix Trend, pas le moins cher.</p>
+    </div>
+    <div class="step-item">
+      <div class="step-badge">3</div>
+      <strong style="color:#e2e8f0">LeBonCoin</strong>
+      <span class="step-detail">Annonces + commentaires</span>
+      <p>Bon indicateur de demande locale. Regardez les annonces proches de chez vous.</p>
+    </div>
+    <div class="step-item">
+      <div class="step-badge">4</div>
+      <strong style="color:#e2e8f0">Vinted</strong>
+      <span class="step-detail">Favoris + vitesse de vente</span>
+      <p>Cartes souvent sous-évaluées. Bon spot d'achat, pas de revente.</p>
+    </div>
+  </div>
+
+  <div class="alert-box">
+    <strong>⚠️ Attention :</strong> eBay US et eBay FR n'ont pas les mêmes prix.<br>
+    Toujours checker le marché <strong>où vous allez revendre</strong>, pas un marché étranger.
+  </div>
+
+  <div class="keyword-box">
+    <h4>🔑 Mots-clés de recherche</h4>
+    <ul>
+      <li><strong>eBay :</strong> <code>"[nom carte]" sold</code> — filtre ventes terminées</li>
+      <li><strong>LeBonCoin :</strong> <code>"[nom carte]" pokemon</code> — trier par date</li>
+      <li><strong>Cardmarket :</strong> Chercher la carte → onglet <code>Price Trends</code></li>
+      <li><strong>Vinted :</strong> <code>"[nom carte]" pokemon carte</code> — regarder les favoris</li>
+    </ul>
+  </div>
+</div>
+
+<hr class="glow-divider">
+
+<!-- Critere 2 -->
+<div class="section-panel">
+  <div class="section-header">
+    <span class="section-icon">💰</span>
+    <div class="section-header-text">
+      <h2>Critère 2 : Le prix sous-évalué</h2>
+      <p>Acheter en-dessous du prix marché = marge garantie.</p>
+    </div>
+  </div>
+  <div class="lesson-intro">
+    <strong>Leçon 1.3 et 1.4</strong> — Même avec une forte demande, pas de profit sans marge.<br>
+    Le deuxième critère : acheter <strong>sous le prix de marché</strong>.
+  </div>
+</div>
+
+<!-- Leçon 1.3 -->
+<div class="section-panel">
+  <div class="section-header">
+    <span class="section-icon">🚩</span>
+    <div class="section-header-text">
+      <h3><span class="lesson-badge">Leçon 1.3</span> 5 signaux de sous-évaluation</h3>
+    </div>
+  </div>
+  <p style="color:#cbd5e1;font-size:0.9rem;line-height:1.7;margin:0.8rem 0">
+    Comment reperer qu'une carte est vendue <strong style="color:#e2e8f0">en-dessous de sa valeur</strong> ?
+  </p>
+  <div class="signal-card">
+    <h4>1️⃣ Lot mal classé</h4>
+    <p>Vendeur qui ne connaît pas les cartes → prix souvent 30-50% sous le marché.</p>
+    <ul><li>Titre vague : "lot cartes pokemon" sans détails</li><li>Pas de photos individuelles des cartes valorisables</li><li>Catégorie incorrecte sur la plateforme</li></ul>
+  </div>
+  <div class="signal-card">
+    <h4>2️⃣ Prix de départ très bas</h4>
+    <p>Enchère qui démarre à 1€ ou 0,99€ → parfois personne ne surenchérit.</p>
+    <ul><li>Spécialement les fins de soirée (22h-2h)</li><li>Enchères se terminant en semaine = moins de concurrence</li></ul>
+  </div>
+  <div class="signal-card">
+    <h4>3️⃣ Vendeur pressé</h4>
+    <p>"Débarras", "déménagement", "urgent" → ouvert à la négociation.</p>
+    <ul><li>Mots-clés dans l'annonce à surveiller</li><li>Proposer un prix inférieur de 15-20% = souvent accepté</li></ul>
+  </div>
+  <div class="signal-card">
+    <h4>4️⃣ Carte dans un lot mixte</h4>
+    <p>Une carte valorisable noyée dans un lot de 50 cartes à 10€.</p>
+    <ul><li>Calculer : prix du lot / nombre de cartes valorisables</li><li>Si le prix à la carte &lt; valeur marché → achat</li></ul>
+  </div>
+  <div class="signal-card">
+    <h4>5️⃣ Erreur de listing</h4>
+    <p>Carte mal identifiée (mauvaise édition, mauvais état décrit).</p>
+    <ul><li>Vendeur qui décrit "bon état" mais la carte est NM/Mint</li><li>Mauvaise édition référencée (1st edition vs unlimited)</li></ul>
+  </div>
+</div>
+
+<hr class="glow-divider">
+
+<!-- Leçon 1.4 -->
+<div class="section-panel">
+  <div class="section-header">
+    <span class="section-icon">🧮</span>
+    <div class="section-header-text">
+      <h3><span class="lesson-badge">Leçon 1.4</span> Calcul rapide du spread</h3>
+    </div>
+  </div>
+  <p style="color:#cbd5e1;font-size:0.9rem;line-height:1.7;margin:0.8rem 0">
+    Le <strong style="color:#e2e8f0">spread</strong> = la différence entre votre prix d'achat et le prix de vente réaliste.<br>
+    C'est votre marge brute (avant frais).
+  </p>
+  <div class="formula-box">
+    <strong>Spread = Prix de vente marché - Prix d'achat</strong><br><br>
+    <code>Spread % = (Prix vente - Prix achat) / Prix achat x 100</code>
+  </div>
+  <div class="split-row">
+    <div class="split-card split-yes">
+      <h4>✅ Spread confortable</h4>
+      <ul class="checklist">
+        <li>≥ 60% → Feu vert, achat</li>
+        <li>Assez de marge pour absorber les frais</li>
+        <li>Risque limité même si le marché baisse un peu</li>
+      </ul>
+    </div>
+    <div class="split-card" style="border-color:rgba(234,179,8,0.25);background:rgba(234,179,8,0.04)">
+      <h4>⚠️ Zone prudence</h4>
+      <ul class="checklist">
+        <li>40-60% → Zone prudence</li>
+        <li>Les frais peuvent manger la moitié de la marge</li>
+        <li>Acceptable si volume élevé et vente rapide</li>
+      </ul>
+    </div>
+    <div class="split-card split-no">
+      <h4>❌ Spread insuffisant</h4>
+      <ul class="checklist">
+        <li>< 40% → Ne pas acheter</li>
+        <li>Frais + imprevus = perte quasi certaine</li>
+        <li>Même si la carte se vend bien, pas de profit</li>
+      </ul>
+    </div>
+  </div>
+  <div class="case-card">
+    <h3>📐 Exemple concret</h3>
+    <p>Vous trouvez un <strong style="color:#e2e8f0">Charizard VMAX</strong> a <strong style="color:#4ade80">25 euros</strong> sur LeBonCoin.</p>
+    <ul>
+      <li>Prix de vente moyen (eBay sold) : <strong style="color:#e2e8f0">45 euros</strong></li>
+      <li>Frais eBay (13%) : 5,85 euros</li>
+      <li>Frais PayPal (2,5%) : 1,13 euros</li>
+      <li>Envoi : ~2€</li>
+    </ul>
+    <p style="margin-top:0.8rem"><strong style="color:#e2e8f0">Profit net :</strong> 45 - 25 - 5,85 - 1,13 - 2 = <strong style="color:#4ade80">11,02€</strong></p>
+    <p><strong style="color:#e2e8f0">Spread brut :</strong> (45 - 25) / 25 x 100 = <strong style="color:#4ade80">80%</strong> ✅</p>
+    <span class="case-verdict verdict-green">✅ Achat validé - spread 80%</span>
+  </div>
+  <div class="case-card">
+    <h3>📐 Exemple concret - à éviter</h3>
+    <p>Meme <strong style="color:#e2e8f0">Charizard VMAX</strong> a <strong style="color:#f87171">38 euros</strong>.</p>
+    <ul>
+      <li>Prix de vente moyen : 45 euros</li>
+      <li>Frais totaux : environ 9 euros</li>
+    </ul>
+    <p style="margin-top:0.8rem"><strong style="color:#e2e8f0">Profit net :</strong> 45 - 38 - 9 = <strong style="color:#f87171">-2€</strong></p>
+    <p><strong style="color:#e2e8f0">Spread brut :</strong> (45 - 38) / 38 x 100 = <strong style="color:#f87171">18%</strong></p>
+    <span class="case-verdict verdict-red">❌ Pas de profit - spread 18%</span>
+  </div>
+</div>
+
+<hr class="glow-divider">
+<!-- Sets rentables -->
+<div class="section-panel">
+  <div class="section-header">
+    <span class="section-icon">🎴</span>
+    <div class="section-header-text">
+      <h2>Sets rentables à surveiller</h2>
+      <p>Certains sets ont plus de cartes sous-évaluées que d'autres.</p>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Set</th><th>Pourquoi</th><th>Cartes cles</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Evolving Skies</td><td>Booster out, demande forte</td><td>Dragonite VMAX, Rayquaza VMAX</td></tr>
+        <tr><td>Brilliant Stars</td><td>Alt arts très recherchées</td><td>Charizard VSTAR, Arceus VSTAR</td></tr>
+        <tr><td>Fusion Strike</td><td>Set under-estimé</td><td>Gengar VMAX Alt, Mew VMAX</td></tr>
+        <tr><td>Chilling Reign</td><td>Bons rapports qualité/prix</td><td>Blaziken VMAX, Umbreon VMAX</td></tr>
+        <tr><td>Silver Tempest</td><td>Recent, encore abordable</td><td>Lugia VSTAR Alt, Arceus VSTAR</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="action-box">
+    <strong>Action :</strong> Choisissez 1-2 sets dans cette liste. Concentrez vos recherches dessus pendant 2 semaines.<br>
+    Mieux vaut connaître 2 sets parfaitement que 10 sets en surface.
+  </div>
+</div>
+
+<hr class="glow-divider">
+
+<!-- Checklist recap -->
+<div class="section-panel">
+  <div class="section-header">
+    <span class="section-icon">✅</span>
+    <div class="section-header-text">
+      <h2>Checklist récapitulative</h2>
+    </div>
+  </div>
+  <div class="split-row">
+    <div class="split-card split-yes">
+      <h4>📊 Critère 1 : Demande réelle</h4>
+      <ul class="checklist">
+        <li>Vérifie les ventes terminées (eBay Sold)</li>
+        <li>Au moins 3 ventes recentes (7 derniers jours)</li>
+        <li>Prix de vente moyen cohérent entre plateformes</li>
+        <li>Temps de vente inférieur à 5 jours</li>
+        <li>Tendance stable ou haussière</li>
+      </ul>
+    </div>
+    <div class="split-card" style="border-color:rgba(234,179,8,0.25);background:rgba(234,179,8,0.04)">
+      <h4>💰 Critère 2 : Prix sous-évalué</h4>
+      <ul class="checklist">
+        <li>Spread brut supérieur à 60%</li>
+        <li>Au moins 1 signal de sous-évaluation présent</li>
+        <li>Frais de vente calculés et inclus</li>
+        <li>Profit net supérieur à 5€ par carte</li>
+        <li>Les 2 critères sont verts</li>
+      </ul>
+    </div>
+  </div>
+  <div class="rule-box">
+    <strong>Les 2 critères doivent être validés.</strong><br>
+    Demande sans marge = pas de profit. Marge sans demande = pas de vente.<br>
+    <strong>Il faut les deux.</strong>
+  </div>
+</div>
+
+<!-- Next card -->
+<div class="next-card">
+  <div class="next-label">Prochain module</div>
+  <div class="next-title">Module 2 : Acheter au bon prix</div>
+  <div class="next-desc">Comment négocier, enchérir, et ne jamais payer trop cher une carte.</div>
+</div>

@@ -1,0 +1,799 @@
+<style>
+/* ═══ MODULE HERO ═══ */
+.module-hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(59,130,246,0.08));border-radius:16px;margin-bottom:2rem;border:1px solid rgba(139,92,246,0.15)}
+.hero-badge{display:inline-block;background:rgba(139,92,246,0.2);color:#c4b5fd;padding:0.35rem 1rem;border-radius:20px;font-size:0.85rem;font-weight:600;margin-bottom:1rem}
+.hero-title{font-size:2rem;font-weight:800;color:#f1f5f9;margin:0.5rem 0;line-height:1.2}
+.hero-subtitle{font-size:1.05rem;color:#94a3b8;max-width:540px;margin:0 auto 1.2rem;line-height:1.6}
+.hero-checklist{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin-top:1rem}
+.hero-check{background:rgba(74,222,128,0.1);color:#4ade80;padding:0.3rem 0.8rem;border-radius:20px;font-size:0.85rem;font-weight:500}
+/* ═══ STAT CHIPS ═══ */
+.stat-row{display:flex;gap:1rem;flex-wrap:wrap;margin:1.2rem 0}
+.stat-chip{background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.15);border-radius:12px;padding:0.8rem 1.2rem;text-align:center;flex:1;min-width:120px}
+.stat-chip .num{display:block;font-size:1.3rem;font-weight:800;color:#e2e8f0}
+.stat-chip .label{display:block;font-size:0.8rem;color:#94a3b8;margin-top:0.25rem}
+/* ═══ LESSON PROGRESS ═══ */
+.lesson-progress{display:flex;align-items:center;justify-content:center;gap:0;margin:1.5rem 0}
+.lp-dot{width:36px;height:36px;border-radius:50%;background:rgba(139,92,246,0.15);color:#94a3b8;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0}
+.lp-dot.active{background:#7c3aed;color:#fff;box-shadow:0 0 12px rgba(124,58,237,0.4)}
+.lp-line{width:32px;height:2px;background:rgba(139,92,246,0.2);flex-shrink:0}
+/* ═══ GLOW DIVIDER ═══ */
+.glow-divider{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(139,92,246,0.3),transparent);margin:2rem 0}
+/* ═══ SECTION PANEL ═══ */
+.section-panel{margin-bottom:1.5rem}
+.section-header{display:flex;align-items:flex-start;gap:0.8rem;margin-bottom:1.2rem}
+.section-icon{font-size:1.5rem;flex-shrink:0;margin-top:0.15rem}
+.section-header-text h2{font-size:1.4rem;font-weight:700;color:#f1f5f9;margin:0;line-height:1.3}
+.section-header-text h3{font-size:1.15rem;font-weight:600;color:#e2e8f0;margin:0}
+.section-header-text p{font-size:0.9rem;color:#94a3b8;margin:0.2rem 0 0}
+/* ═══ LESSON BADGE ═══ */
+.lesson-badge{display:inline-block;background:#7c3aed;color:#fff;font-size:0.7rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:10px;margin-right:0.5rem;vertical-align:middle}
+/* ═══ LESSON INTRO ═══ */
+/* ═══ SPLIT ROW / CARDS ═══ */
+.split-row{display:flex;gap:1rem;flex-wrap:wrap;margin:1.2rem 0}
+.split-card{flex:1;min-width:240px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.2rem}
+.split-card h3,.split-card h4{margin:0 0 0.6rem;font-size:1rem;color:#e2e8f0}
+.split-yes{border-color:rgba(74,222,128,0.25);background:rgba(74,222,128,0.04)}
+.split-no{border-color:rgba(248,113,113,0.25);background:rgba(248,113,113,0.04)}
+/* ═══ CHECKLIST ═══ */
+.checklist{list-style:none;padding:0;margin:0.5rem 0}
+.checklist li{padding:0.4rem 0 0.4rem 1.4rem;position:relative;color:#cbd5e1;font-size:0.9rem;line-height:1.5}
+.checklist li::before{content:'•';position:absolute;left:0;color:#7c3aed;font-weight:700}
+.checklist-premium{list-style:none;padding:0;counter-reset:check}
+.checklist-premium li{padding:0.7rem 0.8rem 0.7rem 2.6rem;position:relative;border-bottom:1px solid rgba(255,255,255,0.06);color:#cbd5e1;font-size:0.9rem;cursor:pointer;transition:background 0.2s}
+.checklist-premium li:hover{background:rgba(139,92,246,0.06)}
+.checklist-premium li::before{counter-increment:check;content:counter(check);position:absolute;left:0.6rem;width:1.6rem;height:1.6rem;border-radius:50%;background:rgba(139,92,246,0.15);color:#c4b5fd;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700}
+.checklist-premium li.checked{text-decoration:line-through;opacity:0.5}
+.checklist-premium li.checked::before{content:'✓';background:#4ade80;color:#0f172a}
+/* ═══ RULE BOX ═══ */
+.rule-box{background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.15);border-radius:12px;padding:1.2rem 1.4rem;margin:1.2rem 0;color:#e2e8f0;line-height:1.7}
+.rule-box strong{color:#c4b5fd}
+/* ═══ ALERT BOX ═══ */
+.alert-box{background:rgba(139,92,246,0.06);border-left:4px solid #7c3aed;border-radius:0 12px 12px 0;padding:1rem 1.2rem;margin:1.2rem 0;color:#cbd5e1;line-height:1.6;font-size:0.9rem}
+.alert-box strong{color:#e2e8f0}
+.alert-box ul{margin:0.5rem 0 0;padding-left:1.2rem}
+/* ═══ PILLAR FLOW ═══ */
+.pillar-flow{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;justify-content:center;margin:1.5rem 0}
+.pillar-step{background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.15);border-radius:12px;padding:0.8rem 1rem;text-align:center;min-width:100px}
+.pillar-num{display:block;font-size:1.4rem;font-weight:800;color:#7c3aed}
+.pillar-label{display:block;font-size:0.95rem;font-weight:600;color:#e2e8f0;margin-top:0.2rem}
+.pillar-detail{display:block;font-size:0.75rem;color:#94a3b8;margin-top:0.15rem}
+.pillar-arrow{color:#7c3aed;font-size:1.2rem;font-weight:700}
+/* ═══ STEPS FLOW ═══ */
+.steps-flow{display:flex;gap:1rem;flex-wrap:wrap;margin:1.2rem 0}
+.step-item{flex:1;min-width:160px;background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.12);border-radius:12px;padding:1rem;text-align:center}
+.step-badge{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#7c3aed;color:#fff;font-size:0.85rem;font-weight:700;margin-bottom:0.5rem}
+.step-detail{display:block;font-size:0.8rem;color:#94a3b8;margin-top:0.2rem}
+.step-item p{font-size:0.85rem;color:#cbd5e1;margin:0.4rem 0 0;line-height:1.5}
+/* ═══ ENVELOPE (3 POCHES) ═══ */
+.envelope-row{display:flex;gap:1rem;flex-wrap:wrap;margin:1.2rem 0}
+.envelope-card{flex:1;min-width:140px;border-radius:12px;padding:1.2rem;text-align:center;border:1px solid rgba(255,255,255,0.08)}
+.envelope-buy{background:rgba(139,92,246,0.08);border-color:rgba(139,92,246,0.2)}
+.envelope-renew{background:rgba(234,179,8,0.06);border-color:rgba(234,179,8,0.2)}
+.envelope-reserve{background:rgba(74,222,128,0.06);border-color:rgba(74,222,128,0.2)}
+.envelope-pct{font-size:1.6rem;font-weight:800;color:#e2e8f0}
+.envelope-icon{font-size:1.4rem;margin:0.3rem 0}
+.envelope-label{font-weight:600;color:#e2e8f0;font-size:0.95rem}
+.envelope-desc{font-size:0.8rem;color:#94a3b8;margin-top:0.3rem}
+/* ═══ ACCOUNT GRID ═══ */
+.account-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.8rem;margin:1.2rem 0}
+.account-card{display:flex;flex-direction:column;align-items:center;gap:0.3rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1rem;text-decoration:none;transition:border-color 0.2s,background 0.2s}
+.account-card:hover{border-color:rgba(139,92,246,0.3);background:rgba(139,92,246,0.06)}
+.account-icon{font-size:1.5rem}
+.account-name{font-weight:600;color:#e2e8f0;font-size:0.9rem}
+.account-desc{font-size:0.75rem;color:#94a3b8}
+/* ═══ TOOL GRID ═══ */
+.tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.8rem;margin:1.2rem 0}
+.tool-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1rem;font-size:0.9rem;color:#cbd5e1}
+.tool-card strong{color:#e2e8f0}
+.tool-free{display:inline-block;background:rgba(74,222,128,0.15);color:#4ade80;font-size:0.75rem;padding:0.15rem 0.5rem;border-radius:8px;margin-left:0.4rem;font-weight:600}
+.tool-partial{display:inline-block;background:rgba(234,179,8,0.15);color:#eab308;font-size:0.75rem;padding:0.15rem 0.5rem;border-radius:8px;margin-left:0.4rem;font-weight:600}
+/* ═══ TABLE WRAP ═══ */
+.table-wrap{overflow-x:auto;margin:1rem 0;border-radius:12px;border:1px solid rgba(255,255,255,0.08)}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:0.85rem}
+.table-wrap th{background:rgba(139,92,246,0.12);color:#c4b5fd;padding:0.7rem 0.8rem;text-align:left;font-weight:600;border-bottom:1px solid rgba(255,255,255,0.08)}
+.table-wrap td{padding:0.6rem 0.8rem;border-bottom:1px solid rgba(255,255,255,0.05);color:#cbd5e1}
+.table-wrap tr:last-child td{border-bottom:none}
+.table-wrap tr:hover td{background:rgba(139,92,246,0.04)}
+/* ═══ NEXT CARD ═══ */
+.next-card{background:linear-gradient(135deg,rgba(139,92,246,0.12),rgba(59,130,246,0.08));border:1px solid rgba(139,92,246,0.2);border-radius:12px;padding:1.2rem 1.4rem;margin-top:2rem;text-align:center}
+.next-label{font-size:0.75rem;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:0.08em}
+.next-title{font-size:1.1rem;font-weight:700;color:#f1f5f9;margin:0.4rem 0 0.3rem}
+.next-desc{font-size:0.85rem;color:#94a3b8;line-height:1.5}
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:640px){
+  .split-row,.envelope-row,.steps-flow{flex-direction:column}
+  .stat-row{flex-direction:column}
+  .stat-chip{min-width:auto}
+  .hero-title{font-size:1.5rem}
+  .pillar-flow{flex-direction:column}
+  .pillar-arrow{transform:rotate(90deg)}
+}
+</style>
+
+<div class="module-hero">
+  <div class="hero-badge">🎮 Module 0</div>
+  <h1 class="hero-title">Bienvenue & Setup</h1>
+  <p class="hero-subtitle">Avant de vendre, il faut préparer le terrain. Ce module pose les bases : les comptes, les outils, et la méthode.</p>
+  <div class="hero-checklist">
+    <span class="hero-check">✅ Mindset</span>
+    <span class="hero-check">✅ Comptes</span>
+    <span class="hero-check">✅ Outils</span>
+    <span class="hero-check">✅ Budget</span>
+  </div>
+  <div style="display:flex;justify-content:center;margin-top:1.5rem;">
+    <div class="stat-chip" style="min-width:140px;">
+      <span class="num">90%</span>
+      <span class="label">des débutants échouent</span>
+    </div>
+  </div>
+</div>
+
+<!-- Progress bar -->
+<div class="lesson-progress">
+  <div class="lp-dot active">01</div>
+  <div class="lp-line"></div>
+  <div class="lp-dot">02</div>
+  <div class="lp-line"></div>
+  <div class="lp-dot">03</div>
+  <div class="lp-line"></div>
+  <div class="lp-dot">04</div>
+  <div class="lp-line"></div>
+  <div class="lp-dot">05</div>
+</div>
+
+<hr class="glow-divider">
+
+<!-- Leçon 0.1 — Bienvenue dans Pokévendre Pro -->
+
+
+<hr class="glow-divider">
+
+<div class="section-panel">
+  <div class="section-header">
+    <div class="section-icon">🎓</div>
+    <div class="section-header-text">
+      <h2><span class="lesson-badge">01</span> Bienvenue dans Pokévendre Pro</h2>
+      <p>Ton framework de décision pour revendre avec profit</p>
+    </div>
+  </div>
+
+  <div class="lesson-intro">
+    Un <strong>framework de décision</strong>. Pas un cours théorique. Pas une liste de conseils vagues. Un outil concret que tu utilises devant chaque achat potentiel — <strong>5 critères, 30 secondes, décision binaire</strong>.
+  </div>
+
+  <!-- ═══ CE QUE TU VAS OBTENIR ═══ -->
+  <div class="split-row">
+    <div class="split-card split-yes">
+      <h3>✅ Ce que tu vas obtenir</h3>
+      <ul class="checklist">
+        <li><strong>La Checklist de Risque à 5 critères</strong> — ton outil de décision pour chaque carte/lot</li>
+        <li><strong>Les seuils chiffrés</strong> — pas de "jugement", que des règles claires</li>
+        <li><strong>Les signaux de sortie</strong> — quand GARDER, quand REVENDRE</li>
+        <li><strong>Les outils et templates</strong> — calculateur de spread, keywords, modèles de listing</li>
+      </ul>
+    </div>
+    <div class="split-card split-no">
+      <h3>❌ Ce que tu NE vas PAS obtenir</h3>
+      <ul class="checklist">
+        <li>Un raccourci magique pour gagner de l'argent sans effort</li>
+        <li>Une liste de "cartes à acheter maintenant" (le marché change)</li>
+        <li>Une promesse de revenus garantis</li>
+        <li>Des conseils vagues du type "achète bas, vends haut"</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule-box">
+    📌 <strong>La revente de cartes Pokémon, c'est un système.</strong> Un système a des règles. Ce module te donne les règles. Après, tu exécutes.
+  </div>
+</div>
+
+<!-- ═══ COMMENT NAVIGUER LA FORMATION ═══ -->
+
+<hr class="glow-divider">
+
+<div class="section-panel">
+  <div class="section-header">
+    <div class="section-icon">🗺️</div>
+    <div class="section-header-text">
+      <h2>Comment naviguer la formation</h2>
+      <p>4 Piliers, 1 Framework complet</p>
+    </div>
+  </div>
+
+  <p>La formation est construite en <strong>4 Piliers</strong>, chaque pilier construisant un morceau du Framework de Décision :</p>
+
+  <!-- Pillar flow — 4 modules -->
+  <div class="pillar-flow">
+    <div class="pillar-step">
+      <span class="pillar-num">1</span>
+      <span class="pillar-label">Trouver</span>
+      <span class="pillar-detail">Quoi & où chercher</span>
+    </div>
+    <span class="pillar-arrow">→</span>
+    <div class="pillar-step">
+      <span class="pillar-num">2</span>
+      <span class="pillar-label">Calculer</span>
+      <span class="pillar-detail">Profit réel au centime</span>
+    </div>
+    <span class="pillar-arrow">→</span>
+    <div class="pillar-step">
+      <span class="pillar-num">3</span>
+      <span class="pillar-label">Acheter</span>
+      <span class="pillar-detail">Bon prix, sans risque</span>
+    </div>
+    <span class="pillar-arrow">→</span>
+    <div class="pillar-step">
+      <span class="pillar-num">4</span>
+      <span class="pillar-label">Revendre</span>
+      <span class="pillar-detail">Quand & comment vendre</span>
+    </div>
+  </div>
+
+  <!-- Module → Framework mapping table -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Module</th>
+          <th>Ce que tu apprends</th>
+          <th>Critère(s) du Framework</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Module"><strong>Module 1 — Trouver</strong></td>
+          <td data-label="Tu apprends">Quoi chercher, où chercher</td>
+          <td data-label="Framework">Critères 1 & 2</td>
+        </tr>
+        <tr>
+          <td data-label="Module"><strong>Module 2 — Calculer</strong></td>
+          <td data-label="Tu apprends">Le profit réel au centime</td>
+          <td data-label="Framework">Critères 3 & 4</td>
+        </tr>
+        <tr>
+          <td data-label="Module"><strong>Module 3 — Acheter</strong></td>
+          <td data-label="Tu apprends">Acheter au bon prix, sans risque</td>
+          <td data-label="Framework">Critère 5 + Checklist complète</td>
+        </tr>
+        <tr>
+          <td data-label="Module"><strong>Module 4 — Revendre</strong></td>
+          <td data-label="Tu apprends">Quand vendre, comment vendre</td>
+          <td data-label="Framework">Signaux de sortie</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- What each lesson contains -->
+  <h3>Chaque leçon contient :</h3>
+
+  <div class="stat-row">
+    <div class="stat-chip">
+      <span class="num">📖</span>
+      <span class="label">Texte explicatif — le "pourquoi"</span>
+    </div>
+    <div class="stat-chip">
+      <span class="num">📋</span>
+      <span class="label">Tableaux & checklists — le "quoi"</span>
+    </div>
+    <div class="stat-chip">
+      <span class="num">📊</span>
+      <span class="label">Règles chiffrées — seuils & %</span>
+    </div>
+    <div class="stat-chip">
+      <span class="num">💡</span>
+      <span class="label">Exemples concrets — situations réelles</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TON PROFIL DE REVENDEUR ═══ -->
+
+<hr class="glow-divider">
+
+<div class="section-panel">
+  <div class="section-header">
+    <div class="section-icon">🧬</div>
+    <div class="section-header-text">
+      <h2>Ton profil de revendeur</h2>
+      <p>4 profils possibles — le Framework est le même pour tous</p>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Profil</th>
+          <th>Budget</th>
+          <th>Expérience</th>
+          <th>Stratégie recommandée</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Profil">🌱 <strong>Débutant curieux</strong></td>
+          <td data-label="Budget">&lt; 100€</td>
+          <td data-label="Expérience">Aucune vente</td>
+          <td data-label="Stratégie">Commence par les lots bas prix sur Vinted</td>
+        </tr>
+        <tr>
+          <td data-label="Profil">📦 <strong>Chasseur de lots</strong></td>
+          <td data-label="Budget">100–300€</td>
+          <td data-label="Expérience">Quelques achats/reventes</td>
+          <td data-label="Stratégie">Focus sur les lots sous-évalués eBay/Vinted</td>
+        </tr>
+        <tr>
+          <td data-label="Profil">🎯 <strong>Revendeur confirmé</strong></td>
+          <td data-label="Budget">300–500€</td>
+          <td data-label="Expérience">Ventes régulières</td>
+          <td data-label="Stratégie">Diversifie les canaux. Intègre le grading</td>
+        </tr>
+        <tr>
+          <td data-label="Profil">🏆 <strong>Pro semi-pro</strong></td>
+          <td data-label="Budget">500€+</td>
+          <td data-label="Expérience">Revente systématique</td>
+          <td data-label="Stratégie">Automatise les recherches. Arbitrage international</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert-box" style="background:rgba(139,92,246,0.08);border-left:4px solid #7c3aed;">
+    💡 <strong>Quel que soit ton profil</strong>, le Framework de Décision est le même. Seuls les seuils changent — et on les voit dans le Module 2.
+  </div>
+</div>
+
+<!-- LEÇON 0.2 — Le Framework de Décision : ta boussole -->
+
+<hr class="glow-divider">
+
+<div class="section-panel">
+  <div class="section-header">
+    <span class="section-icon">🧭</span>
+    <div class="section-header-text">
+      <h2><span class="lesson-badge">02</span> Le Framework de Décision : ta boussole</h2>
+    </div>
+  </div>
+
+  <div class="lesson-intro">
+    <p>La plupart des revendeurs débutants prennent leurs décisions au feeling. Ils voient un lot, ils ont "une bonne impression", ils achètent. Et ils se retrouvent avec des cartes qui ne se revendent pas.</p>
+    <p>Le problème du feeling, c'est que :</p>
+    <ul>
+      <li>Il change selon ton humeur</li>
+      <li>Il ne te protège pas des erreurs coûteuses</li>
+      <li>Tu ne peux pas l'améliorer parce que tu ne sais pas ce qui a marché ou pas</li>
+    </ul>
+    <p>Le Framework de Décision remplace le feeling par <strong>5 critères objectifs</strong>. Tu passes chaque carte/lot devant ces 5 critères. La réponse est binaire : <strong>ACHETER</strong> ou <strong>PASSER</strong>.</p>
+  </div>
+
+  <div class="section-header" style="margin-top:2rem;">
+    <span class="section-icon">⚡</span>
+    <div class="section-header-text">
+      <h3>Les 3 étapes en 30 secondes</h3>
+    </div>
+  </div>
+
+  <div class="steps-flow">
+    <div class="step-item">
+      <span class="step-badge">1</span>
+      <strong>ÉVALUE</strong>
+      <span class="step-detail">30 secondes</span>
+      <p>Tu passes la carte devant les 5 critères de la Checklist.</p>
+    </div>
+    <div class="step-item">
+      <span class="step-badge">2</span>
+      <strong>DÉCIDE</strong>
+      <span class="step-detail">5 secondes</span>
+      <p>Tu comptes les 🟢. 3 ou plus = ACHETER. 2 ou moins = PASSER.</p>
+    </div>
+    <div class="step-item">
+      <span class="step-badge">3</span>
+      <strong>EXÉCUTE</strong>
+      <span class="step-detail">Action</span>
+      <p>Tu achètes ou tu passes. Pas de "peut-être".</p>
+    </div>
+  </div>
+
+  <div class="section-header" style="margin-top:2.5rem;">
+    <span class="section-icon">📋</span>
+    <div class="section-header-text">
+      <h3>La Checklist de Risque à 5 critères</h3>
+    </div>
+  </div>
+
+  <div class="rule-box" style="text-align:left;">
+    <div style="font-size:1.1rem;font-weight:700;margin-bottom:1rem;text-align:center;">📋 CHECKLIST DE RISQUE — 5 CRITÈRES</div>
+    <div class="checklist">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(255,255,255,0.08);">
+        <span>☐ <strong>Critère 1</strong> — La demande est-elle réelle ?</span>
+        <span style="opacity:0.6;font-size:0.85rem;">Module 1</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(255,255,255,0.08);">
+        <span>☐ <strong>Critère 2</strong> — Le prix d'achat est-il sous-évalué ?</span>
+        <span style="opacity:0.6;font-size:0.85rem;">Module 1</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(255,255,255,0.08);">
+        <span>☐ <strong>Critère 3</strong> — Le spread réel est-il ≥ 30% ?</span>
+        <span style="opacity:0.6;font-size:0.85rem;">Module 2</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(255,255,255,0.08);">
+        <span>☐ <strong>Critère 4</strong> — Les seuils d'achat sont-ils respectés ?</span>
+        <span style="opacity:0.6;font-size:0.85rem;">Module 2</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;">
+        <span>☐ <strong>Critère 5</strong> — Le risque est-il contrôlé ?</span>
+        <span style="opacity:0.6;font-size:0.85rem;">Module 3</span>
+      </div>
+    </div>
+    <div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.1);text-align:center;">
+      <div style="font-size:0.95rem;margin-bottom:0.5rem;"><strong>RÉSULTAT :</strong> ___ 🟢 &nbsp; ___ 🟡 &nbsp; ___ 🔴</div>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:0.8rem;">
+        <span class="stat-chip" style="min-width:auto;"><span class="num" style="color:#4ade80;">3🟢+</span> <span class="label">ACHETER</span></span>
+        <span class="stat-chip" style="min-width:auto;"><span class="num" style="color:#f87171;">2🟢-</span> <span class="label">PASSER</span></span>
+        <span class="stat-chip" style="min-width:auto;"><span class="num" style="color:#facc15;">🟡</span> <span class="label">PRUDENCE</span></span>
+      </div>
+      <div style="margin-top:0.8rem;font-size:0.85rem;opacity:0.7;">Signaux de sortie : GARDER / REVENDRE → Module 4</div>
+    </div>
+  </div>
+
+  <div class="section-header" style="margin-top:2.5rem;">
+    <span class="section-icon">🎨</span>
+    <div class="section-header-text">
+      <h3>Comment lire la Checklist</h3>
+    </div>
+  </div>
+
+  <div class="split-row">
+    <div class="split-card split-yes">
+      <h4>🟢 VERT</h4>
+      <p>Le critère est <strong>validé</strong>. Tout est bon de ce côté.</p>
+    </div>
+    <div class="split-card" style="border-color:#facc15;background:rgba(250,204,21,0.06);">
+      <h4>🟡 PRUDENCE</h4>
+      <p>Le critère est <strong>partiellement validé</strong>. Il faut creuser avant de décider.</p>
+    </div>
+    <div class="split-card split-no">
+      <h4>🔴 ROUGE</h4>
+      <p>Le critère n'est <strong>pas validé</strong>. Signal d'alerte.</p>
+    </div>
+  </div>
+
+  <div class="section-header" style="margin-top:2.5rem;">
+    <span class="section-icon">⚖️</span>
+    <div class="section-header-text">
+      <h3>La règle des 3/5</h3>
+    </div>
+  </div>
+
+  <div class="rule-box">
+    <p>C'est la règle centrale du framework :</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1rem;">
+      <div style="text-align:center;padding:0.8rem 1.2rem;background:rgba(74,222,128,0.1);border-radius:12px;border:1px solid rgba(74,222,128,0.3);">
+        <div style="font-size:1.3rem;font-weight:800;color:#4ade80;">3 🟢 ou plus</div>
+        <div style="font-size:0.9rem;margin-top:0.3rem;">→ <strong>ACHETER</strong><br><span style="opacity:0.8;">Assez de signaux favorables</span></div>
+      </div>
+      <div style="text-align:center;padding:0.8rem 1.2rem;background:rgba(248,113,113,0.1);border-radius:12px;border:1px solid rgba(248,113,113,0.3);">
+        <div style="font-size:1.3rem;font-weight:800;color:#f87171;">2 🟢 ou moins</div>
+        <div style="font-size:0.9rem;margin-top:0.3rem;">→ <strong>PASSER</strong><br><span style="opacity:0.8;">Risque trop grand</span></div>
+      </div>
+      <div style="text-align:center;padding:0.8rem 1.2rem;background:rgba(250,204,21,0.1);border-radius:12px;border:1px solid rgba(250,204,21,0.3);">
+        <div style="font-size:1.3rem;font-weight:800;color:#facc15;">Des 🟡</div>
+        <div style="font-size:0.9rem;margin-top:0.3rem;">→ <strong>PRUDENCE</strong><br><span style="opacity:0.8;">Investigation supplémentaire</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert-box" style="margin-top:1.5rem;">
+    <strong>💡 Pourquoi 3/5 et pas 4/5 ou 5/5 ?</strong>
+    <ul style="margin-top:0.5rem;margin-bottom:0;">
+      <li><strong>5/5</strong> serait trop strict — tu ne ferais presque jamais de deal</li>
+      <li><strong>4/5</strong> éliminerait les bonnes affaires qui ont un petit défaut</li>
+      <li><strong>2/5</strong> serait trop permissif — tu prendrais trop de risques</li>
+      <li><strong>3/5</strong> est le point d'équilibre — ça filtre les mauvais deals tout en laissant passer les bons</li>
+    </ul>
+  </div>
+
+  <div class="section-header" style="margin-top:2.5rem;">
+    <span class="section-icon">🔍</span>
+    <div class="section-header-text">
+      <h3>Ce que chaque critère vérifie</h3>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Critère</th>
+          <th>Question</th>
+          <th>Ce qu'il protège contre</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="#">1</td>
+          <td data-label="Critère"><strong>Demande réelle</strong></td>
+          <td data-label="Question">Quelqu'un veut-il acheter cette carte ?</td>
+          <td data-label="Protège contre">Acheter une carte personne ne veut</td>
+        </tr>
+        <tr>
+          <td data-label="#">2</td>
+          <td data-label="Critère"><strong>Prix sous-évalué</strong></td>
+          <td data-label="Question">Le prix est-il en dessous du marché ?</td>
+          <td data-label="Protège contre">Payer le prix fort</td>
+        </tr>
+        <tr>
+          <td data-label="#">3</td>
+          <td data-label="Critère"><strong>Spread ≥ 30%</strong></td>
+          <td data-label="Question">Après frais, est-ce rentable ?</td>
+          <td data-label="Protège contre">Les frais cachés qui mangent le profit</td>
+        </tr>
+        <tr>
+          <td data-label="#">4</td>
+          <td data-label="Critère"><strong>Seuils respectés</strong></td>
+          <td data-label="Question">Cette carte respecte mes seuils ?</td>
+          <td data-label="Protège contre">Les exceptions qui te coûtent cher</td>
+        </tr>
+        <tr>
+          <td data-label="#">5</td>
+          <td data-label="Critère"><strong>Risque contrôlé</strong></td>
+          <td data-label="Question">Y a-t-il un risque caché ?</td>
+          <td data-label="Protège contre">Les arnaques, cartes fake, mauvais timing</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert-box" style="margin-top:1.5rem;">
+    <strong>🎯 À retenir :</strong> Devant chaque achat potentiel, tu sors ta Checklist, tu coches les 5 critères, et la décision se prend toute seule. Tu apprendras chaque critère en détail dans les modules suivants.
+  </div>
+
+  <div class="rule-box" style="margin-top:2rem;">
+    <p>📋 <strong>Checklist de Risque (version vierge)</strong> — Imprime-la ou sauvegarde-la. Tu la rempliras critère par critère au fil des modules. À la fin du Module 3, elle sera complète et tu l'utiliseras pour chaque achat.</p>
+  </div>
+</div>
+
+
+<hr class="glow-divider">
+
+<div class="section-panel">
+  <div class="section-header">
+    <div class="section-icon">🏦</div>
+    <div class="section-header-text">
+      <h2><span class="lesson-badge">03</span> Comptes & Plateformes</h2>
+      <p>Crée tes comptes avant de continuer</p>
+    </div>
+  </div>
+
+  <div class="account-grid">
+    <a href="https://www.ebay.fr" target="_blank" class="account-card">
+      <span class="account-icon">🏪</span>
+      <span class="account-name">eBay</span>
+      <span class="account-desc">Marché principal</span>
+    </a>
+    <a href="https://www.vinted.fr" target="_blank" class="account-card">
+      <span class="account-icon">👕</span>
+      <span class="account-name">Vinted</span>
+      <span class="account-desc">Zéro frais vendeur</span>
+    </a>
+    <a href="https://www.facebook.com/marketplace" target="_blank" class="account-card">
+      <span class="account-icon">👥</span>
+      <span class="account-name">FB Marketplace</span>
+      <span class="account-desc">Local & négociation</span>
+    </a>
+    <a href="https://www.paypal.com" target="_blank" class="account-card">
+      <span class="account-icon">💳</span>
+      <span class="account-name">PayPal Business</span>
+      <span class="account-desc">Paiements sécurisés</span>
+    </a>
+  </div>
+
+  <div class="alert-box" style="background:rgba(234,179,8,0.08);border-left:4px solid #eab308;">
+    ⚡ <strong>Important :</strong> Utilise toujours PayPal <strong>Biens & Services</strong> pour les transactions entre particuliers.<br><br>
+    Jamais F&F — zéro protection acheteur.
+  </div>
+</div>
+
+
+<hr class="glow-divider">
+
+<div class="section-panel">
+  <div class="section-header">
+    <div class="section-icon">🛠️</div>
+    <div class="section-header-text">
+      <h2><span class="lesson-badge">04</span> Outils indispensables</h2>
+      <p>Pas besoin de payer — tout est gratuit</p>
+    </div>
+  </div>
+
+  <div class="tool-grid">
+    <div class="tool-card">
+      <strong>🔍 Price Checkers</strong><br>
+      <span>eBay Sold + Cardmarket + TCGPlayer</span>
+      <span class="tool-free">✅ Gratuit</span>
+    </div>
+    <div class="tool-card">
+      <strong>🧩 Extensions Chrome</strong><br>
+      <span>PriceSpy, CardLadder — vérif en 1 clic</span>
+      <span class="tool-partial">Partiel</span>
+    </div>
+    <div class="tool-card">
+      <strong>🧮 Calculateur de Spread</strong><br>
+      <span>Google Sheet fourni — frais inclus</span>
+      <span class="tool-free">✅ Gratuit</span>
+    </div>
+    <div class="tool-card">
+      <strong>📸 Setup photo</strong><br>
+      <span>Smartphone + lumière naturelle + fond neutre</span>
+      <span class="tool-free">✅ Gratuit</span>
+    </div>
+  </div>
+
+  <div class="alert-box" style="background:#2a1a1a;border-left:4px solid #e74c3c;">
+    ⚠️ <strong>Le piège :</strong> Le prix listing ≠ le prix de vente.<br><br>
+    Regarde toujours les <strong>ventes complétées</strong>.<br>
+    Détails au Module 1.
+  </div>
+</div>
+
+
+<hr class="glow-divider">
+
+<div class="section-panel">
+  <div class="section-header">
+    <div class="section-icon">💰</div>
+    <div class="section-header-text">
+      <h2><span class="lesson-badge">05</span> Budget & Capital</h2>
+      <p>La règle que personne t'explique</p>
+    </div>
+  </div>
+
+  <h3>Combien il te faut ?</h3>
+
+  <div class="stat-row">
+    <div class="stat-chip">
+      <span class="num">50-100€</span>
+      <span class="label">Minimum viable</span>
+    </div>
+    <div class="stat-chip">
+      <span class="num">100-200€</span>
+      <span class="label">Recommandé ✅</span>
+    </div>
+    <div class="stat-chip">
+      <span class="num">200€+</span>
+      <span class="label">Confortable</span>
+    </div>
+  </div>
+
+  <h3>Les 3 poches</h3>
+
+  <p><strong>Ne mets pas tout dans le premier achat.</strong></p>
+  <p>Divise ton capital :</p>
+
+  <div class="envelope-row">
+    <div class="envelope-card envelope-buy">
+      <div class="envelope-pct">60%</div>
+      <div class="envelope-icon">📦</div>
+      <div class="envelope-label">Achat</div>
+      <div class="envelope-desc">Tes lots et cartes</div>
+    </div>
+    <div class="envelope-card envelope-renew">
+      <div class="envelope-pct">20%</div>
+      <div class="envelope-icon">💸</div>
+      <div class="envelope-label">Frais</div>
+      <div class="envelope-desc">eBay ~13%, shipping ~4€, PayPal ~2.5%</div>
+    </div>
+    <div class="envelope-card envelope-reserve">
+      <div class="envelope-pct">20%</div>
+      <div class="envelope-icon">🔄</div>
+      <div class="envelope-label">Réinvestissement</div>
+      <div class="envelope-desc">Remettre dans le business</div>
+    </div>
+  </div>
+
+  <h3>La règle des 30%</h3>
+
+  <div class="rule-box">
+    📌 <strong>Jamais plus de 30% de ton capital sur un seul achat.</strong><br><br>
+    Exemple : 200€ de capital → achat max = 60€.<br>
+    Pas un centime de plus.
+  </div>
+
+  <h3>Paliers de réinvestissement</h3>
+
+  <div class="table-wrap">
+  <table>
+  <thead>
+  <tr><th>Capital total</th><th>Réinvestir</th><th>Sortir</th></tr>
+  </thead>
+  <tbody>
+  <tr><td data-label="Capital">≤ 300€</td><td data-label="Réinvestir"><strong>100%</strong></td><td data-label="Sortir">0%</td></tr>
+  <tr><td data-label="Capital">300-500€</td><td data-label="Réinvestir">80%</td><td data-label="Sortir"><strong>20%</strong></td></tr>
+  <tr><td data-label="Capital">&gt; 500€</td><td data-label="Réinvestir">70%</td><td data-label="Sortir"><strong>30%</strong></td></tr>
+  </tbody>
+  </table>
+  </div>
+
+  <div class="alert-box" style="background:#2a1a1a;border-left:4px solid #e74c3c;">
+    ⚠️ <strong>Attention :</strong> 30% de spread ≠ 30% de profit.<br><br>
+    Les frais mangent une partie.<br>
+    On décortique ça dans le Module 2.
+  </div>
+</div>
+
+
+<hr class="glow-divider">
+
+<div class="section-panel">
+  <div class="section-header">
+    <div class="section-icon">📊</div>
+    <div class="section-header-text">
+      <h2>Ton tableau de bord</h2>
+      <p>Sans suivi, tu ne sais pas si tu gagnes ou perds</p>
+    </div>
+  </div>
+
+  <div class="split-row">
+    <div class="split-card split-yes">
+      <h3>📊 Google Sheets / Excel</h3>
+      <ul class="checklist">
+        <li>Prix d'achat + frais</li>
+        <li>Prix de vente net</li>
+        <li>Spread réel (%)</li>
+        <li>Date achat / vente</li>
+        <li>Canal (eBay, Vinted, FB)</li>
+      </ul>
+    </div>
+    <div class="split-card split-no">
+      <h3>📋 5 statuts à tracker</h3>
+      <ul class="checklist">
+        <li>🔍 <strong>En recherche</strong> — pas encore acheté</li>
+        <li>📦 <strong>Acheté</strong> — en attente de réception</li>
+        <li>📸 <strong>En vente</strong> — listé, en attente d'acheteur</li>
+        <li>✅ <strong>Vendu</strong> — profit encaissé</li>
+        <li>❌ <strong>Annulé</strong> — retour, arnaque, erreur</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule-box">
+    📌 <strong>Mets à jour ton tableau après chaque transaction.</strong><br><br>
+    C'est ton seul moyen de savoir ce qui fonctionne.
+  </div>
+</div>
+
+
+<hr class="glow-divider">
+
+<div class="section-panel">
+  <div class="section-header">
+    <div class="section-icon">✅</div>
+    <div class="section-header-text">
+      <h2>Checklist Finale</h2>
+      <p>Ton setup en 11 points — coche chaque item</p>
+    </div>
+  </div>
+
+  <ul class="checklist-premium">
+    <li>Compte eBay vendeur créé et vérifié</li>
+    <li>Compte PayPal Business activé</li>
+    <li>Compte Vinted actif</li>
+    <li>Compte Facebook Marketplace prêt</li>
+    <li>Notifications eBay activées</li>
+    <li>Notifications Vinted activées</li>
+    <li>Règle PayPal Biens & Services comprise</li>
+    <li>Budget défini + réparti en 3 poches</li>
+    <li>Règle des 30% comprise et notée</li>
+    <li>Tableau de bord créé (Sheets/Excel)</li>
+    <li>5 statuts de tracking configurés</li>
+  </ul>
+</div>
+
+<div class="next-card">
+  <div class="next-label">PROCHAINE ÉTAPE</div>
+  <div class="next-title">👉 Module 1 — Trouver les bonnes cartes</div>
+  <div class="next-desc">Tu vas apprendre les Critères 1 et 2 :<br><strong>Demande réelle</strong> et <strong>Prix sous-évalué</strong>.</div>
+</div>

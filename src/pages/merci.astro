@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Bienvenue — Pokévendre Pro" description="Ton profil de revendeur est prêt. Découvre ton diagnostic personnalisé." ogImage="/images/og-merci.jpg">
+<Layout title="Bienvenue — Pokévendre Pro" description="Ton profil de revendeur est prêt. Découvre ton diagnostic personnalisé." ogImage="/images/og-merci.jpg" hideCta>
 
 <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;"></canvas>
 <canvas id="profile-particles-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:2;"></canvas>
@@ -479,7 +479,7 @@ if (typeof fbq !== 'undefined') {
     // SHA-256 hash email for Advanced Matching
     crypto.subtle.digest('SHA-256', new TextEncoder().encode(leadEmail.trim().toLowerCase())).then(function(buf) {
       var hash = Array.from(new Uint8Array(buf)).map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
-      fbq('init', '1418087700005184', { em: hash });
+      fbq('init', '947903204620148', { em: hash });
       fbq('track', 'Lead', {
         content_name: 'quiz_lead',
         content_category: 'quiz',

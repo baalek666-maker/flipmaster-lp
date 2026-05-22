@@ -1,0 +1,941 @@
+<style>
+/* ═══ MODULE HERO ═══ */
+.module-hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(59,130,246,0.08));border-radius:16px;margin-bottom:2rem;border:1px solid rgba(139,92,246,0.15)}
+.hero-badge{display:inline-block;background:rgba(139,92,246,0.2);color:#c4b5fd;padding:0.35rem 1rem;border-radius:20px;font-size:0.85rem;font-weight:600;margin-bottom:1rem}
+.hero-title{font-size:2rem;font-weight:800;color:#f1f5f9;margin:0.5rem 0;line-height:1.2}
+.hero-subtitle{font-size:1.05rem;color:#94a3b8;max-width:540px;margin:0 auto 1.2rem;line-height:1.6}
+.hero-checklist{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin-top:1rem}
+.hero-check{background:rgba(74,222,128,0.1);color:#4ade80;padding:0.3rem 0.8rem;border-radius:20px;font-size:0.85rem;font-weight:500}
+/* ═══ STAT CHIPS ═══ */
+.stat-row{display:flex;gap:1rem;flex-wrap:wrap;margin:1.2rem 0}
+.stat-chip{background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.15);border-radius:12px;padding:0.8rem 1.2rem;text-align:center;flex:1;min-width:120px}
+.stat-chip .num{display:block;font-size:1.3rem;font-weight:800;color:#e2e8f0}
+.stat-chip .label{display:block;font-size:0.8rem;color:#94a3b8;margin-top:0.25rem}
+/* ═══ LESSON PROGRESS ═══ */
+.lesson-progress{display:flex;align-items:center;justify-content:center;gap:0;margin:1.5rem 0}
+.lp-dot{width:36px;height:36px;border-radius:50%;background:rgba(139,92,246,0.15);color:#94a3b8;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0}
+.lp-dot.active{background:#7c3aed;color:#fff;box-shadow:0 0 12px rgba(124,58,237,0.4)}
+.lp-line{width:32px;height:2px;background:rgba(139,92,246,0.2);flex-shrink:0}
+/* ═══ GLOW DIVIDER ═══ */
+.glow-divider{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(139,92,246,0.3),transparent);margin:2rem 0}
+/* ═══ SECTION PANEL ═══ */
+.section-panel{margin-bottom:1.5rem}
+.section-header{display:flex;align-items:flex-start;gap:0.8rem;margin-bottom:1.2rem}
+.section-icon{font-size:1.5rem;flex-shrink:0;margin-top:0.15rem}
+.section-header-text h2{font-size:1.4rem;font-weight:700;color:#f1f5f9;margin:0;line-height:1.3}
+.section-header-text h3{font-size:1.15rem;font-weight:600;color:#e2e8f0;margin:0}
+.section-header-text p{font-size:0.9rem;color:#94a3b8;margin:0.2rem 0 0}
+/* ═══ LESSON BADGE ═══ */
+.lesson-badge{display:inline-block;background:#7c3aed;color:#fff;font-size:0.7rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:10px;margin-right:0.5rem;vertical-align:middle}
+/* ═══ LESSON INTRO ═══ */
+.lesson-intro{background:rgba(139,92,246,0.06);border-left:4px solid #7c3aed;border-radius:0 12px 12px 0;padding:1.2rem 1.4rem;margin:1.5rem 0;color:#e2e8f0;line-height:1.7;font-size:0.95rem}
+/* ═══ SPLIT ROW / CARDS ═══ */
+.split-row{display:flex;gap:1rem;flex-wrap:wrap;margin:1.2rem 0}
+.split-card{flex:1;min-width:240px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.2rem}
+.split-card h3,.split-card h4{margin:0 0 0.6rem;font-size:1rem;color:#e2e8f0}
+.split-yes{border-color:rgba(74,222,128,0.25);background:rgba(74,222,128,0.04)}
+.split-no{border-color:rgba(248,113,113,0.25);background:rgba(248,113,113,0.04)}
+/* ═══ CHECKLIST ═══ */
+.checklist{list-style:none;padding:0;margin:0.5rem 0}
+.checklist li{padding:0.4rem 0 0.4rem 1.4rem;position:relative;color:#cbd5e1;font-size:0.9rem;line-height:1.5}
+.checklist li::before{content:'•';position:absolute;left:0;color:#7c3aed;font-weight:700}
+.checklist-premium{list-style:none;padding:0;counter-reset:check}
+.checklist-premium li{padding:0.7rem 0.8rem 0.7rem 2.6rem;position:relative;border-bottom:1px solid rgba(255,255,255,0.06);color:#cbd5e1;font-size:0.9rem;cursor:pointer;transition:background 0.2s}
+.checklist-premium li:hover{background:rgba(139,92,246,0.06)}
+.checklist-premium li::before{counter-increment:check;content:counter(check);position:absolute;left:0.6rem;width:1.6rem;height:1.6rem;border-radius:50%;background:rgba(139,92,246,0.15);color:#c4b5fd;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700}
+.checklist-premium li.checked{text-decoration:line-through;opacity:0.5}
+.checklist-premium li.checked::before{content:'✓';background:#4ade80;color:#0f172a}
+/* ═══ RULE BOX ═══ */
+.rule-box{background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.15);border-radius:12px;padding:1.2rem 1.4rem;margin:1.2rem 0;color:#e2e8f0;line-height:1.7}
+.rule-box strong{color:#c4b5fd}
+/* ═══ ALERT BOX ═══ */
+.alert-box{background:rgba(248,113,113,0.06);border-left:4px solid #f87171;border-radius:0 12px 12px 0;padding:1rem 1.2rem;margin:1.2rem 0;color:#cbd5e1;line-height:1.6;font-size:0.9rem}
+.alert-box strong{color:#f87171}
+.alert-box ul{margin:0.5rem 0 0;padding-left:1.2rem}
+/* ═══ PILLAR FLOW ═══ */
+.pillar-flow{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;justify-content:center;margin:1.5rem 0}
+.pillar-step{background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.15);border-radius:12px;padding:0.8rem 1rem;text-align:center;min-width:100px}
+.pillar-num{display:block;font-size:1.4rem;font-weight:800;color:#7c3aed}
+.pillar-label{display:block;font-size:0.95rem;font-weight:600;color:#e2e8f0;margin-top:0.2rem}
+.pillar-detail{display:block;font-size:0.75rem;color:#94a3b8;margin-top:0.15rem}
+.pillar-arrow{color:#7c3aed;font-size:1.2rem;font-weight:700}
+/* ═══ STEPS FLOW ═══ */
+.steps-flow{display:flex;gap:1rem;flex-wrap:wrap;margin:1.2rem 0}
+.step-item{flex:1;min-width:160px;background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.12);border-radius:12px;padding:1rem;text-align:center}
+.step-badge{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#7c3aed;color:#fff;font-size:0.85rem;font-weight:700;margin-bottom:0.5rem}
+.step-detail{display:block;font-size:0.8rem;color:#94a3b8;margin-top:0.2rem}
+.step-item p{font-size:0.85rem;color:#cbd5e1;margin:0.4rem 0 0;line-height:1.5}
+/* ═══ TABLE WRAP ═══ */
+.table-wrap{overflow-x:auto;margin:1rem 0;border-radius:10px;border:1px solid rgba(255,255,255,0.08)}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:0.85rem}
+.table-wrap th{background:rgba(139,92,246,0.12);color:#c4b5fd;padding:0.7rem 0.8rem;text-align:left;font-weight:600;white-space:nowrap}
+.table-wrap td{padding:0.6rem 0.8rem;border-top:1px solid rgba(255,255,255,0.06);color:#cbd5e1}
+.table-wrap tr:hover td{background:rgba(139,92,246,0.04)}
+/* ═══ VERDICT CARDS ═══ */
+.verdict-row{display:flex;gap:1rem;flex-wrap:wrap;margin:1.2rem 0}
+.verdict-card{flex:1;min-width:200px;border-radius:12px;padding:1.2rem;text-align:center}
+.verdict-buy{background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.25)}
+.verdict-pass{background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.25)}
+.verdict-card .emoji{font-size:2rem;display:block;margin-bottom:0.4rem}
+.verdict-card .label{font-size:1.1rem;font-weight:700;display:block}
+.verdict-buy .label{color:#4ade80}
+.verdict-pass .label{color:#f87171}
+.verdict-card .detail{font-size:0.8rem;color:#94a3b8;margin-top:0.3rem}
+/* ═══ TEMPLATE CARD ═══ */
+.template-card{background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.15);border-radius:12px;padding:1.2rem 1.4rem;margin:1rem 0}
+.template-card .tpl-label{font-size:0.75rem;font-weight:700;color:#93c5fd;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem}
+.template-card blockquote{margin:0;padding:0.8rem 1rem;background:rgba(255,255,255,0.03);border-radius:8px;color:#e2e8f0;font-style:italic;line-height:1.6;font-size:0.9rem}
+/* ═══ INFO CARD ═══ */
+.info-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.2rem 1.4rem;margin:1.2rem 0;color:#e2e8f0;line-height:1.7}
+.info-card h4{color:#f1f5f9;margin:0 0 0.5rem;font-size:1rem}
+.info-card p{margin:0.3rem 0;font-size:0.9rem;color:#cbd5e1}
+/* ═══ NEXT CARD ═══ */
+.next-card{background:linear-gradient(135deg,rgba(139,92,246,0.1),rgba(59,130,246,0.08));border:1px solid rgba(139,92,246,0.2);border-radius:14px;padding:1.5rem;margin-top:2rem;text-align:center}
+.next-card .next-label{font-size:0.8rem;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em}
+.next-card .next-title{font-size:1.2rem;font-weight:700;color:#f1f5f9;margin:0.3rem 0 0.5rem}
+.next-card .next-desc{font-size:0.9rem;color:#cbd5e1;line-height:1.5}
+</style>
+
+<div class="module-hero">
+<div class="hero-badge">Module 3</div>
+<div class="hero-title">Acheter au bon prix</div>
+<div class="hero-subtitle">Critère 5 + Checklist de Risque complète — tu as les 5 critères pour décider en 30 secondes.</div>
+<div class="hero-checklist">
+<span class="hero-check">✓ Critère 5</span>
+<span class="hero-check">✓ Checklist complète</span>
+<span class="hero-check">✓ Négociation</span>
+<span class="hero-check">✓ Études de cas</span>
+</div>
+</div>
+
+<div class="lesson-progress">
+<span class="lp-dot active">3.1</span><span class="lp-line"></span>
+<span class="lp-dot">3.2</span><span class="lp-line"></span>
+<span class="lp-dot">3.3</span><span class="lp-line"></span>
+<span class="lp-dot">3.4</span><span class="lp-line"></span>
+<span class="lp-dot">3.5</span>
+</div>
+
+<hr class="glow-divider">
+
+<div class="section-panel">
+<div class="section-header">
+<span class="section-icon">🎯</span>
+<div class="section-header-text">
+<h2>Critère 5 — Le risque est-il contrôlé ?</h2>
+<p>Le dernier filtre. Les 4 premiers vérifient le potentiel. Le 5e vérifie ce qui peut tout faire basculer.</p>
+</div>
+</div>
+</div>
+
+<p>Un deal peut avoir 4 critères verts et être un <strong>piège</strong>. Le Critère 5 est ton filet de sécurité — les risques invisibles que les débutants ignorent.</p>
+
+<div class="split-row">
+<div class="split-card split-yes">
+<h4>🟢 VERT</h4>
+<p>Aucun risque majeur, vendeur fiable, carte authentique, photos claires</p>
+</div>
+<div class="split-card">
+<h4>🟡 PRUDENCE</h4>
+<p>1 risque mineur (vendeur nouveau, photos moyennes) → investigation</p>
+</div>
+<div class="split-card split-no">
+<h4>🔴 ROUGE</h4>
+<p>1 risque majeur (fake probable, vendeur suspect, prix trop beau) → PASSER</p>
+</div>
+</div>
+
+<hr class="glow-divider">
+
+<div class="section-panel">
+<div class="section-header">
+<span class="section-icon">📋</span>
+<div class="section-header-text">
+<span class="lesson-badge">3.1</span>
+<h3>La Checklist de Risque complète</h3>
+</div>
+</div>
+</div>
+
+<p>Tu as construit les 5 critères module par module. Maintenant, tu les assembles.</p>
+
+<div class="stat-row">
+<div class="stat-chip"><span class="num">C1</span><span class="label">Demande · M1</span></div>
+<div class="stat-chip"><span class="num">C2</span><span class="label">Sous-évalué · M1</span></div>
+<div class="stat-chip"><span class="num">C3</span><span class="label">Spread ≥ 30% · M2</span></div>
+<div class="stat-chip"><span class="num">C4</span><span class="label">Seuils · M2</span></div>
+<div class="stat-chip"><span class="num">C5</span><span class="label">Risque · M3</span></div>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>#</th><th>Critère</th><th>🟢 Vert</th><th>🟡 Jaune</th><th>🔴 Rouge</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>Demande</td><td>5+ ventes/mois sur 2+ plateformes</td><td>1-4 ventes/mois ou 1 plateforme</td><td>0 ventes en 30 jours</td></tr>
+<tr><td>2</td><td>Prix sous-évalué</td><td>≤ 50% valeur marché</td><td>50-70% valeur marché</td><td>≥ 70% valeur marché</td></tr>
+<tr><td>3</td><td>Spread réel</td><td>ROI ≥ 30%</td><td>ROI 20-30%</td><td>ROI &lt; 20%</td></tr>
+<tr><td>4</td><td>Seuils</td><td>Tous les seuils OK</td><td>1 seuil borderline</td><td>Seuil non respecté</td></tr>
+<tr><td>5</td><td>Risque contrôlé</td><td>Aucun risque majeur</td><td>1 risque mineur</td><td>1+ risque majeur</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="section-panel">
+<div class="section-header">
+<span class="section-icon">📏</span>
+<div class="section-header-text"><h3>La règle des 3/5</h3></div>
+</div>
+</div>
+
+<div class="rule-box">
+<p>3 🟢 ou plus → <strong>ACHETER</strong></p>
+<p>2 🟢 ou moins → <strong>PASSER</strong></p>
+<p>🟡 présent → <strong>PRUDENCE</strong> (investigation supplémentaire avant de décider)</p>
+</div>
+
+<p>La règle est simple. Pas de négociation avec toi-même. Pas de <em>« oui mais celle-là c'est différent »</em>. Si la Checklist dit PASSER, tu passes. Le prochain deal arrive toujours.</p>
+
+<div class="section-panel">
+<div class="section-header">
+<span class="section-icon">🔍</span>
+<div class="section-header-text">
+<h3>Le Critère 5 en détail : les 5 sous-risques</h3>
+<p>Chacun peut transformer un bon deal en cauchemar.</p>
+</div>
+</div>
+</div>
+
+<div class="alert-box">
+<strong>1️⃣ Risque authenticité — La carte est-elle vraie ?</strong><br>
+Le marché des cartes Pokémon contient des fakes. Surtout pour les cartes à haute valeur.
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Signal</th><th>Fake probable</th><th>Authentique</th></tr></thead>
+<tbody>
+<tr><td>Texte</td><td>Flou, irrégulier, mauvaise police</td><td>Net, régulier, police officielle</td></tr>
+<tr><td>Bordure</td><td>Épaisseur inégale</td><td>Épaisseur uniforme</td></tr>
+<tr><td>Holo</td><td>Reflet plat, pixellisé</td><td>Reflet dynamique, motifs fluides</td></tr>
+<tr><td>Dos</td><td>Bleu plus clair ou plus foncé</td><td>Bleu Pokémon standard</td></tr>
+<tr><td>Poids</td><td>Plus légère ou plus lourde</td><td>Poids standard (1.82g)</td></tr>
+<tr><td>Flexibilité</td><td>Trop rigide ou trop souple</td><td>Rigidité standard</td></tr>
+<tr><td>Lumière UV</td><td>Pas de réaction ou réaction anormale</td><td>Faible fluorescence normale</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="rule-box">
+⚠️ <strong>La règle :</strong> Si tu as le moindre doute sur l'authenticité → 🔴 Critère 5. Même si les 4 autres critères sont verts. Une carte fake vaut 0€. C'est la perte totale.
+</div>
+
+<div class="alert-box">
+<strong>2️⃣ Risque vendeur — Le vendeur est-il fiable ?</strong>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Signal</th><th>🟢 Fiable</th><th>🟡 À vérifier</th><th>🔴 Éviter</th></tr></thead>
+<tbody>
+<tr><td>Évaluations</td><td>98%+ positif, 100+ ventes</td><td>95-98% ou 20-100 ventes</td><td>&lt; 95% ou &lt; 20 ventes</td></tr>
+<tr><td>Âge du compte</td><td>+1 an</td><td>3-12 mois</td><td>&lt; 3 mois</td></tr>
+<tr><td>Photos</td><td>Originales, plusieurs angles</td><td>Stock ou 1 seul angle</td><td>Volées d'un autre listing</td></tr>
+<tr><td>Description</td><td>Détaillée, mentionne l'état</td><td>Vague mais honnête</td><td>« Perfect condition » sans photos</td></tr>
+<tr><td>Historique</td><td>Vend des cartes régulièrement</td><td>Vend parfois des cartes</td><td>Premier achat/vente de cartes</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="rule-box">
+⚠️ <strong>La règle :</strong> Un vendeur avec 0 évaluations qui vend un Charizard à 50% du marché → 🔴. Le prix sous-évalué (Critère 2 🟢) est probablement une arnaque, pas un deal.
+</div>
+
+<div class="alert-box">
+<strong>3️⃣ Risque état — La carte est-elle dans l'état annoncé ?</strong><br>
+L'état d'une carte est le facteur #1 de sa valeur. Une carte annoncée NM qui arrive LP perd 30-50% de sa valeur.
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Grade</th><th>Abrév.</th><th>Description</th><th>Impact valeur</th></tr></thead>
+<tbody>
+<tr><td>Mint</td><td>MT</td><td>Parfaite, aucun défaut</td><td>Prix plein</td></tr>
+<tr><td>Near Mint</td><td>NM</td><td>Quasi parfaite, micro-défauts</td><td>-10 à -20%</td></tr>
+<tr><td>Lightly Played</td><td>LP</td><td>Défauts visibles de près</td><td>-30 à -50%</td></tr>
+<tr><td>Moderately Played</td><td>MP</td><td>Défauts visibles, whitening</td><td>-50 à -70%</td></tr>
+<tr><td>Heavily Played</td><td>HP</td><td>Défauts majeurs, plis</td><td>-70 à -90%</td></tr>
+<tr><td>Damaged</td><td>DMG</td><td>Déchirures, taches, plis forts</td><td>-90%+</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>🔍 <strong>Les red flags sur les photos :</strong></p>
+<ul class="checklist">
+<li>Une seule photo floue → l'état est probablement pire qu'annoncé</li>
+<li>Photos en faible lumière → cache les défauts</li>
+<li>Pas de photo du dos → whitening probable</li>
+<li>Carte dans un sleeve opaque → pourquoi cacher l'état ?</li>
+</ul>
+
+<div class="rule-box">
+⚠️ <strong>La règle :</strong> Si les photos ne permettent pas d'évaluer l'état → 🟡 Critère 5. Demande plus de photos. Si le vendeur refuse → 🔴.
+</div>
+
+<div class="alert-box">
+<strong>4️⃣ Risque timing — Est-ce le bon moment ?</strong><br>
+Le marché des cartes Pokémon a des cycles. Acheter au mauvais moment, c'est payer trop cher.
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Moment</th><th>Signal</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td>Sortie d'un nouveau set</td><td>Le hype pousse les prix vers le haut</td><td>❌ Éviter d'acheter les cartes du nouveau set</td></tr>
+<tr><td>Noël / Fêtes</td><td>La demande explose, les prix aussi</td><td>❌ Mauvais moment pour acheter</td></tr>
+<tr><td>Période creuse (janvier-mars)</td><td>Moins de vendeurs, moins de concurrence</td><td>✅ Bon moment pour chercher des deals</td></tr>
+<tr><td>Rotation de format</td><td>Les cartes qui sortent du format perdent de la valeur</td><td>✅ Acheter les cartes qui restent, vendre celles qui sortent</td></tr>
+<tr><td>Fin d'enchère dimanche soir</td><td>Moins de monde connecté</td><td>✅ Bon moment pour snipe</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="rule-box">
+⚠️ <strong>La règle :</strong> Si tu achètes en période de surchauffe (sortie set, Noël) → 🟡 Critère 5. Tu risques de payer plus que la valeur réelle. Attends 2-3 semaines après la sortie d'un set.
+</div>
+
+<div class="alert-box">
+<strong>5️⃣ Risque liquidité — La carte se revend-elle vite ?</strong><br>
+Une carte peut avoir de la valeur sur papier mais personne pour l'acheter. C'est le risque liquidité.
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Signal</th><th>🟢 Liquide</th><th>🟡 Peu liquide</th><th>🔴 Illiquide</th></tr></thead>
+<tbody>
+<tr><td>Ventes complétées</td><td>10+/mois</td><td>3-9/mois</td><td>&lt; 3/mois</td></tr>
+<tr><td>Temps de vente moyen</td><td>&lt; 7 jours</td><td>7-30 jours</td><td>&gt; 30 jours</td></tr>
+<tr><td>Écart listing vs vente</td><td>&lt; 10%</td><td>10-25%</td><td>&gt; 25%</td></tr>
+<tr><td>Nombre de watchers</td><td>10+</td><td>3-9</td><td>&lt; 3</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="rule-box">
+⚠️ <strong>La règle :</strong> Une carte illiquide, même avec un beau spread théorique, immobilise ton capital. Si tu ne peux pas la revendre dans les 30 jours → 🟡 minimum. Le capital immobilisé, c'est du profit perdu sur d'autres deals.
+</div>
+
+<hr class="glow-divider">
+
+<div class="section-panel">
+<div class="section-header">
+<span class="section-icon">💰</span>
+<div class="section-header-text">
+<span class="lesson-badge">3.2</span>
+<h3>Les seuils d'achat en pratique</h3>
+</div>
+</div>
+</div>
+
+<p>Tu connais les seuils du Module 2. Maintenant, apprends à les appliquer en situation réelle — pas dans un tableur, mais devant un listing, avec le compteur qui tourne.</p>
+
+<h4>🧠 L'erreur #1 : acheter émotionnellement</h4>
+
+<p>Le marchand de cartes qui achète avec ses sentiments perd de l'argent. Point.</p>
+
+<p>Les émotions qui tuent ton profit :</p>
+
+<table>
+<thead><tr><th>Émotion</th><th>Ce qu'elle te fait faire</th><th>La réalité</th></tr></thead>
+<tbody>
+<tr><td>Excitation</td><td>« Wow ce Charizard ! Je dois l'avoir ! »</td><td>Tu payes trop cher</td></tr>
+<tr><td>FOMO</td><td>« Si je ne prends pas maintenant, c'est mort »</td><td>Le prochain deal arrive toujours</td></tr>
+<tr><td>Attachement</td><td>« Il est trop beau, je ne peux pas le revendre »</td><td>C'est du business, pas une collection</td></tr>
+<tr><td>Orgueil</td><td>« Je suis sûr que c'est un bon deal »</td><td>La Checklist ne ment pas</td></tr>
+<tr><td>Revenge buying</td><td>« Je dois compenser ma dernière perte »</td><td>Tu compenses en prenant plus de risques</td></tr>
+</tbody>
+</table>
+
+<div class="rule-box">
+🛡️ <strong>L'antidote :</strong> la Checklist. Quand tu hésites, passe la Checklist. Si elle dit PASSER, tu passes. Pas de débat.
+</div>
+
+<h4>⏰ La règle des 24h</h4>
+
+<p>Pour tout achat supérieur à <strong>50€</strong> : attends 24h avant de cliquer sur « Acheter ».</p>
+
+<p>Pendant ces 24h :</p>
+<ol>
+<li><strong>Passe la Checklist complète</strong> (5 critères)</li>
+<li><strong>Vérifie les ventes complétées</strong> une deuxième fois (les prix bougent)</li>
+<li><strong>Calcule le spread réel</strong> avec le calculateur</li>
+<li><strong>Dors dessus</strong> — si demain matin tu es toujours aussi motivé, c'est probablement un bon deal</li>
+</ol>
+
+<div class="info-card">
+<h4>Exceptions à la règle des 24h</h4>
+<p>⚡ Enchère qui se termine dans &lt; 1h → tu as déjà fait tes devoirs (checklist passée en amont)</p>
+<p>⚡ Deal évident à 70%+ sous le marché → le temps de réfléchir, quelqu'un d'autre l'achète</p>
+<p>⚡ Lot avec une carte évidente que tu as déjà trackée → tu sais que c'est bon</p>
+</div>
+
+<h4>🎯 Comment gérer les enchères (max bid strategy)</h4>
+
+<p>Les enchères eBay sont un jeu psychologique. La stratégie optimale est contre-intuitive.</p>
+
+<p><strong>La stratégie du sniping :</strong></p>
+<ol>
+<li><strong>Ne fais jamais d'enchère avant la dernière minute.</strong> Chaque enchère précoce informe les autres acheteurs et fait monter le prix.</li>
+<li><strong>Détermine ton max bid AVANT la fin de l'enchère.</strong> Utilise la Checklist. Calcule ton spread maximum. Ton max bid est le prix où le Critère 3 (spread ≥ 30%) est encore vert.</li>
+<li><strong>Entre ton max bid dans les 5 dernières secondes.</strong> Pas 30 secondes. Pas 1 minute. 5 secondes.</li>
+<li><strong>Si tu perds, tu passes.</strong> Pas de regret. Si quelqu'un a payé plus que ton max bid, c'est lui qui a fait un mauvais deal, pas toi.</li>
+</ol>
+
+<p><strong>Exemple :</strong> Tu as identifié un lot à 40€ de valeur de revente. Ton spread cible est 30%+.</p>
+
+<table>
+<thead><tr><th>Prix d'achat max</th><th>Spread réel</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>20€</td><td>48%</td><td>🟢 Excellente affaire</td></tr>
+<tr><td>25€</td><td>34%</td><td>🟢 Bon deal</td></tr>
+<tr><td>28€</td><td>23%</td><td>🟡 Marge fine</td></tr>
+<tr><td>30€</td><td>17%</td><td>🔴 Pas la peine</td></tr>
+</tbody>
+</table>
+
+<p>Ton max bid : <strong>25€</strong>. Pas un centime de plus.</p>
+
+<div class="info-card">
+<h4>Les erreurs courantes d'enchère</h4>
+<p>❌ Enchérir tôt pour « tester » → tu fais monter le prix</p>
+<p>❌ Augmenter ton max bid en cours d'enchère → tu dépasses ton seuil</p>
+<p>❌ Entrer dans une guerre d'enchères → l'émotion prend le dessus</p>
+<p>❌ Oublier les frais dans le calcul → le spread réel est plus bas que prévu</p>
+</div>
+
+<hr class="glow-divider">
+
+<div class="section-panel">
+<div class="section-header">
+<span class="section-icon">🤝</span>
+<div class="section-header-text">
+<span class="lesson-badge">3.3</span>
+<h3>Négocier comme un pro</h3>
+</div>
+</div>
+</div>
+
+<p>Sur Vinted, LeBonCoin et les groupes Facebook, le prix affiché n'est jamais le prix final.</p>
+
+<p>La négociation est une compétence. Et elle s'apprend.</p>
+
+<div class="section-panel">
+<div class="section-header">
+<span class="section-icon">📜</span>
+<div class="section-header-text"><h3>Les 5 règles de la négociation</h3></div>
+</div>
+</div>
+
+<div class="info-card">
+<h4>Règle 1 : Ne montre jamais que tu connais la valeur</h4>
+<p>Si le vendeur sait que tu es un revendeur qui connaît le vrai prix, il va monter. Sois un acheteur curieux, pas un expert.</p>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>❌ Ne dis pas</th><th>✅ Dis plutôt</th></tr></thead>
+<tbody>
+<tr><td>« Je sais que cette carte vaut 50€ »</td><td>« Je suis intéressé, quel est ton meilleur prix ? »</td></tr>
+<tr><td>« C'est sous-évalué »</td><td>« C'est un peu au-dessus de mon budget »</td></tr>
+<tr><td>« Je suis revendeur »</td><td>« Je collectionne »</td></tr>
+<tr><td>« Je peux la revendre 2x plus cher »</td><td>« J'ai vu des prix un peu bas sur le marché »</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="info-card">
+<h4>Règle 2 : Fais la première offre</h4>
+<p>Celui qui fait la première offre ancre la négociation. Fais une offre basse mais pas insultante.</p>
+</div>
+
+<ul>
+<li>Prix affiché : 50€</li>
+<li>Ta première offre : 30-35€ (60-70% du prix affiché)</li>
+<li>Zone cible : 35-40€ (le vendeur acceptera probablement autour de 75-80% du prix affiché)</li>
+</ul>
+
+<div class="info-card">
+<h4>Règle 3 : L'approche « lot » — pourquoi regrouper = meilleur prix</h4>
+<p>Si le vendeur a plusieurs cartes qui t'intéressent, propose un prix pour le tout. Les vendeurs préfèrent vendre en lot car :</p>
+</div>
+
+<ul>
+<li>C'est plus simple (un seul envoi, un seul paiement)</li>
+<li>C'est plus rapide (pas besoin de gérer 5 acheteurs différents)</li>
+<li>Ça leur donne l'illusion d'un « gros deal »</li>
+</ul>
+
+<p><strong>Exemple de message :</strong></p>
+<blockquote>
+<p>Salut ! Je suis intéressé par les cartes Charizard VMAX, Umbreon VMAX Alt et le lot de 5 holos. Est-ce que tu ferais un prix si je prends tout ? Je peux payer 120€ pour l'ensemble.</p>
+</blockquote>
+
+<div class="info-card">
+<h4>Règle 4 : Utilise les défauts comme levier</h4>
+<p>Chaque imperfection est un argument de négociation. Mais sois respectueux.</p>
+</div>
+
+<ul>
+<li>« Je vois que les coins sont un peu whitening, tu pourrais baisser un peu ? »</li>
+<li>« La carte n'est pas dans un top loader, l'état peut être altéré pendant l'envoi »</li>
+<li>« Il manque la carte X du lot que tu annonces »</li>
+</ul>
+
+<div class="info-card">
+<h4>Règle 5 : Quand passer son tour</h4>
+<p>Le deal suivant arrive toujours. Si le vendeur ne veut pas négocier et que le prix est au-dessus de ton seuil → passe.</p>
+</div>
+
+<p>Signaux que tu dois passer :</p>
+<ul>
+<li>Le vendeur est agressif ou impatient</li>
+<li>Le prix est fixe et au-dessus de 70% de la valeur marché</li>
+<li>Le vendeur refuse d'envoyer plus de photos</li>
+<li>Quelque chose sent mauvais (authenticité, état)</li>
+</ul>
+
+<h4>📝 Templates de messages de négociation (copier-coller)</h4>
+
+<div class="template-card">
+<div class="tpl-label">💬 Premier contact (Vinted / LeBonCoin)</div>
+<blockquote>Salut ! Je suis intéressé par [nom de la carte/lot]. Est-ce que tu serais ouvert à une offre ? Je peux proposer [prix]€. Merci !</blockquote>
+</div>
+
+<p><strong>Relance après contre-offre :</strong></p>
+<div class="template-card">
+<div class="tpl-label">💬 Relance</div>
+<blockquote>Merci pour ta réponse ! Je comprends ton prix. Je peux monter à [prix]€, c'est mon max. L'envoi est en sus bien sûr.</blockquote>
+</div>
+
+<p><strong>Proposition de lot :</strong></p>
+<div class="template-card">
+<div class="tpl-label">💬 Proposition de lot</div>
+<blockquote>Salut ! Je suis intéressé par [carte 1], [carte 2] et [carte 3]. Si je prends les trois, tu ferais [prix total]€ ? Ça t'évite 3 envois séparés 😉</blockquote>
+</div>
+
+<p><strong>Quand le vendeur refuse de négocier :</strong></p>
+<div class="template-card">
+<div class="tpl-label">💬 Sortie élégante</div>
+<blockquote>Pas de souci, je comprends ! Je vais passer mon tour pour celui-ci. N'hésite pas à me contacter si tu changes d'avis. Bonne vente !</blockquote>
+</div>
+
+<hr class="glow-divider">
+
+<div class="section-panel">
+<div class="section-header">
+<span class="section-icon">📦</span>
+<div class="section-header-text">
+<span class="lesson-badge">3.4</span>
+<h3>Évaluer rapidement les lots</h3>
+</div>
+</div>
+</div>
+
+<p>La majorité des meilleures affaires se trouvent dans les lots.</p>
+
+<p>Un vendeur qui ne connaît pas la valeur de ses cartes les met en lot à prix cassé. Ton travail : repérer les pépites en quelques secondes.</p>
+
+<h4>⚡ La méthode des 3 secondes</h4>
+
+<p>Quand tu vois un lot en ligne, tu as 3 secondes pour décider si tu creuses ou si tu passes. Voici comment :</p>
+
+<ol>
+<li><strong>Scanne les cartes visibles</strong> — Regarde les cartes sur la photo principale. Reconnais-tu une carte à forte valeur ?</li>
+<li><strong>Calcule la valeur minimale</strong> — Même si tu ne identifies que 2-3 cartes, est-ce que leur valeur couvre le prix du lot ?</li>
+<li><strong>Décide</strong> — Si oui → creuse. Si non → passe.</li>
+</ol>
+
+<div class="rule-box">
+🧠 <strong>Le secret :</strong> Tu n'as pas besoin de connaître la valeur de chaque carte du lot. Tu as juste besoin que les cartes que tu identifies couvrent le prix d'achat. Le reste, c'est du bonus.
+</div>
+
+<h4>🔍 Les signaux de sous-évaluation</h4>
+
+<p>Certains lots crient « deal ». Voici les signaux à chercher :</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Signal</th><th>Ce que ça veut dire</th></tr></thead>
+<tbody>
+<tr><td>🔴 Le vendeur ne connaît pas les cartes</td><td>Il les a trouvées dans un grenier, il ne collectionne pas → prix probablement bas</td></tr>
+<tr><td>🔴 Le titre est vague</td><td>« Lot cartes Pokémon » sans détail → le vendeur n'a pas fait ses devoirs</td></tr>
+<tr><td>🔴 Pas de prix individuel</td><td>Si le vendeur connaissait la valeur, il vendrait à l'unité</td></tr>
+<tr><td>🔴 Prix au kilo ou au nombre</td><td>« 50 cartes pour 15€ » → c'est du triage, pas de la vente experte</td></tr>
+<tr><td>🔴 Photos floues ou incomplètes</td><td>Le vendeur n'a pas pris la peine de bien les montrer → il ne sait pas ce qu'il a</td></tr>
+<tr><td>🟢 Un lot mélangé éditions anciennes + récentes</td><td>S'il y a des cartes anciennes (Base Set, Jungle, Fossil), ça peut contenir des pépites</td></tr>
+<tr><td>🟢 Mention « cartes de mon enfance »</td><td>Le vendeur n'est pas un pro → prix souvent sous-évalué</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>📊 Les cartes les plus rentables par set</h4>
+
+<p>Tu n'as pas besoin de connaître chaque carte. Connaître les top 20 par set suffit. Voici les sets les plus importants à surveiller :</p>
+
+<div class="info-card">
+<h4>🔥 Sets à forte valeur (2022-2024)</h4>
+<ul>
+<li><strong>Evolving Skies</strong> — Umbreon VMAX Alt Art (la reine), Sylveon VMAX, Dragonite VAlt</li>
+<li><strong>Brilliant Stars</strong> — Charizard VSTAR Rainbow, Arceus VSTAR Gold</li>
+<li><strong>UPS</strong> — Giratina VMAX Alt Art, Magneton Reverse Holo</li>
+<li><strong>Crown Zenith</strong> — Pikachu VMAX Rainbow, Charizard VSTAR</li>
+<li><strong>Paldea Evolved</strong> — Iono SAR, Miriam SAR</li>
+<li><strong>Obsidian Flames</strong> — Charizard ex SAR, Revavroom ex SAR</li>
+</ul>
+</div>
+
+<div class="info-card">
+<h4>💎 Sets vintage (1996-2003) — Les value bombs</h4>
+<ul>
+<li><strong>Base Set</strong> — Charizard, Blastoise, Venusaur (1st Edition = x10-x50)</li>
+<li><strong>Jungle / Fossil</strong> — Holographics completes = belle valeur</li>
+<li><strong>Neo Genesis / Neo Discovery</strong> — Holos japonais très recherchés</li>
+<li><strong>EX Ruby & Sapphire</strong> — EX Gold Stars = valeur énorme</li>
+</ul>
+</div>
+
+<h4>🏆 Évaluer le potentiel grading</h4>
+
+<p>Une carte en NM peut valoir 30€. La même carte graded PSA 10 peut valoir 300€. Le grading multiplie la valeur par 5 à 10x — si la carte est vraiment parfaite.</p>
+
+<p><strong>Le calcul ROI du grading :</strong></p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Étape</th><th>Coût</th><th>Détail</th></tr></thead>
+<tbody>
+<tr><td>Prix d'achat de la carte</td><td>Variable</td><td>Ton prix d'achat (pas le prix marché)</td></tr>
+<tr><td>Frais de grading PSA</td><td>20-50€</td><td>Délai standard vs express</td></tr>
+<tr><td>Frais d'envoi + assurance</td><td>10-20€</td><td>Envoi recommandé vers PSA</td></tr>
+<tr><td><strong>Coût total</strong></td><td><strong>Achat + 30-70€</strong></td><td></td></tr>
+<tr><td>Valeur estimée PSA 10</td><td>Variable</td><td>Vérifie sur PriceCharting / eBay sold</td></tr>
+<tr><td><strong>ROI</strong></td><td><strong>(Valeur PSA 10 - Coût total) / Coût total × 100</strong></td><td></td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>Exemple concret :</strong></p>
+<ul>
+<li>Tu achètes un Umbreon VMAX Alt Art en aparent NM à 80€</li>
+<li>Grading PSA standard : 30€</li>
+<li>Envoi assuré : 15€</li>
+<li>Coût total : 125€</li>
+<li>Valeur PSA 10 : 350€</li>
+<li>ROI : (350 - 125) / 125 × 100 = <strong>180%</strong> ✅</li>
+</ul>
+
+<p><strong>Mais attention :</strong></p>
+<ul>
+<li>Si la carte revient PSA 9 (pas 10) : valeur ≈ 150€ → ROI = 20% 🟡</li>
+<li>Si la carte revient PSA 8 : valeur ≈ 100€ → ROI = -20% 🔴</li>
+</ul>
+
+<div class="rule-box">
+⚠️ <strong>Règle d'or du grading :</strong> Ne grade QUE les cartes dont tu es sûr à 90%+ qu'elles obtiendront un 10. Dans le doute, revends-les ungraded. Un PSA 9 ou 8 peut détruire ta marge.
+</div>
+
+<h4>🚫 Les lots à éviter — Red flags absolus</h4>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Red flag</th><th>Pourquoi</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td>« 500 cartes pour 20€ »</td><td>C'est du bulk. Aucune valeur de revente.</td><td>🔴 Passer</td></tr>
+<tr><td>Photos de cartes toutes différentes du listing</td><td>Arnaque probable — pas ce que tu recevras</td><td>🔴 Passer</td></tr>
+<tr><td>Vendeur avec 0 évaluations</td><td>Risque vendeur maximal</td><td>🔴 Passer sauf si prix très bas et PayPal protection</td></tr>
+<tr><td>« Authenticité non garantie »</td><td>Le vendeur sait que c'est fake</td><td>🔴 Passer</td></tr>
+<tr><td>Prix trop beau pour être vrai</td><td>C'EST trop beau pour être vrai</td><td>🔴 Passer</td></tr>
+<tr><td>Cartes dans des top loaders sans sleeve</td><td>Risque de dommage pendant l'envoi</td><td>🟡 Négocier le prix en conséquence</td></tr>
+<tr><td>Vendeur qui refuse les retours</td><td>Si la carte est fake ou endommagée, pas de recours</td><td>🟡 Uniquement si PayPal protection</td></tr>
+</tbody>
+</table>
+</div>
+
+<hr class="glow-divider">
+
+<div class="section-panel">
+<div class="section-header">
+<span class="section-icon">🎯</span>
+<div class="section-header-text">
+<span class="lesson-badge">3.5</span>
+<h3>5 études de cas réels</h3>
+</div>
+</div>
+</div>
+
+<p>La théorie, c'est bien. La pratique, c'est mieux.</p>
+
+<p>Voici 5 cas réels pour t'entraîner à utiliser la Checklist.</p>
+
+<h4>📝 Comment lire ces études de cas</h4>
+<p>Pour chaque cas, tu trouveras :</p>
+<ul>
+<li>La situation (ce que tu vois sur le listing)</li>
+<li>L'analyse avec la Checklist (les 5 critères)</li>
+<li>Le verdict final (ACHETER ou PASSER)</li>
+<li>Le résultat réel (ce qui s'est passé)</li>
+</ul>
+
+<hr class="glow-divider">
+
+<div class="info-card card-reveal">
+<h4>📍 Cas #1 — Pikachu VMAX Rainbow à 35€</h4>
+</div>
+
+<p><strong>La situation :</strong></p>
+<ul>
+<li>Pikachu VMAX Rainbow (Crown Zenith) listé à 35€ sur Vinted</li>
+<li>Prix marché : 65-70€</li>
+<li>Vendeur : 4.9★, 127 ventes, compte depuis 2021</li>
+<li>Photos : 4 angles, nettes, carte dans sleeve + top loader</li>
+<li>État annoncé : NM</li>
+</ul>
+
+<p><strong>Analyse Checklist :</strong></p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Critère</th><th>Verdict</th><th>Justification</th></tr></thead>
+<tbody>
+<tr><td>1. Marché</td><td>🟢</td><td>Pikachu VMAX Rainbow — demande forte, 15+ ventes/mois</td></tr>
+<tr><td>2. Sous-évaluation</td><td>🟢</td><td>35€ vs 65€ marché = 46% sous le marché</td></tr>
+<tr><td>3. Spread</td><td>🟢</td><td>Vente à 65€ - 35€ achat - 8€ frais = 22€ profit = 39% spread</td></tr>
+<tr><td>4. Volume</td><td>🟢</td><td>Pas nécessaire — 1 carte à forte marge</td></tr>
+<tr><td>5. Risque</td><td>🟢</td><td>Vendeur fiable, photos claires, état vérifiable</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="verdict-card verdict-buy">
+<span class="verdict-icon">✅</span>
+<strong>Verdict : ACHETER</strong>
+</div>
+<p><strong>Résultat réel :</strong> Carte achetée à 35€, reçue en NM comme décrit, revendue à 62€ en 5 jours. Profit net : 19€ (34% spread). ✅</p>
+
+<hr class="glow-divider">
+
+<div class="info-card card-reveal">
+<h4>📍 Cas #2 — Charizard VSTAR Rainbow à 45€ « Perfect condition »</h4>
+</div>
+
+<p><strong>La situation :</strong></p>
+<ul>
+<li>Charizard VSTAR Rainbow (Brilliant Stars) listé à 45€ sur eBay</li>
+<li>Prix marché : 85-90€</li>
+<li>Vendeur : 3★, 8 ventes, compte depuis 2 mois</li>
+<li>Photos : 1 seule photo, angle unique, lumière faible</li>
+<li>État annoncé : « Perfect condition, never played »</li>
+</ul>
+
+<p><strong>Analyse Checklist :</strong></p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Critère</th><th>Verdict</th><th>Justification</th></tr></thead>
+<tbody>
+<tr><td>1. Marché</td><td>🟢</td><td>Charizard VSTAR Rainbow — très demandé</td></tr>
+<tr><td>2. Sous-évaluation</td><td>🟢</td><td>45€ vs 85€ marché = 47% sous le marché</td></tr>
+<tr><td>3. Spread</td><td>🟢</td><td>85€ - 45€ - 10€ frais = 30€ profit = 40% spread (sur papier)</td></tr>
+<tr><td>4. Volume</td><td>🟢</td><td>1 carte à forte marge</td></tr>
+<tr><td>5. Risque</td><td>🔴</td><td>Vendeur récent, peu d'évaluations, 1 seule photo floue, « perfect condition » sans preuve</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="verdict-card verdict-pass">
+<span class="verdict-icon">🔴</span>
+<strong>Verdict : PASSER</strong>
+</div>
+<p>Le prix est alléchant, mais le Critère 5 est rouge. Trop de signaux d'alarme :</p>
+<ul>
+<li>Vendeur récent avec peu d'évaluations</li>
+<li>Une seule photo floue — pourquoi ne pas montrer plus ?</li>
+<li>« Perfect condition » sans photos détaillées = red flag classique</li>
+</ul>
+<p><strong>Résultat réel :</strong> Un autre acheteur a pris la carte. Le listing a été supprimé 3 jours plus tard — probablement une carte fake ou dans un état bien pire qu'annoncé. L'acheteur n'a jamais reposté la carte en revente. 🔴 Esquive réussie.</p>
+
+<hr class="glow-divider">
+
+<div class="info-card card-reveal">
+<h4>📍 Cas #3 — Lot Vinted « 200 cartes Pokémon » à 40€</h4>
+</div>
+
+<p><strong>La situation :</strong></p>
+<ul>
+<li>Lot de « 200 cartes Pokémon » sur Vinted à 40€</li>
+<li>Vendeur : « Cartes de mon enfance, je ne connais pas les prix »</li>
+<li>Photos : 2 photos, on voit des cartes Base Set dans le lot</li>
+<li>Vendeur : 4.7★, 45 ventes, compte depuis 2020</li>
+</ul>
+
+<p><strong>Analyse Checklist — Première impression :</strong></p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Critère</th><th>Verdict</th><th>Justification</th></tr></thead>
+<tbody>
+<tr><td>1. Marché</td><td>🟡</td><td>Pas encore évalué — besoin d'identifier les cartes</td></tr>
+<tr><td>2. Sous-évaluation</td><td>🟡</td><td>Possible — « cartes de mon enfance » = signal de sous-évaluation</td></tr>
+<tr><td>3. Spread</td><td>🟡</td><td>Impossible à calculer sans identifier les cartes</td></tr>
+<tr><td>4. Volume</td><td>🟢</td><td>200 cartes = volume suffisant</td></tr>
+<tr><td>5. Risque</td><td>🟡</td><td>Vendeur semble honnête, mais 2 photos seulement</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>🔄 Investigation supplémentaire :</strong></p>
+<p>Avant d'acheter, tu dois :</p>
+<ol>
+<li>Demande plus de photos — « Est-ce que tu peux me montrer les cartes plus en détail ? »</li>
+<li>Demande la liste des cartes — « Tu as les noms des cartes ? »</li>
+<li>Vérifie si le vendeur a déjà vendu des cartes — non, c'est sa première vente de cartes → 🟡</li>
+</ol>
+
+<p><strong>Résultat de l'investigation :</strong> Le vendeur envoie des photos supplémentaires. Le lot contient majoritairement des cartes communes (énergie, rats, etc.) et seulement 3 holos Base Set en état MP (whitening visible). Valeur réelle estimée : 25-30€.</p>
+
+<div class="verdict-card verdict-pass">
+<span class="verdict-icon">🔴</span>
+<strong>Verdict final : PASSER</strong>
+</div>
+<p>Le lot est légèrement sous-évalué, mais pas assez pour couvrir les frais de revente + le temps de trier 200 cartes. Le spread serait de ~15% au mieux. Pas conforme au Critère 3 (≥ 30%).</p>
+
+<hr class="glow-divider">
+
+<div class="info-card card-reveal">
+<h4>📍 Cas #4 — Umbreon VMAX Alt Art à 85€ (potentiel grading)</h4>
+</div>
+
+<p><strong>La situation :</strong></p>
+<ul>
+<li>Umbreon VMAX Alt Art (Evolving Skies) à 85€ sur LeBonCoin</li>
+<li>Prix marché ungraded : 130-140€</li>
+<li>Prix marché PSA 10 : 300-350€</li>
+<li>Vendeur : 5★, 230 ventes, vendeur professionnel de cartes</li>
+<li>Photos : 6 angles haute résolution, carte dans sleeve + top loader + team bag</li>
+<li>État annoncé : « NM/Mint — voir photos »</li>
+</ul>
+
+<p><strong>Analyse Checklist — Achat pour revente directe :</strong></p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Critère</th><th>Verdict</th><th>Justification</th></tr></thead>
+<tbody>
+<tr><td>1. Marché</td><td>🟢</td><td>Umbreon VMAX Alt Art — carte la plus demandée de ES</td></tr>
+<tr><td>2. Sous-évaluation</td><td>🟢</td><td>85€ vs 130€ marché = 35% sous le marché</td></tr>
+<tr><td>3. Spread (revente directe)</td><td>🟡</td><td>130€ - 85€ - 10€ frais = 35€ profit = 29% — juste sous le seuil</td></tr>
+<tr><td>4. Volume</td><td>🟢</td><td>1 carte à forte valeur</td></tr>
+<tr><td>5. Risque</td><td>🟢</td><td>Vendeur pro, photos détaillées, emballage pro</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>Analyse Checklist — Achat pour grading :</strong></p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Critère</th><th>Verdict</th><th>Justification</th></tr></thead>
+<tbody>
+<tr><td>3. Spread (grading PSA 10)</td><td>🟢</td><td>350€ - 85€ - 45€ grading = 220€ profit = 170% ROI</td></tr>
+<tr><td>3. Spread (grading PSA 9)</td><td>🟡</td><td>160€ - 85€ - 45€ = 30€ profit = 23% ROI — marge fine</td></tr>
+<tr><td>Risque grading</td><td>🟡</td><td>Photos suggèrent NM/Mint — bon candidat PSA 10 mais pas garanti</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="verdict-card verdict-buy">
+<span class="verdict-icon">✅</span>
+<strong>Verdict : ACHETER pour grading</strong>
+</div>
+<p>La revente directe est un deal 🟡 (spread juste sous 30%). Mais le potentiel grading pousse le ROI à 170% si PSA 10. Les photos haute résolution montrent des coins nets, pas de whitening, surface propre → 75-80% de chances d'obtenir PSA 10.</p>
+<p><strong>Résultat réel :</strong> Carte achetée à 85€, envoyée au grading PSA. Résultat : PSA 10 ✅. Revendue à 340€. Profit net : 210€ (170% ROI). 🎉</p>
+
+<hr class="glow-divider">
+
+<div class="info-card card-reveal">
+<h4>📍 Cas #5 — Lot eBay « Collection complète » à 300€</h4>
+</div>
+
+<p><strong>La situation :</strong></p>
+<ul>
+<li>Lot « Collection complète Evolving Skies » sur eBay à 300€ + 15€ livraison</li>
+<li>Vendeur : 98% positif, 1500+ ventes, vendeur professionnel</li>
+<li>Photos : le binder complet, toutes les pages visibles</li>
+<li>Contenu annoncé : « 200+ cartes, inclus VMAX et Alt Arts »</li>
+<li>Le binder semble complet sur les photos</li>
+</ul>
+
+<p><strong>Analyse Checklist :</strong></p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Critère</th><th>Verdict</th><th>Justification</th></tr></thead>
+<tbody>
+<tr><td>1. Marché</td><td>🟢</td><td>Evolving Skies — set très demandé</td></tr>
+<tr><td>2. Sous-évaluation</td><td>🟡</td><td>300€ pour un set complet ES — difficile à évaluer sans lister chaque carte</td></tr>
+<tr><td>3. Spread</td><td>🟡</td><td>Set complet ES peut valoir 400-600€ si complet, mais revente longue</td></tr>
+<tr><td>4. Volume</td><td>🟢</td><td>200+ cartes = gros volume</td></tr>
+<tr><td>5. Risque</td><td>🟡</td><td>Vendeur pro = connaît les prix → pourquoi vendre sous valeur ?</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="verdict-card verdict-pass">
+<span class="verdict-icon">🔴</span>
+<strong>Verdict : PASSER</strong>
+</div>
+<p>Pourquoi ? Le vendeur est un professionnel qui connaît les prix. S'il vend à 300€, c'est probablement que :</p>
+<ul>
+<li>Le binder n'est pas complet (il manque les cartes les plus chères)</li>
+<li>Les cartes sont dans un état inférieur à ce que les photos suggèrent</li>
+<li>Le set a déjà été « écrémé » — les Alt Arts ont été retirées et vendues séparément</li>
+</ul>
+
+<p><strong>Résultat réel :</strong> L'acheteur qui a pris le lot a confirmé : l'Umbreon VMAX Alt Art et le Sylveon VMAX manquaient. Sans ces deux cartes, la valeur du lot était de ~280€. Après frais eBay, l'acheteur a perdu ~35€. 🔴 Bonne décision de passer.</p>
+
+<hr class="glow-divider">
+
+<h4>📋 Récapitulatif — Checklist rapide à utiliser pour chaque deal</h4>
+
+<div class="info-card">
+<p>Avant chaque achat, passe cette checklist :</p>
+<ol>
+<li><strong>🔵 Marché :</strong> La carte se vend-elle ? (10+ ventes/mois = 🟢)</li>
+<li><strong>🟣 Sous-évaluation :</strong> Le prix est-il ≤ 70% du marché ? (Oui = 🟢)</li>
+<li><strong>🟢 Spread :</strong> Le profit net est-il ≥ 30% après frais ? (Oui = 🟢)</li>
+<li><strong>🟠 Volume :</strong> As-tu besoin de volume pour compenser ? (Non si spread ≥ 30%)</li>
+<li><strong>🔴 Risque :</strong> Authenticité, vendeur, état, timing, liquidité — tous 🟢 ?</li>
+</ol>
+<p>Si les 5 critères sont 🟢 → <strong>ACHETER</strong></p>
+<p>Si 1 critère est 🔴 → <strong>PASSER</strong> (sauf si tu peux le résoudre)</p>
+<p>Si 2+ critères sont 🟡 → <strong>Investiguer avant de décider</strong></p>
+</div>
+
+<hr class="glow-divider">
+
+<h3>Récapitulatif du Module 3</h3>
+
+<p>Tu as maintenant les outils pour évaluer chaque deal avec précision :</p>
+
+<ul>
+<li>✅ <strong>La Checklist à 5 critères</strong> — ton cadre de décision pour chaque achat</li>
+<li>✅ <strong>La Règle des 3/5</strong> — 3 critères verts minimum, jamais de rouge</li>
+<li>✅ <strong>Les 5 sous-risques</strong> — authenticité, vendeur, état, timing, liquidité</li>
+<li>✅ <strong>Les seuils d'achat</strong> — comment les appliquer sans émotion</li>
+<li>✅ <strong>La stratégie de sniping</strong> — max bid dans les 5 dernières secondes</li>
+<li>✅ <strong>La négociation</strong> — 5 règles + templates de messages</li>
+<li>✅ <strong>L'évaluation des lots</strong> — méthode des 3 secondes + red flags</li>
+<li>✅ <strong>Le potentiel grading</strong> — calcul ROI pour les cartes premium</li>
+</ul>
+
+<div class="next-card">
+<div class="next-label">Prochain module</div>
+<div class="next-title">Module 4 — Vendre au prix fort</div>
+<div class="next-desc">Le système complet de revente : listings qui se vendent, optimisation des prix, expédition, et réputation de vendeur.</div>
+</div>
+
