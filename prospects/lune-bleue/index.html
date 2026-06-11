@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lune Bleue — Naturopathie & Santé Féminine à Annecy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --beige: #F5F0EB;
+      --sage: #3A4D39;
+      --sage-light: #557A4E;
+      --terracotta: #B9845C;
+      --cream: #FEFAEE;
+      --text: #2E2E2E;
+      --text-light: #6B6B6B;
+    }
+    body {
+      font-family: 'Lato', sans-serif;
+      color: var(--text);
+      background: var(--cream);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+    }
+    a { color: var(--sage); text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+    /* Header */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(254, 250, 238, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 0;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; color: var(--sage); letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--terracotta); }
+    nav a.nav-link {
+      margin-left: 32px; font-size: 0.9rem; font-weight: 400;
+      color: var(--text); transition: color 0.2s;
+    }
+    nav a.nav-link:hover { color: var(--sage); }
+    .btn {
+      display: inline-block; padding: 12px 28px;
+      border-radius: 30px; font-size: 0.85rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
+      transition: all 0.3s; border: none;
+    }
+    .btn-primary {
+      background: var(--sage); color: #fff;
+    }
+    .btn-primary:hover {
+      background: var(--sage-light); transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(58,77,57,0.25);
+    }
+    .btn-outline {
+      background: transparent; color: var(--sage);
+      border: 1.5px solid var(--sage);
+    }
+    .btn-outline:hover { background: var(--sage); color: #fff; }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      background: var(--cream);
+      padding: 120px 0 80px;
+      position: relative;
+    }
+    .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .hero h1 {
+      font-size: 3.4rem; line-height: 1.15;
+      color: var(--sage); margin-bottom: 24px;
+    }
+    .hero h1 em {
+      color: var(--terracotta); font-style: italic;
+    }
+    .hero p {
+      font-size: 1.15rem; color: var(--text-light);
+      margin-bottom: 16px; max-width: 480px;
+    }
+    .hero .lead {
+      font-size: 1.25rem; color: var(--text);
+      margin-bottom: 32px;
+    }
+    .hero-buttons .btn { margin-right: 16px; }
+    .hero-image {
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 24px 60px rgba(58,77,57,0.15);
+      position: relative;
+    }
+    .hero-image img { width: 100%; height: 520px; object-fit: cover; }
+    .hero-pill {
+      position: absolute; bottom: -20px; left: -20px;
+      background: #fff; padding: 16px 24px; border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      font-size: 0.85rem; max-width: 220px;
+    }
+    .hero-pill strong { display: block; font-size: 1.1rem; margin-bottom: 4px; }
+
+    /* Section styling */
+    section { padding: 100px 0; }
+    .section-header {
+      text-align: center; max-width: 640px; margin: 0 auto 64px;
+    }
+    .section-header h2 {
+      font-size: 2.6rem; color: var(--sage); margin-bottom: 16px;
+    }
+    .section-header p {
+      font-size: 1.1rem; color: var(--text-light);
+    }
+    .tag {
+      display: inline-block; padding: 6px 16px;
+      border-radius: 20px; font-size: 0.75rem;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      font-weight: 700; margin-bottom: 20px;
+      background: rgba(58,77,57,0.08); color: var(--sage);
+    }
+
+    /* Problem / PAS */
+    .problem-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+    }
+    .card {
+      background: #fff; border-radius: 20px; padding: 40px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+      transition: transform 0.3s;
+    }
+    .card:hover { transform: translateY(-6px); }
+    .card-icon {
+      width: 56px; height: 56px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; margin-bottom: 20px;
+      background: var(--beige);
+    }
+    .card h3 { font-size: 1.3rem; margin-bottom: 12px; color: var(--sage); }
+    .card p { font-size: 0.95rem; color: var(--text-light); }
+
+    /* Solution / Approach */
+    .approach {
+      background: var(--sage); color: #F5F0EB;
+    }
+    .approach h2 { color: #F5F0EB; }
+    .approach .section-header p { color: rgba(255,255,255,0.7); }
+    .steps {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    }
+    .step {
+      text-align: center; padding: 24px;
+    }
+    .step-num {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--terracotta); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; margin: 0 auto 20px; font-size: 1.1rem;
+    }
+    .step h3 { font-size: 1.15rem; margin-bottom: 8px; }
+    .step p { font-size: 0.9rem; color: rgba(255,255,255,0.75); }
+
+    /* Spécialités */
+    .spec-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px;
+    }
+    .spec-item {
+      display: flex; gap: 24px; align-items: flex-start;
+      padding: 32px; background: #fff; border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    }
+    .spec-item .icon {
+      flex-shrink: 0; width: 48px; height: 48px;
+      background: var(--beige); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+    .spec-item h3 { font-size: 1.2rem; margin-bottom: 6px; color: var(--sage); }
+    .spec-item p { font-size: 0.95rem; color: var(--text-light); }
+
+    /* About */
+    .about-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+      align-items: center;
+    }
+    .about-img {
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 20px 50px rgba(58,77,57,0.12);
+    }
+    .about-img img { width: 100%; height: 500px; object-fit: cover; }
+    .about h2 { font-size: 2.4rem; margin-bottom: 24px; color: var(--sage); }
+    .about p { margin-bottom: 16px; color: var(--text-light); }
+    .about .name { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--terracotta); }
+
+    /* Contact */
+    .contact { background: var(--beige); }
+    .contact-box {
+      background: #fff; border-radius: 24px; padding: 64px;
+      max-width: 800px; margin: 0 auto; text-align: center;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+    }
+    .contact-box h2 { font-size: 2.2rem; color: var(--sage); margin-bottom: 16px; }
+    .contact-box p { color: var(--text-light); margin-bottom: 32px; }
+    .contact-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px;
+    }
+    .contact-item { padding: 16px; }
+    .contact-item strong { display: block; margin-bottom: 6px; color: var(--sage); }
+    .contact-item span { font-size: 0.95rem; color: var(--text-light); }
+
+    /* Footer */
+    footer {
+      background: var(--sage); color: rgba(255,255,255,0.65);
+      font-size: 0.85rem; padding: 40px 0;
+    }
+    footer a { color: rgba(255,255,255,0.8); }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero-inner, .about-inner { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2.4rem; }
+      .problem-cards, .steps, .spec-grid, .contact-grid { grid-template-columns: 1fr; }
+      .hero-image img, .about-img img { height: 360px; }
+      .contact-box { padding: 36px; }
+      nav a.nav-link { margin-left: 16px; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <div class="logo">Lune <span>Bleue</span></div>
+      <div>
+        <a class="nav-link" href="#pourquoi">Pourquoi ?</a>
+        <a class="nav-link" href="#approche">Mon approche</a>
+        <a class="nav-link" href="#prestations">Prestations</a>
+        <a class="nav-link" href="#qui">Qui suis-je ?</a>
+        <a class="nav-link" href="#contact">Contact</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-inner">
+    <div>
+      <h1>Quand votre cycle devient un fardeau, <em>il y a une autre voie.</em></h1>
+      <p class="lead">
+        Règles douloureuses, SPM épuisant, ménopause tumultueuse, fertilité vacillante…
+        Les symptômes hormonaux ne sont pas des punitions.
+        Ce sont des signaux que votre corps envoie — et qu'il est possible d'écouter autrement.
+      </p>
+      <p>
+        Je suis Héloïse Boussemart, naturopathe spécialisée en santé féminine à Annecy.
+        J'accompagne les femmes vers un rééquilibrage naturel et durable.
+      </p>
+      <div class="hero-buttons" style="margin-top:36px;">
+        <a class="btn btn-primary" href="#contact">Prendre rendez-vous</a>
+        <a class="btn btn-outline" href="#approche">Découvrir mon approche</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1529693662653-9b48b8febb02?auto=format&fit=crop&w=800&q=80" alt="Nature sereine feuilles vertes lumiere douce">
+      <div class="hero-pill">
+        <strong>+8 ans</strong>
+        d'expérience en naturopathie
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pourquoi" style="background:#fff;">
+  <div class="container">
+    <div class="section-header">
+      <span class="tag">Vous reconnaissez-vous ?</span>
+      <h2>Les douleurs qu'on vous dit d'accepter… n'ont pas à être votre normale.</h2>
+      <p>
+        Combien de consultations se concluent par une prescription bande-vide, sans jamais chercher l'origine du déséquilibre ?
+        La naturopathie ne fait pas taire le symptôme. Elle traite la source.
+      </p>
+    </div>
+    <div class="problem-cards">
+      <div class="card">
+        <div class="card-icon">🩸</div>
+        <h3>Règles douloureuses & abondantes</h3>
+        <p>Des cycles dictés par la douleur, l'endo, les kystes. On vous dit que "c'est comme ça". Pourtant, l'inflammation chronique et le stress peuvent être drastiquement réduits par une approche ciblée.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌊</div>
+        <h3>SPM & Troubles de l'humeur</h3>
+        <p>Ballonnements, irritabilité, sautes d'humeur cycliques… Le syndrome prémenstruel n'est pas une fatalité hormonale. C'est souvent un cri de votre foie et de votre neurotransmission.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌙</div>
+        <h3>Ménopause & Fertilité</h3>
+        <p>Bouffées de chaleur, troubles du sommeil, sécheresse, ou parcours PMA épuisant. Le terrain définit la réponse hormonale. Rééquilibrer le terrain, c'est préparer le terrain à l'accueil… ou à la transition.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="approach" id="approche">
+  <div class="container">
+    <div class="section-header">
+      <span class="tag" style="background:rgba(255,255,255,0.12);color:#F5F0EB;">Mon approche</span>
+      <h2>Quatre piliers pour réapprendre à vivre avec son corps</h2>
+      <p>Je ne crois pas aux solutions miracles. Je crois aux petits ajustements quotidiens qui, accumulés, redessinent l'équilibre hormonal.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Écoute du terrain</h3>
+        <p>Anamnèse approfondie, antécédents, symptômes, mode de vie. On cartographie le terrain avant de poser un diagnostic naturopathique.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Stratégie nutritionnelle</h3>
+        <p>Alimentation anti-inflammatoire, micronutrition adaptée (fer, magnésium, oméga-3…), chronobiologie des repas au rythme du cycle.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Botanique ciblée</h3>
+        <p>Phytothérapie personnalisée : macérats, extraits de plantes, tisanes dont le choix dépend de votre hormonalité et de la saison.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Gestion du stress & rituels</h3>
+        <p>Respiration, routines parasympathiques, sommeil restauratif. Le système nerveux régule le système hormonal. On travaille les deux.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="prestations" style="background:var(--cream);">
+  <div class="container">
+    <div class="section-header">
+      <span class="tag">Prestations</span>
+      <h2>Consultations sur mesure, en cabinet ou à distance</h2>
+    </div>
+    <div class="spec-grid">
+      <div class="spec-item">
+        <div class="icon">👩</div>
+        <div>
+          <h3>Bilan naturopathique femme</h3>
+          <p>Consultation initiale de 1h30 pour faire le tour complet de votre historique hormonal, digestif et émotionnel. Livrable : plan d'action personnalisé sur 3 mois.</p>
+        </div>
+      </div>
+      <div class="spec-item">
+        <div class="icon">🌿</div>
+        <div>
+          <h3>Accompagnement ménopause</h3>
+          <p>Programme de 3 séances pour adoucir la transition, réduire les bouffées de chaleur, retrouver le sommeil et protéger os & cœur naturellement.</p>
+        </div>
+      </div>
+      <div class="spec-item">
+        <div class="icon">💻</div>
+        <div>
+          <h3>Suivi visio naturopathie</h3>
+          <p>Pas à Annecy ? Pas de souci. Les séances de suivi se font en visioconférence avec envoi de votre protocole et de vos fiches pratiques par email.</p>
+        </div>
+      </div>
+      <div class="spec-item">
+        <div class="icon">🍵</div>
+        <div>
+          <h3>Ateliers & Conférences</h3>
+          <p>J'interviens pour des entreprises, associations ou événements bien-être sur les thèmes : alimentation cycle, sommeil féminin, gestion du stress au travail.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="qui" style="background:#fff;">
+  <div class="container about-inner">
+    <div class="about-img">
+      <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7c2d51?auto=format&fit=crop&w=800&q=80" alt="Tisane plante bien etre nature">
+    </div>
+    <div>
+      <span class="tag">Votre praticienne</span>
+      <h2>Héloïse Boussemart</h2>
+      <p>
+        Naturopathe diplômée, spécialisée dans l'accompagnement hormonal féminin.
+        J'ai choisi ce chemin après des années à constater que trop de femmes subissaient leur corps
+        au lieu de le comprendre.
+      </p>
+      <p>
+        Ma vision est simple : chaque cycle est une feuille de route.
+        Une fois qu'on apprend à lire ses signaux, on cesse de lutter contre soi.
+        On s'allie avec soi.
+      </p>
+      <p style="margin-top:24px;">
+        📍 Cabinet à <strong>2 rue de la Césière, 74600 Annecy</strong><br>
+        📱 06 74 72 24 19
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-box">
+      <span class="tag">Premier pas</span>
+      <h2>Commençons par un échange</h2>
+      <p>
+        Que vous soyez en quête de soulagement, de compréhension ou simplement curieuse de l'approche naturopathique,
+        ce premier contact est gratuit et sans engagement.
+      </p>
+      <div class="contact-grid">
+        <div class="contact-item">
+          <strong>Téléphone</strong>
+          <span>06 74 72 24 19</span>
+        </div>
+        <div class="contact-item">
+          <strong>Email</strong>
+          <span>lunebleue.boussemart@gmail.com</span>
+        </div>
+        <div class="contact-item">
+          <strong>Adresse</strong>
+          <span>2 rue de la Césière, 74600 Annecy</span>
+        </div>
+      </div>
+      <a class="btn btn-primary" href="mailto:lunebleue.boussemart@gmail.com?subject=Premier%20contact%20-%20consultation%20naturopathie">Envoyer un email</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+    <div>Lune Bleue — Naturopathie & Santé Féminine à Annecy. Tous droits réservés.</div>
+    <div><a href="#">Mentions légales</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
