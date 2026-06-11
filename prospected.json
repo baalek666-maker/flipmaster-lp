@@ -1,0 +1,164 @@
+{
+  "description": "Liste des entreprises déjà prospectées (site créé + email envoyé). Exclure des futures recherches.",
+  "prospected": [
+    {
+      "name": "Le Gruau Lorrain",
+      "slug": "gruau-lorrain-site",
+      "type": "boulangerie",
+      "city": "Saint-Étienne",
+      "site_dir": "/home/ubuntu/gruau-lorrain-site",
+      "date": "2026-05-31"
+    },
+    {
+      "name": "La Boulange de Berksson",
+      "slug": "boulange-de-bergson-site",
+      "type": "boulangerie",
+      "city": "Saint-Étienne",
+      "date": "2026-06-01"
+    },
+    {
+      "name": "Au Fil de l'Eau",
+      "slug": "au-fil-de-leau-site",
+      "type": "plombier",
+      "city": "Saint-Étienne",
+      "date": "2026-06-02"
+    },
+    {
+      "name": "Boulangerie Salengro",
+      "slug": "boulangerie-salengro-site",
+      "type": "boulangerie",
+      "city": "Saint-Étienne",
+      "email": "berchichi.1989@gmail.com",
+      "phone": "09 56 66 39 62",
+      "site_dir": "/home/ubuntu/boulangerie-salengro-site",
+      "github": "https://github.com/baalek666-maker/boulangerie-salengro-site",
+      "date": "2026-06-04"
+    },
+    {
+      "name": "Le Pétrin de Lily",
+      "slug": "le-petrin-de-lily-site",
+      "type": "boulangerie",
+      "city": "Saint-Étienne",
+      "email": "lepetrindelily@orange.fr",
+      "phone": "04 77 95 77 51",
+      "site_dir": "/home/ubuntu/le-petrin-de-lily-site",
+      "github": "https://github.com/baalek666-maker/le-petrin-de-lily-site",
+      "date": "2026-06-05"
+    },
+    {
+      "name": "Au Soleil Levain",
+      "slug": "au-soleil-levain-site",
+      "type": "boulangerie",
+      "city": "Saint-Étienne",
+      "email": "agnesponcet@mail.com",
+      "phone": "04 77 57 65 11",
+      "address": "4 Rue Gutenberg, 42100 Saint-Étienne",
+      "siret": "84102248600010",
+      "site_dir": "/home/ubuntu/au-soleil-levain-site",
+      "github": "https://github.com/baalek666-maker/au-soleil-levain-site",
+      "date": "2026-06-05"
+    },
+    {
+      "name": "Néroli Naturopathe",
+      "slug": "neroli-naturopathe-site",
+      "type": "naturopathe",
+      "city": "Saint-Étienne",
+      "email": "bs.naturopathe@yahoo.com",
+      "phone": "07 69 96 80 06",
+      "address": "Pôle santé Le Prestige, 101 bis cours Fauriel, 42100 Saint-Étienne",
+      "site_dir": "/home/ubuntu/neroli-naturopathe-site",
+      "github": "https://github.com/baalek666-maker/neroli-naturopathe-site",
+      "date": "2026-06-05"
+    },
+    {
+      "name": "Boulangerie des Haras",
+      "slug": "boulangerie-des-haras",
+      "type": "boulangerie",
+      "city": "Annecy",
+      "email": "contact@boulangerie-des-haras.fr",
+      "address": "12 Rue Guillaume Fichet, 74000 Annecy",
+      "site_dir": "/home/ubuntu/boulangerie-des-haras-site",
+      "github": "https://github.com/baalek666-maker/boulangerie-des-haras",
+      "date": "2026-06-06",
+      "status": "site_créé_email_non_envoyé"
+    },
+    {
+      "name": "Boulangerie Pâtisserie Rouge",
+      "slug": "boulangerie-rouge",
+      "type": "boulangerie",
+      "city": "Annecy",
+      "email": "boulangerierouge@free.fr",
+      "phone": "04 50 67 92 58",
+      "address": "11 rue République, 74000 Annecy",
+      "date": "2026-06-09",
+      "status": "identifiée_site_non_créé"
+    },
+    {
+      "name": "Aspiration Gourmande",
+      "slug": "aspiration-gourmande",
+      "type": "boulangerie",
+      "city": "Annecy",
+      "email": "aspirationgourmande@gmail.com",
+      "address": "7 avenue de la République, 74960 Annecy",
+      "date": "2026-06-06",
+      "status": "identifiée_site_non_créé"
+    },
+    {
+      "name": "Elodie LEFORT",
+      "slug": "elodie-lefort-naturopathe-site",
+      "type": "naturopathe",
+      "city": "Annecy",
+      "email": "elefort.naturo@gmail.com",
+      "phone": "06 32 89 79 24",
+      "address": "15 Rue André Theuriet, 74000 Annecy",
+      "siret": "94917391800010",
+      "site_dir": "/home/ubuntu/elodie-lefort-naturopathe-site",
+      "github": "https://github.com/baalek666-maker/elodie-lefort-naturopathe-site",
+      "date": "2026-06-09",
+      "status": "site_créé_email_non_envoyé"
+    },
+    {
+      "name": "Mille Florescences",
+      "slug": "site-milleflorescences",
+      "type": "naturopathe",
+      "city": "Annecy",
+      "email": "milleflorescences@gmail.com",
+      "address": "15bis avenue Genève, 74000 Annecy",
+      "siret": "882024888",
+      "site_dir": "/home/ubuntu/flipmaster-lp/site-milleflorescences",
+      "github": "https://github.com/baalek666-maker/site-milleflorescences",
+      "date": "2026-06-10",
+      "status": "exclue_entreprise_radiée"
+    },
+    {
+      "name": "Lune Bleue",
+      "slug": "lune-bleue",
+      "type": "naturopathe",
+      "city": "Annecy",
+      "prospect_name": "Héloïse Boussemart",
+      "speciality": "Santé féminine (hormones, SPM, ménopause, fertilité)",
+      "email": "lunebleue.boussemart@gmail.com",
+      "phone": "06 74 72 24 19",
+      "address": "2 rue de la Césière, 74600 Annecy",
+      "instagram": "@lunebleuealpes",
+      "siret": null,
+      "site_dir": "/home/ubuntu/flipmaster-lp/prospects/lune-bleue",
+      "github": "https://github.com/baalek666-maker/flipmaster-lp/tree/master/prospects/lune-bleue",
+      "date": "2026-06-11",
+      "status": "site_créé_email_prêt"
+    }
+  ],
+  "excluded": {
+    "Agir Plomberie": {
+      "reason": "Site vitrine créé et déployé. Email prêt.",
+      "date": "2026-06-11",
+      "prospect_name": "Pierre Dulac",
+      "email": "pierre.dulac@9business.fr",
+      "phone": "04 50 67 33 91",
+      "address": "4 rue Burgonde, 74000 Annecy",
+      "site_demo": "https://baalek666-maker.github.io/site-agirplomberie/",
+      "source": "PagesJaunes",
+      "status": "pending_email"
+    }
+  }
+}
